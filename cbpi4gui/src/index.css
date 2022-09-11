@@ -1,4 +1,9 @@
 body {
+	
+   /* hide scrollbar but allow scrolling */
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll; 
   margin: 0;
   font-family: "JetBrains Mono";
   -webkit-font-smoothing: antialiased;
@@ -6,6 +11,10 @@ body {
   background-color: #272227;
   color: #fff;
   touch-action: none;
+}
+
+body::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
 }
 
 html {

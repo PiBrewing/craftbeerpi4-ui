@@ -25,6 +25,7 @@ import SensorName from "../../util/SensorName";
 import { DashboardContext, useDraggable, useModel } from "../DashboardContext";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import { useHistory } from "react-router-dom";
+import "./Steps.css";
 const useStyles = makeStyles((theme) => ({
   paper: {
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
@@ -267,7 +268,7 @@ export const Steps = ({ id }) => {
     setProfile(state.mashProfile);
   }, [state.mashProfile]);
 
-  let inputStyle = { color: "#fff", width: `${model?.props?.width}px`,fontSize: `${model?.props?.namesize}pt`, backgroundColor: "#2c282e", padding: 5, borderRadius: 5 };
+  let inputStyle = { color: "#fff", width: `${model?.props?.width}px`, overflow: 'auto',maxHeight: `${model?.props?.height}px`,fontSize: `${model?.props?.namesize}pt`, backgroundColor: "#2c282e", padding: 5, borderRadius: 5 };
 
   if( draggable) {
     return <div className="box" style={{...inputStyle, display:"flex", justifyContent: "center", alignItems: "center"}}>

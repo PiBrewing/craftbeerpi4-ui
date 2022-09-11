@@ -1,0 +1,4 @@
+::-webkit-scrollbar { 
+/* Permit to remove scrollbar but keep scroll available */
+display: none; 
+}

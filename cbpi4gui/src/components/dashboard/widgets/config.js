@@ -103,6 +103,7 @@ export const widget_list = [
     component: Steps,
     icon: ListIcon,
     props: [{ name: "width", default: "200", type: "text", unit: "px" },
+            { name: "height", default: "250", type: "text", unit: "px" },
             { name: "stepsize", default: "14", type: "text", unit: "pt" },
             { name: "namesize", default: "14", type: "text", unit: "pt" }],
   },
