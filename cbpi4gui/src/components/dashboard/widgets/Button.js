@@ -1,12 +1,92 @@
-import { ButtonGroup, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, List, ListItemText } from "@mui/material";
+import { Typography, Slider, ButtonGroup, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, List, ListItemText } from "@mui/material";
 import Button from "@mui/material/Button";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useActor, useActorType, useCBPi } from "../../data";
 import { useDraggable, useModel } from "../DashboardContext";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { actorapi } from "../../data/actorapi";
 import PropsEdit from "../../util/PropsEdit";
 import { ListItemButton } from "@mui/material";
+import BoltIcon from '@mui/icons-material/Bolt';
+
+
+const PowerDialog = ({ onClose, actor, open }) => {
+  const [value, setValue] = useState(actor?.power || 100);
+  const [minval, setMinval] = useState(0);
+  const [maxval, setMaxval] = useState(100);
+  const [marks, setMarks] = useState(
+    [
+      {
+        value: 0,
+        label: "0%",
+      },
+            {
+        value: 25,
+        label: "25%",
+      },
+      {
+        value: 50,
+        label: "50%",
+      },
+      {
+        value: 75,
+        label: "75%",
+      },
+      {
+        value: 100,
+        label: "100%",
+      },
+    ]
+  );
+
+
+  const {actions} = useCBPi()
+  useEffect(()=>{
+    setValue(actor?.power)
+  },[])
+
+  if (!actor) return "";
+
+  const handleClose = () => {
+    onClose();
+  };
+
+  const handleSet = () => {
+    actions.set_actor_power(actor.id, value)
+    onClose();
+  };
+
+  
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Dialog fullWidth onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+      <DialogTitle id="simple-dialog-title">Set Power {actor.name} </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Typography variant="h2" component="h2" gutterBottom>
+              {value}%
+            </Typography>
+          </div>
+          <Slider min={minval} max={maxval} marks={marks} step={1} value={value} onChange={handleChange} aria-labelledby="continuous-slider" />
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Button variant="contained" onClick={handleClose} color="secondary" autoFocus>
+              Cancel
+            </Button>
+            <Button variant="contained" onClick={handleSet} color="primary" autoFocus
+              >
+              Set
+            </Button>
+          </div>
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions></DialogActions>
+    </Dialog>
+  );
+};
 
 
 const ButtonActionPropsDialog = ({ action = {}, config, open, onClose, onSubmit }) => {
@@ -95,9 +175,12 @@ export const DashboardButton = ({ id, width, height }) => {
   const model = useModel(id);
   const draggable = useDraggable();
   const actor = useActor(model.props?.actor);
-  const { actor: actorid, action } = model.props;
+  const { actor: actorid, action, powerslider} = model.props;
   const [open, setOpen] = useState(false);
   const [boom, setBoom] = useState(false);
+  const [powerOpen, setPowerOpen] = useState(false);
+
+  
 
   return useMemo(() => {
     let cssStyle = { width: model.width + "px", height: model.height + "px" };
@@ -142,8 +225,29 @@ export const DashboardButton = ({ id, width, height }) => {
     const handleClose = () => setOpen(false);
     const handleOpen = () => setOpen(true);
 
+    const PowerSliderClose = () => setPowerOpen(false);
+    const PowerSliderOpen = () => setPowerOpen(true);
+
     if (action === "yes" && actor) {
-      if (power()) 
+      if (powerslider === "yes" && power()) 
+      {
+        return (
+          <div style={cssStyle}>
+            <ButtonGroup>
+              <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
+              <div style={size()}> {name()} ({power()}) </div>
+              </Button>
+              <Button disabled={draggable} onClick={PowerSliderOpen} color="primary" startIcon={<BoltIcon />} size="small" aria-label="select merge strategy" aria-haspopup="menu"></Button>
+              <Button disabled={draggable} onClick={handleOpen} color="primary" size="small" aria-label="select merge strategy" aria-haspopup="menu">
+                <MoreVertIcon />
+              </Button>
+            </ButtonGroup>
+            <ButtonActionDialog open={open} onClose={handleClose} model={model} actor={actor} />
+            <PowerDialog onClose={PowerSliderClose} actor={actor} open={powerOpen} />
+          </div>
+        );
+      }
+      else if ((powerslider === "no" || !powerslider) && power()) 
       {
         return (
           <div style={cssStyle}>
@@ -175,14 +279,28 @@ export const DashboardButton = ({ id, width, height }) => {
         );
       }
     } else {
-      if (power())
+      if (powerslider === "yes" && power())
+      {
+        return (
+          <div style={cssStyle}>
+            <ButtonGroup>
+            <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
+            <div style={size()}> {name()} ({power()}) </div>
+            </Button>
+            <Button disabled={draggable} onClick={PowerSliderOpen} color="primary" startIcon={<BoltIcon />} size="small" aria-label="select merge strategy" aria-haspopup="menu"></Button>
+            </ButtonGroup>
+            <PowerDialog onClose={PowerSliderClose} actor={actor} open={powerOpen} />
+          </div>
+        );
+      }
+      else if ((powerslider === "no" || !powerslider) && power()) 
       {
         return (
           <div style={cssStyle}>
             <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
             <div style={size()}> {name()} ({power()}) </div>
             </Button>
-          </div>
+            </div>
         );
       }
       else{
@@ -194,5 +312,5 @@ export const DashboardButton = ({ id, width, height }) => {
         </div>
       )}
     }
-  }, [model.props?.actor, model.props?.size, model.props?.action, model.name, actor, id, open, draggable]);
+  }, [model.props?.actor, model.props?.size, model.props?.action, powerslider, model.name, actor, actor?.power, id, open, powerOpen,draggable]);
 };

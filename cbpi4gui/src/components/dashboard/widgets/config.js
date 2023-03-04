@@ -86,7 +86,11 @@ export const widget_list = [
     type: "ActorButton",
     component: DashboardButton,
     icon: ToggleOffIcon,
-    props: [{ name: "actor", default: "", type: "actor" },{ name: "size", default: "12", type: "text", unit: "pt" },{ name: "action", options: ["yes", "no"], default: "", type: "select" }],
+    props: [{ name: "actor", default: "", type: "actor" },
+    { name: "size", default: "12", type: "text", unit: "pt" },
+    { name: "action", options: ["yes", "no"], default: "No", type: "select" },
+    { name: "powerslider", options: ["yes", "no"], default: "No", type: "select" }
+  ],
   },
   {
     name: "Led",
