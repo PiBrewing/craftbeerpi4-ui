@@ -85,6 +85,19 @@ export const action = (id, name, parameter, callback_susscess = () => {}, callba
     });
 };
 
+export const set_power = (id, power, callback_susscess = () => {}, callback_failed = () => {}) => {
+  console.log(id);
+  console.log(power);
+  axios
+    .post("/actor/"+ id + "/set_power", {power})
+    .then(function (response) {
+      callback_susscess();
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
 
 export const actorapi = {
   add,
@@ -94,4 +107,5 @@ export const actorapi = {
   on, 
   off,
   toggle,
+  set_power
 }
