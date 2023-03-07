@@ -17,6 +17,9 @@ import Moment from 'react-moment';
     else if (datatype === "datetime") {
         return data !== undefined ? (<Moment format="YYYY-MM-DD HH:mm" unix>{parseInt(data)}</Moment>) : (<>---</>)
     }
+    else if (datatype === "string") {
+        return data !== undefined ? (<>{data}</>) : (<>---</>)
+    }
     }
 
 export default SensorValue
