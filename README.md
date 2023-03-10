@@ -21,6 +21,8 @@ http://localhost:8000#
 
 ### Changelog
 
+- 10.03.23: (0.3.10) Added datatype to sensor values -> Allows datetime and string (e.g. time of last received data from ispindle plugin or alarmtimer)
+- 07.03.23: (0.3.7) Added Power Slider for Actors
 - 17.02.23: (0.3.6) Fix Bug in Grafana Widget | Add text property timeframe to Grafana widget (e.g. now-2h or now-7d 2023-02-17 12:00 can be entered)
 - 01.02.23: (0.3.2) Bump Version to release
 - 29.01.23: (0.3.2.rc6) Axis styling on analytics page adapted to allow for better reading
