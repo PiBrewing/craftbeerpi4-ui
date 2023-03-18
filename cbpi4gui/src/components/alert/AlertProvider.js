@@ -9,7 +9,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import React from "react";
-
+import buzzer from './buzzer.mp3';
+import {configapi} from '../data/configapi'
 import { notificationapi } from "../data/notificationapi";
 
 export const ActionDialog = ({ item }) => {
@@ -57,6 +58,7 @@ export const AlertContext = createContext({});
 export const AlertProvider = ({ children }) => {
   const classes = useStyles();
   const [alerts, setAlerts] = useState([]);
+  const audio = new Audio(buzzer);
 
   const remove = useCallback((id) => {
     setAlerts((value) => {
@@ -73,12 +75,21 @@ export const AlertProvider = ({ children }) => {
       action,
     };
 
+    configapi.getone('PLAY_BUZZER', (data) => {
+      if (data){
+        if (data ==="Yes"){
+          audio.play();
+          }
+         }
+        });
+
+
+
     if (action?.length <= 0) {
       const timerId = setTimeout(() => {
         remove(id);
       }, timeout);
     }
-
     setAlerts((state) => state.concat(alert));
     return alert;
   }, []);
@@ -97,7 +108,7 @@ export const AlertProvider = ({ children }) => {
         {alerts.map((a) => {
           if (a?.action?.length > 0) {
             return <ActionDialog key={a.id} item={a} />;
-          } else {
+          } else { 
             return <Alert severity={a.type || "info"} key={a.id}>{a.title} - {a.message}</Alert>;
           }
         })}
