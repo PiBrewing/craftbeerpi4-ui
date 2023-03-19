@@ -164,7 +164,7 @@ export const widget_list = [
     props: [
       { name: "url", default: "http://localhost:3000/d-solo/{ID}/{dashboard}", type: "text" },
       { name: "panelID", default: "2", type: "text" },
-      { name: "refresh", default: 10, type: "number" },
+      { name: "refresh", default: "10s", type: "text" },
       { name: "timeframe", default: "now-12h", type: "text" },
       { name: "width", default: 100, type: "text" }, 
       { name: "height", default: 100, type: "text" }
