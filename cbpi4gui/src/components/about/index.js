@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 const About = () => {
   const classes = useStyles();
   const {state} = useCBPi();
-  
+ 
   return (
     <Container maxWidth="lg" >
     <div>
@@ -43,12 +43,10 @@ const About = () => {
             This is CraftBeerPi Brewing Controller 4 ( Serverversion: {state.version} - Codename: {state.codename} || GUIversion: {state.guiversion} )
             <p>It's an Open Source Project founded in 2015. More than 7,000 passioned Homebrewers and commercial Craft Brewerys are using CraftBeerPi. It's an open Eco System.</p>
             Website: http://www.CraftBeerPi.com <br />
-            GitHub: http://github.com/manuel83 <br />
-            Pypi: https://pypi.org/project/cbpi4/ <br />
-            Facebook: https://www.facebook.com/groups/craftbeerpi<br />
-            <br />
-            GitHub fork from Alexander Vollkopf: http://github.com/avollkopf <br />
-            Pypi: https://pypi.org/project/cbpi4/ <br />
+            GitHub PiBrewing Organization: <Button color="primary" target="_blank" href="https://github.com/PiBrewing" rel="noreferrer noopener">Link to PiBrewing Organization</Button><br />
+            {/*GitHub: http://github.com/manuel83 <br />*/}
+            Pypi: <Button color="primary" target="_blank" href="https://pypi.org/project/cbpi4/" rel="noreferrer noopener">Link to PyPi Craftbeerpi4 Release</Button><br />
+            Facebook: <Button color="primary" target="_blank" href="https://www.facebook.com/groups/craftbeerpi" rel="noreferrer noopener">Facebook Craftbeerpi4 User Group</Button><br />
             Openbrewing Documentation: <Button color="primary" target="_blank" href="https://openbrewing.gitbook.io/craftbeerpi4_support/" rel="noreferrer noopener">Link to Documentation</Button>
             <br />
             <br />
@@ -82,7 +80,7 @@ const About = () => {
             <p>GNU General Public License 3</p>
           </Paper>
         </Grid>
-        <Grid item spacing={2} xs={12}>
+        {/*<Grid item spacing={2} xs={12}>
           <Paper style={{ padding: 10 }}>
             <h3>PayPal Donation</h3>
             <p>CraftBeerPi is an free an open source project. If you like this software support this project with a donation.
@@ -102,8 +100,7 @@ const About = () => {
         <img alt="" border="0" src={paypal_logo} width="1" height="1" />
       </form>
           </Paper>
-        </Grid>
-        
+            </Grid>*/}       
       </Grid>
       
       

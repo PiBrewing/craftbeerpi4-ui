@@ -116,10 +116,6 @@ const GrafanaChart = ({ id }) => {
     }
     
     load_data();
-    const interval = setInterval(() => {
-      load_data();
-    }, (model.props?.refresh || 10) * 1000);
-    return () => clearInterval(interval);
   }, [model?.props?.url, model.props?.refresh, model.props?.timeframe]);
 
   const update = () => {
@@ -192,7 +188,7 @@ const GrafanaChart = ({ id }) => {
   return (
     <div className="box">
       {}
-      <iframe key={counter} src={model?.props?.url+"?orgId=1&from="+fromTime+"&to="+toTime+"&panelId="+model?.props?.panelID} width={model?.props?.width} height={model?.props?.height} frameborder="0"></iframe>
+      <iframe key={counter} src={model?.props?.url+"?orgId=1&from="+fromTime+"&to="+toTime+"&panelId="+model?.props?.panelID+"&refresh="+(model.props?.refresh || "10s")} width={model?.props?.width} height={model?.props?.height} frameborder="0"></iframe>
       <IconButton  ref={anchorRef} onClick={()=>setOpen(true)} size="small" variant="contained" style={{ position: "absolute", top: 5, right: 10 }}>
         <MoreVertIcon />
       </IconButton>
