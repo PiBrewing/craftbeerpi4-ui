@@ -15,7 +15,8 @@ import KettleSelect from "../util/KettleSelect";
 import FermenterSelect from "../util/FermenterSelect";
 import SensorSelect from "../util/SensorSelect";
 import StepTypeSelect from "../util/StepTypeSelect";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { pluginapi } from "../data/pluginapi";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,6 +79,18 @@ const Settings = () => {
   const [filter, setFilter] = useState("");
   const classes = useStyles();
   const navigate = useNavigate();
+  const { source } = useParams();
+  const [sources, setSources] = useState([]);
+
+  useEffect(() => {
+    pluginapi.getpluginnames((data) => {
+      setSources(data);
+    });
+  }, []);
+
+  if (!source){
+    navigate("/settings/All")
+  };
 
   useEffect(() => {
     setConfig({ ...state });
@@ -86,6 +99,11 @@ const Settings = () => {
   const onChange = (field, e) => {
     setConfig({ ...config, [field]: { ...config[field], changed: true, value: e.target.value } });
   };
+
+  const onSelectSource = (e) => {
+    if (e.target.value) {
+    navigate("/settings/"+e.target.value)};
+    };
 
   const save = () => {
     Object.keys(config).map((key) => {
@@ -108,11 +126,32 @@ const Settings = () => {
 
   let data = config;
 
-  if (filter) {
+  if ((filter && !source) || (filter && source === "All" )) {
     data = Object.keys(data)
-      .filter((key) => key.includes(filter))
+      .filter((key) => key.toLowerCase().includes(filter.toLowerCase()))
       .reduce((obj, key) => {
         obj[key] = data[key];
+        return obj;
+      }, {});
+  }
+
+  if ((source && filter) && source !=="All")  {
+    data = Object.keys(data)
+      .filter((key) => key.toLowerCase().includes(filter.toLowerCase()))
+      .reduce((obj, key) => {
+        if (data[key].source === source) {
+        obj[key] = data[key];
+        }
+        return obj;
+      }, {});
+  }
+
+  if ((source && !filter) && source !== "All")  {
+    data = Object.keys(data)
+      .reduce((obj, key) => {
+        if (data[key].source === source) {
+        obj[key] = data[key];
+        }
         return obj;
       }, {});
   }
@@ -125,6 +164,9 @@ const Settings = () => {
           <Typography variant="h5" gutterBottom>
             Settings
           </Typography>
+        </Grid>
+        <Grid>
+        <SelectBox options={sources} value={source} onChange={onSelectSource} />
         </Grid>
         <Grid item>
           <Paper component="form" className={classes.root}>
