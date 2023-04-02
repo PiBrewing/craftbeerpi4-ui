@@ -130,7 +130,10 @@ const Settings = () => {
     data = Object.keys(data)
       .filter((key) => key.toLowerCase().includes(filter.toLowerCase()))
       .reduce((obj, key) => {
+        console.log(data[key].source)
+        if (data[key].source !== "hidden"){
         obj[key] = data[key];
+        }
         return obj;
       }, {});
   }
@@ -150,6 +153,16 @@ const Settings = () => {
     data = Object.keys(data)
       .reduce((obj, key) => {
         if (data[key].source === source) {
+        obj[key] = data[key];
+        }
+        return obj;
+      }, {});
+  }
+
+  if (!filter && source === "All")  {
+    data = Object.keys(data)
+      .reduce((obj, key) => {
+        if (data[key].source !== "hidden") {
         obj[key] = data[key];
         }
         return obj;
