@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SelectBox = ({ options, value, onChange }) => {
+  if (options){
   return (
     <>
       <Select variant="standard" labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={onChange}>
@@ -45,6 +46,7 @@ const SelectBox = ({ options, value, onChange }) => {
       </Select>
     </>
   );
+        };
 };
 
 const ConfigInput = ({ item, onChange, value, options }) => {
@@ -168,7 +170,7 @@ const Settings = () => {
         return obj;
       }, {});
   }
-
+  if (data){
   return (
     <>
     <Container maxWidth="lg">
@@ -235,6 +237,7 @@ const Settings = () => {
       </Container>
     </>
   );
+};
 };
 
 export default Settings;
