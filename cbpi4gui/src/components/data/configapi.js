@@ -34,9 +34,32 @@ export const getone = (name, callback_susscess = () => {}, callback_failed = () 
     });
 };
 
+export const getobsolete = (callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .get("/config/getobsolete")
+    .then(function (response) {
+      callback_susscess(response.data);
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
+export const removeobsolete = (callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .get("/config/removeobsolete")
+    .then(function (response) {
+      callback_susscess(response.data);
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
 
 export const configapi = {
   get,
   update,
-  getone
+  getone,
+  getobsolete,
+  removeobsolete
 }

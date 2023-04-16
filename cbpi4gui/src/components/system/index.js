@@ -5,11 +5,13 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from '@mui/material/InputLabel';
 import { systemapi } from "../data/systemapi"
+import { configapi } from "../data/configapi";
 import RestartDialog from "../util/RestartDialog";
 import ShutdownDialog from "../util/ShutDownDialog"; // Correct include
 import SaveIcon from "@mui/icons-material/Save";
 import RestoreIcon from '@mui/icons-material/Restore';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,6 +84,18 @@ const CBPiSystem = () => {
 
   const backup = (event) => {
     systemapi.backupConfig();
+  };
+
+    const deleteobsolete = (event) => 
+    { console.log("deleteobsolete")
+      configapi.getobsolete((data) => {
+        console.log(data)
+      if (data ) {
+        console.log(data)}
+      
+      {console.log("No obsolete parameters")}
+      });
+    //systemapi.backupConfig();
   };
 
   const [logtime, setLogtime] = useState(1);
@@ -160,6 +174,30 @@ const CBPiSystem = () => {
                   Backup:
                   <IconButton onClick={backup}>
                     <SaveIcon />
+                  </IconButton>
+
+                </Grid>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+        </Table>
+      </TableContainer>
+
+      <TableContainer component={Paper}>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Remove Obsolete Config Parameters</TableCell>
+              <TableCell>
+
+              </TableCell>
+              <TableCell align="right">
+
+
+                <Grid>
+                  Remove:
+                  <IconButton onClick={deleteobsolete}>
+                    <DeleteIcon />
                   </IconButton>
 
                 </Grid>
