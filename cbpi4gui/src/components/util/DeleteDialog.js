@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -12,10 +12,12 @@ import React from "react";
 const DeleteDialog = ({ btnText, title, message, callback, id, icon="delete" }) => {
   const [open, setOpen] = React.useState(false);
   const [symbol, setSymbol] = React.useState(<DeleteIcon />)
+  const [tip, setTip] = React.useState("Delete")
 
   React.useEffect(() => {
     if (icon !== "delete") {
       setSymbol(<DeleteSweepIcon />)
+      setTip("Delete All")
     }
   }, [icon]);
 
@@ -35,13 +37,17 @@ const DeleteDialog = ({ btnText, title, message, callback, id, icon="delete" }) 
   return (
     <>
       {btnText ? (
+        <Tooltip title={tip}>
         <Button color="secondary" onClick={handleClickOpen} variant="contained" size="small" startIcon={symbol}>
           {btnText}
         </Button>
+        </Tooltip>
       ) : (
+        <Tooltip title={tip}>
         <IconButton aria-label="delete"  onClick={handleClickOpen}>
           {symbol}
         </IconButton>
+        </Tooltip>
       )}
 
       <Dialog open={open} onClose={no} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">

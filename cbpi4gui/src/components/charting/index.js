@@ -1,6 +1,6 @@
 import { Container, Divider, Grid, IconButton, Typography } from "@mui/material";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
-import { ToggleButton } from "@mui/material";
+import { ToggleButton, Tooltip } from "@mui/material";
 import { ToggleButtonGroup } from '@mui/material';
 import { useState } from "react";
 import Plot from "react-plotly.js";
@@ -81,10 +81,12 @@ const clear_logs = () => {
               </ToggleButton>
             ))}
           </ToggleButtonGroup>
-
+          <Tooltip  title="Refresh">
           <IconButton onClick={load}>
+            
             <AutorenewIcon className={loading ? "rotating-right" : "" }/>
           </IconButton>
+          </Tooltip>
           <DeleteDialog
             title="Delete logs"
             message="Do you want to delete the selected logs?"
