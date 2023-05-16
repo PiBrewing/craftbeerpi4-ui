@@ -2,7 +2,7 @@ import { default as React } from "react";
 import SensorValue from "../../util/SensorValue";
 import { useDraggable, useModel } from "../DashboardContext";
 import { useSensor, useSensorType } from "../../data";
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, List, ListItemButton, ListItemText } from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, List, ListItemButton, ListItemText, Tooltip } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -103,14 +103,16 @@ export const SensorData = ({ id }) => {
 
     const css_style = { color: model?.props?.color || "#fff", fontSize: `${model?.props?.size}px` };
     if (!action || action === "no") {
-    return sensor_id ? (<div style={css_style}><SensorValue id={sensor_id} digits={sensor_digits} />{model.props?.unit}</div>) : "MISSING CONFIG";
+    return sensor_id ? (<Tooltip title={sensor ? sensor.name : ""}><div style={css_style}><SensorValue id={sensor_id} digits={sensor_digits} />{model.props?.unit}</div></Tooltip>) : "MISSING CONFIG";
     }
     else {
-      return sensor_id ? (<div style={css_style}><SensorValue id={sensor_id} digits={sensor_digits} />{model.props?.unit}
+      return sensor_id ? (<Tooltip title={sensor ? sensor.name : ""}><div style={css_style}><SensorValue id={sensor_id} digits={sensor_digits} />{model.props?.unit}
+                          <Tooltip title="Action">
                           <Button disabled={draggable} onClick={handleOpen} color="primary" size="small" aria-label="select merge strategy" aria-haspopup="menu">
                           <MoreVertIcon />
                           </Button>
+                          </Tooltip>
                           <SensorActionDialog open={open} onClose={handleClose} model={model} sensor={sensor} />
-                         </div>) : "MISSING CONFIG";
+                         </div></Tooltip>) : "MISSING CONFIG";
     };
   };

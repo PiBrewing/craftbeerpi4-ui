@@ -2,6 +2,7 @@
 import React from "react";
 import { useKettle } from "../../data";
 import { useModel } from "../DashboardContext";
+import { Tooltip } from "@mui/material";
 
 export const TargetTemp = ({ id }) => {
     
@@ -15,5 +16,5 @@ export const TargetTemp = ({ id }) => {
     }
 
 
-    return <div style={css_style}> {kettle?.target_temp} {model?.props?.unit }</div>;
+    return <Tooltip title={kettle.name.concat(": TargetTemp")}><div style={css_style}> {kettle?.target_temp} {model?.props?.unit }</div></Tooltip>;
   };

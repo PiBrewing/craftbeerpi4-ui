@@ -6,7 +6,7 @@ import { useDraggable, useModel } from "../DashboardContext";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { actorapi } from "../../data/actorapi";
 import PropsEdit from "../../util/PropsEdit";
-import { ListItemButton } from "@mui/material";
+import { ListItemButton, Tooltip} from "@mui/material";
 import BoltIcon from '@mui/icons-material/Bolt';
 
 
@@ -255,9 +255,11 @@ export const DashboardButton = ({ id, width, height }) => {
               <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
               <div style={size()}> {name()} ({power()}) </div>
               </Button>
+              <Tooltip title="Actions">
               <Button disabled={draggable} onClick={handleOpen} color="primary" size="small" aria-label="select merge strategy" aria-haspopup="menu">
                 <MoreVertIcon />
               </Button>
+              </Tooltip>
             </ButtonGroup>
             <ButtonActionDialog open={open} onClose={handleClose} model={model} actor={actor} />
           </div>
@@ -270,9 +272,11 @@ export const DashboardButton = ({ id, width, height }) => {
               <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
               <div style={size()}> {name()} </div>
               </Button>
+              <Tooltip title="Actions">
               <Button disabled={draggable} onClick={handleOpen} color="primary" size="small" aria-label="select merge strategy" aria-haspopup="menu">
                 <MoreVertIcon />
               </Button>
+              </Tooltip>
             </ButtonGroup>
             <ButtonActionDialog open={open} onClose={handleClose} model={model} actor={actor} />
           </div>
@@ -287,7 +291,9 @@ export const DashboardButton = ({ id, width, height }) => {
             <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
             <div style={size()}> {name()} ({power()}) </div>
             </Button>
+            <Tooltip title="Set Power">
             <Button disabled={draggable} onClick={PowerSliderOpen} color="primary" startIcon={<BoltIcon />} size="small" aria-label="select merge strategy" aria-haspopup="menu"></Button>
+            </Tooltip>
             </ButtonGroup>
             <PowerDialog onClose={PowerSliderClose} actor={actor} open={powerOpen} />
           </div>
