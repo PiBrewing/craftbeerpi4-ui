@@ -234,13 +234,19 @@ export const DashboardButton = ({ id, width, height }) => {
         return (
           <div style={cssStyle}>
             <ButtonGroup>
+            <Tooltip title={actor ? actor.name : ""}>
               <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
               <div style={size()}> {name()} ({power()}) </div>
               </Button>
+              </Tooltip>
+              <Tooltip title="Set Power">
               <Button disabled={draggable} onClick={PowerSliderOpen} color="primary" startIcon={<BoltIcon />} size="small" aria-label="select merge strategy" aria-haspopup="menu"></Button>
+              </Tooltip>
+              <Tooltip title="Actions">
               <Button disabled={draggable} onClick={handleOpen} color="primary" size="small" aria-label="select merge strategy" aria-haspopup="menu">
                 <MoreVertIcon />
               </Button>
+              </Tooltip>
             </ButtonGroup>
             <ButtonActionDialog open={open} onClose={handleClose} model={model} actor={actor} />
             <PowerDialog onClose={PowerSliderClose} actor={actor} open={powerOpen} />
@@ -252,9 +258,11 @@ export const DashboardButton = ({ id, width, height }) => {
         return (
           <div style={cssStyle}>
             <ButtonGroup>
+            <Tooltip title={actor ? actor.name : ""}>
               <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
               <div style={size()}> {name()} ({power()}) </div>
               </Button>
+              </Tooltip>
               <Tooltip title="Actions">
               <Button disabled={draggable} onClick={handleOpen} color="primary" size="small" aria-label="select merge strategy" aria-haspopup="menu">
                 <MoreVertIcon />
@@ -269,9 +277,11 @@ export const DashboardButton = ({ id, width, height }) => {
         return (
           <div style={cssStyle}>
             <ButtonGroup>
+            <Tooltip title={actor ? actor.name : ""}>
               <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
               <div style={size()}> {name()} </div>
               </Button>
+              </Tooltip>
               <Tooltip title="Actions">
               <Button disabled={draggable} onClick={handleOpen} color="primary" size="small" aria-label="select merge strategy" aria-haspopup="menu">
                 <MoreVertIcon />
@@ -288,9 +298,11 @@ export const DashboardButton = ({ id, width, height }) => {
         return (
           <div style={cssStyle}>
             <ButtonGroup>
+            <Tooltip title={actor ? actor.name : ""}>
             <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
             <div style={size()}> {name()} ({power()}) </div>
             </Button>
+            </Tooltip>
             <Tooltip title="Set Power">
             <Button disabled={draggable} onClick={PowerSliderOpen} color="primary" startIcon={<BoltIcon />} size="small" aria-label="select merge strategy" aria-haspopup="menu"></Button>
             </Tooltip>
@@ -303,9 +315,11 @@ export const DashboardButton = ({ id, width, height }) => {
       {
         return (
           <div style={cssStyle}>
+            <Tooltip title={actor ? actor.name : ""}>
             <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
             <div style={size()}> {name()} ({power()}) </div>
             </Button>
+            </Tooltip>
             </div>
         );
       }

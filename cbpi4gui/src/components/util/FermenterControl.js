@@ -15,6 +15,7 @@ const FermenterControl = ({fermenterid=null, disabled=false}) => {
   const [start, setStart] = useState(null);
   const [next, setNext] = useState(null);
   const [steps, setSteps] = useState([]);
+  const fermenter = state.fermenter.find(e => e.id === fermenterid)
   
   useEffect(() => {
   
@@ -59,7 +60,7 @@ const FermenterControl = ({fermenterid=null, disabled=false}) => {
     <>
     <ButtonGroup disabled={disabled} fullWidth>
       {start ? (
-        <Tooltip title="Start step">
+        <Tooltip title={fermenter ? fermenter.name.concat(": Start step") : "Start Step"}>
         <Button
           variant="contained"
           color="primary"
@@ -74,7 +75,7 @@ const FermenterControl = ({fermenterid=null, disabled=false}) => {
       ) : null}
 
       {next ? (
-        <Tooltip title="Next step">
+        <Tooltip title={fermenter ? fermenter.name.concat(": Next step") : "Next step"}>
         <Button
           variant="contained"
           color="primary"
@@ -89,7 +90,7 @@ const FermenterControl = ({fermenterid=null, disabled=false}) => {
       ) : null}
 
       {stop ? (
-        <Tooltip title="Stop">
+        <Tooltip title={fermenter ? fermenter.name.concat(": Stop") : "Stop"}>
         <Button
           variant="contained"
           color="secondary"
@@ -104,7 +105,7 @@ const FermenterControl = ({fermenterid=null, disabled=false}) => {
       ) : null}
 
       {reset ? (
-        <Tooltip title="Reset">
+        <Tooltip title={fermenter ? fermenter.name.concat(": Reset") : "Reset"}>
         <Button startIcon={<RotateLeftIcon />} variant="contained" color="secondary" onClick={() => fermenterapi.reset(fermenterid)}>
           
         </Button>

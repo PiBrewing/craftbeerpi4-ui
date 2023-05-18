@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Divider, Grid, List, Paper, Typography } from "@mui/material";
+import { Button, ButtonGroup, Divider, Grid, List, Paper, Typography, Tooltip } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -265,6 +265,8 @@ export const FermenterSteps = ({ id }) => {
   const draggable = useDraggable()
   const [fermenterid, setFermenterID] = useState(model.props?.fermenter);
   const [brewname, setBrewName] = useState("");
+  const fermenter = state.fermenter.find(e => e.id === fermenterid)
+
 
  
   useEffect(() => {
@@ -299,7 +301,9 @@ export const FermenterSteps = ({ id }) => {
 
   if (!brewname) {
     return (
+      <Tooltip title={fermenter ? fermenter.name : "No Fermenter selected"}>
       <div className="box" style={{...inputStyle, display:"flex", justifyContent: "center", alignItems: "center"}}>
+
         <Button
           variant="outlined"
           color="primary"
@@ -310,7 +314,9 @@ export const FermenterSteps = ({ id }) => {
         >
           Please select a Recipe
         </Button>
-      </div>
+        </div>
+        </Tooltip>
+      
     );
   }
 
