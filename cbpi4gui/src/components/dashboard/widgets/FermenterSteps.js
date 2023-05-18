@@ -301,7 +301,7 @@ export const FermenterSteps = ({ id }) => {
 
   if (!brewname) {
     return (
-      <Tooltip title={fermenter ? fermenter.name : "No Fermenter selected"}>
+      <Tooltip title={fermenter ? fermenter.name.concat(" Fermenter") : "No Fermenter selected"}>
       <div className="box" style={{...inputStyle, display:"flex", justifyContent: "center", alignItems: "center"}}>
 
         <Button
