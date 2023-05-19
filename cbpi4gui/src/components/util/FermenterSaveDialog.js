@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -27,13 +27,17 @@ const FermenterSaveDialog = ({ btnText, title, message, callback, fermenterid, i
   return (
     <>
       {btnText ? (
+        <Tooltip title="Save">
         <Button color="secondary" onClick={handleClickOpen} variant="contained" size="small" startIcon={<SaveIcon />}>
           {btnText}
         </Button>
+        </Tooltip>
       ) : (
+        <Tooltip title="Save">
         <IconButton aria-label="save"  onClick={handleClickOpen}>
           <SaveIcon />
         </IconButton>
+        </Tooltip>
       )}
 
       <Dialog open={open} onClose={no} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
