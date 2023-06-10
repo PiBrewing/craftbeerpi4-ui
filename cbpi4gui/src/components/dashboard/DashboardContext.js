@@ -1,4 +1,4 @@
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import SaveIcon from "@mui/icons-material/Save";
@@ -42,7 +42,7 @@ export const DashboardProvider = ({ children }) => {
       setSlowPipeAnimation( (data === 'Yes') ? true : false);
     });
   }, []);
-  
+ 
   dashboardapi.getcurrentdashboard((data) => {
     window.currentDashboard = data;
     setDashboardX(data);
@@ -317,6 +317,7 @@ export const DashboardProvider = ({ children }) => {
 };
 
 export const Dashboard = ({ width, height , fixdash}) => {
+  const [edittooltip, setEdittooltip] = useState("Edit Dashboard");
   const parentRef = useRef(null);
   const { actions, state } = useContext(DashboardContext);
   
@@ -325,10 +326,19 @@ export const Dashboard = ({ width, height , fixdash}) => {
     dashboardlist.push({'value': i, 'label': String(i)});
   };
 
+  useEffect(() => {
+    if (state.draggable)
+    {setEdittooltip("Stop Editing")}
+    else
+    {setEdittooltip("Edit Dashboard")}
+
+  },[state.draggable]
+  )
+
   const SelectBox = ({ options, value, onChange }) => {
     return (
     <>
-      <Select variant="standard" labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={onChange}>
+      <Tooltip title="Select Dashboard" placement="left"><Select variant="standard" labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={onChange}>
         {options.map((item) => (
           <MenuItem key={item.value} value={item.value}>
             {item.label}
@@ -345,6 +355,7 @@ export const Dashboard = ({ width, height , fixdash}) => {
     },
   })}
       </Select>
+      </Tooltip>
     </>
   );
   };
@@ -453,8 +464,8 @@ export const Dashboard = ({ width, height , fixdash}) => {
           />
 
             : "" }
-            {state.draggable ? <IconButton onClick={() => actions.save(state.dashboardX)}><SaveIcon/></IconButton> : "" }
-            <IconButton onClick={() => actions.setDraggable(!state.draggable)}>{state.draggable ? <LockOpenIcon /> : <LockIcon />}</IconButton>
+            {state.draggable ? <Tooltip title="Save Dashbpard"><IconButton onClick={() => actions.save(state.dashboardX)}><SaveIcon/></IconButton></Tooltip> : "" }
+            <Tooltip title={edittooltip}><IconButton onClick={() => actions.setDraggable(!state.draggable)}>{state.draggable ? <LockOpenIcon /> : <LockIcon />}</IconButton></Tooltip>
           </div>
           : ""}
           

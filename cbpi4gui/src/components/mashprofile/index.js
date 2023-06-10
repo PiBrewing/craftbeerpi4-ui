@@ -1,4 +1,4 @@
-import { Button, Container, Divider, IconButton } from "@mui/material";
+import { Button, Container, Divider, IconButton, Tooltip } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -64,6 +64,7 @@ const MashProfile = () => {
       <Container maxWidth="lg">
       <Grid container spacing={3}>
         <Grid item xs={12} style={{display: "flex", justifyContent:"center"}}>
+
           <Button
             variant="outlined"
             color="primary"
@@ -73,6 +74,7 @@ const MashProfile = () => {
           >
             Please select a Recipe
           </Button>
+
         </Grid>
       </Grid>
       </Container>
@@ -97,7 +99,7 @@ const MashProfile = () => {
           <DeleteDialog title="Clear" callback={clear} message="Do you want to clear the Mash Profile" />
           
           <SaveDialog title="Save" callback={savetobook} message="Do you want to save your recipe to the recipe book" />
-          
+          <Tooltip title="Open Recipe Book">
           <IconButton
             variant="contained"
             onClick={() => {
@@ -106,6 +108,7 @@ const MashProfile = () => {
           >
             <MenuBookIcon />
           </IconButton>
+          </Tooltip>
         </Grid>
       </Grid>
 

@@ -1,4 +1,4 @@
-import { Breadcrumbs, Container, Divider, Paper,InputBase, IconButton, Link, List, ListItemButton, ListItemSecondaryAction, ListItemText, ListItemIcon } from "@mui/material";
+import { Breadcrumbs, Container, Divider, Paper,InputBase, IconButton, Link, List, ListItemButton, ListItemSecondaryAction, ListItemText, ListItemIcon, Tooltip } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -92,9 +92,11 @@ const FermenterRecipes = () => {
           </Paper>
         </Grid>
         <Grid item>
+          <Tooltip title="Create new recipe">
           <IconButton variant="contained" onClick={createRecipe}>
             <AddIcon />
           </IconButton>
+          </Tooltip>
           <NewRecipeDialog open={open} setOpen={setOpen}/>
         </Grid>
       </Grid>
@@ -112,6 +114,7 @@ const FermenterRecipes = () => {
       <Divider style={{ marginBottom: 10, marginTop: 10 }} />
       <List>
         {list.map((item) => (
+          <Tooltip title="Click to select recipe">
           <ListItemButton onClick={() => openRecipe(item.file)}>
             <ListItemIcon>
               <CBPiBeerIcon/>
@@ -119,6 +122,7 @@ const FermenterRecipes = () => {
             <ListItemText primary={item.name || "No Name"} secondary={item.desc} />
             <ListItemSecondaryAction>x</ListItemSecondaryAction>
           </ListItemButton>
+          </Tooltip>
         ))}
       </List>
       </Container>

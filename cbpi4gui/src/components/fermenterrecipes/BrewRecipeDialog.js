@@ -11,10 +11,12 @@ export const BrewRecipeDialog = ({id, name, open, setOpen}) => {
 
     const navigate = useNavigate()
     const [fermenterid, setFermenterID] = useState([])
+    const cleanname= name.replace(/[/]|%|[?]|[&]/g, '')
 
     const brew = () => {
       console.log(id)
-      fermenterrecipeapi.brew(fermenterid, id, name);
+      //const cleanname= name.replace(/[/]|%|[?]/g, '_')
+      fermenterrecipeapi.brew(fermenterid, id, cleanname);
       setOpen(false)
       navigate("/fermenterprofile/"+ fermenterid);
     }
@@ -29,7 +31,7 @@ export const BrewRecipeDialog = ({id, name, open, setOpen}) => {
     }
 
     return <Dialog open={open} onClose={cancel} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-    <DialogTitle id="alert-dialog-title">Send Recipe "{name}" to Fermenter</DialogTitle>
+    <DialogTitle id="alert-dialog-title">Send Recipe "{cleanname}" to Fermenter</DialogTitle>
     <DialogContent>
            <Typography variant="h5" gutterBottom>
             Select Fermenter : {" "}

@@ -1,4 +1,4 @@
-import { Breadcrumbs, Container, Divider, Grid, IconButton, Link, Typography } from "@mui/material";
+import { Breadcrumbs, Container, Divider, Grid, IconButton, Link, Typography,Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SaveIcon from "@mui/icons-material/Save";
@@ -61,22 +61,28 @@ const FermenterRecipeEditor = () => {
     <>
     <Container maxWidth="lg">
       <Header title="Basic Data">
+      <Tooltip title="Back to recipe book">
         <IconButton variant="contained" onClick={back}>
           <ArrowBackIcon />
         </IconButton>
+        </Tooltip>
+        <Tooltip title="Clone recipe">
         <IconButton variant="contained" onClick={clone}>
           <FileCopyIcon />
         </IconButton>
+        </Tooltip>
         <CloneRecipeDialog id={id} open={open} setOpen={setOpen}/>
-
+        <Tooltip title="Send recipe to fermenter">
         <IconButton variant="contained" onClick={ferment}>
           <CBPiTankIcon />
         </IconButton>
+        </Tooltip>
         <BrewRecipeDialog id={id} name={basicData.name} open={openferment} setOpen={setOpenferment}/>
-
+        <Tooltip title="Save recipe">
         <IconButton variant="contained" onClick={save}>
           <SaveIcon />
         </IconButton>
+        </Tooltip>
         <DeleteDialog
             title="Delete Fermenter Recipe"
             message="Do you want to delete the Fermenter Recipe"

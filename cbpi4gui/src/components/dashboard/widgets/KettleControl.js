@@ -162,16 +162,16 @@ export const KettleControl = ({ id }) => {
     return (
       <>
         <ButtonGroup size={size()} disabled={state.draggable || !model.props.kettle} orientation={orientation} color="primary" aria-label="contained primary button group">
-           {heater ? <Tooltip title="Heater" placement={placement}>
+           {heater ? <Tooltip title={kettle ? kettle.name.concat(": Heater") : "Heater"} placement={placement}>
             <Button variant={heater?.state ? "contained" : "outlined"}  color="primary" startIcon={<WhatshotIcon />} onClick={() => toggle(kettle?.heater)}></Button>
             </Tooltip> : ""}
-          {agitator ? <Tooltip title="Agitator" placement={placement}>
+          {agitator ? <Tooltip title={kettle ? kettle.name.concat(": Agitator") : "Agitator"} placement={placement}>
             <Button variant={agitator?.state ? "contained" : "outlined"}  color="primary" startIcon={<CachedIcon />} onClick={() => toggle(kettle?.agitator)}></Button>
            </Tooltip> : ""}
-          {kettle?.type ? <Tooltip title="Auto mode" placement={placement}>
+          {kettle?.type ? <Tooltip title={kettle ? kettle.name.concat(": Auto mode") : "Auto Mode"} placement={placement}>
             <Button variant={kettle?.state ? "contained" : "outlined"}  color="primary" startIcon={<DriveEtaIcon />} onClick={() => toggle_kettle_logic(kettle?.id)}></Button>
            </Tooltip> : ""}
-          <Tooltip title="Target temperature" placement={placement}>
+          <Tooltip title={kettle ? kettle.name.concat(": Target temperature") : "Target Temperature"} placement={placement}>
             <Button variant="outlined"  color="primary" onClick={() => setOpen(true)} startIcon={<TrackChangesIcon />}></Button>
           </Tooltip>  
         </ButtonGroup>

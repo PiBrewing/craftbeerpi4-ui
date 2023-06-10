@@ -1,4 +1,4 @@
-import { Button, Container, Divider, IconButton } from "@mui/material";
+import { Button, Container, Divider, IconButton, Tooltip } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -99,6 +99,7 @@ const FermenterProfile = () => {
         </Grid>
 
         <Grid>
+          <Tooltip title="Open Recipebook">
         <IconButton
             variant="contained"
             onClick={() => {
@@ -107,6 +108,7 @@ const FermenterProfile = () => {
           >
             <MenuBookIcon />
           </IconButton>
+          </Tooltip>
 
         </Grid>
 
@@ -141,7 +143,7 @@ const FermenterProfile = () => {
           <FermenterDeleteDialog title="Clear" callback={clear} fermenterid={fermenterid} message="Do you want to clear the Fermenter Profile" />
           
           <FermenterSaveDialog title="Save" callback={savetobook} fermenterid={fermenterid} message="Do you want to save your recipe to the recipe book" />
-          
+          <Tooltip title="Open Recipebook">
           <IconButton
             variant="contained"
             onClick={() => {
@@ -150,6 +152,7 @@ const FermenterProfile = () => {
           >
             <MenuBookIcon />
           </IconButton>
+          </Tooltip>
         </Grid>
       </Grid>
 

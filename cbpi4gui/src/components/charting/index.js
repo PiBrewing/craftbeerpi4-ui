@@ -1,14 +1,16 @@
 import { Container, Divider, Grid, IconButton, Typography } from "@mui/material";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
-import { ToggleButton } from "@mui/material";
+import { ToggleButton, Tooltip } from "@mui/material";
 import { ToggleButtonGroup } from '@mui/material';
 import { useState } from "react";
 import Plot from "react-plotly.js";
 import { useSensor } from "../data";
 import { logapi } from "../data/logapi";
 import DeleteDialog from "../util/DeleteDialog";
+import { useNavigate } from "react-router-dom";
 
 export const Charting = () => {
+  const navigate = useNavigate();
   const sensors = useSensor();
   const [formats, setFormats] = useState(() => []);
   const [data, setData] = useState([]);
@@ -49,8 +51,15 @@ const clear_logs = () => {
   formats.map(format =>(
     logapi.clear(format)
   ));
-  window.location.reload();
+  navigate(0);
   };
+
+  const clear_all_logs = () => {
+    sensors.map(sensor => (
+      logapi.clear(sensor.id)
+    ));
+    navigate(0);
+    };
 
   return (
     <>
@@ -72,14 +81,22 @@ const clear_logs = () => {
               </ToggleButton>
             ))}
           </ToggleButtonGroup>
-
+          <Tooltip  title="Refresh">
           <IconButton onClick={load}>
+            
             <AutorenewIcon className={loading ? "rotating-right" : "" }/>
           </IconButton>
+          </Tooltip>
           <DeleteDialog
             title="Delete logs"
             message="Do you want to delete the selected logs?"
             callback={clear_logs}
+            />
+          <DeleteDialog
+            title="Delete all logs"
+            message="Do you really want to delete ALL logs?"
+            callback={clear_all_logs}
+            icon="deletesweep"
           />
         </Grid>
         <Grid item xs="12">

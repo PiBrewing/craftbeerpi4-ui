@@ -183,6 +183,7 @@ const CraftBeerPiApp = () => {
                   <Route path="sensor/:id" element={<SensorForm />}/>
                   <Route path="sensor" element={<SensorForm />}/>
                   <Route path="settings" element={<Settings />}/>
+                  <Route path="settings/:source" element={<Settings />}/>
                   <Route path="mashprofile" element={<MashProfile />}/>
                   <Route path="fermenterprofile/:fermenterid" element={<FermenterProfile />}/>
                   <Route path="fermenterprofile" element={<FermenterProfile />}/>

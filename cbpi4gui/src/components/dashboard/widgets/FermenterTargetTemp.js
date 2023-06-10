@@ -2,6 +2,7 @@
 import React from "react";
 import { useFermenter } from "../../data";
 import { useModel } from "../DashboardContext";
+import { Tooltip } from "@mui/material";
 
 const FermenterTargetTemp = ({ id }) => {
     
@@ -15,7 +16,7 @@ const FermenterTargetTemp = ({ id }) => {
     }
 
 
-    return <div style={css_style}> {fermenter?.target_temp} {model?.props?.unit }</div>;
+    return <Tooltip title={fermenter.name.concat(": TargetTemp")}><div style={css_style}> {fermenter?.target_temp} {model?.props?.unit }</div></Tooltip>;
   };
 
   const FermenterTargetPressure = ({ id }) => {
@@ -30,7 +31,7 @@ const FermenterTargetTemp = ({ id }) => {
     }
 
 
-    return <div style={css_style}> {fermenter?.target_pressure} {model?.props?.unit }</div>;
+    return <Tooltip title={fermenter.name.concat(": TargetPressure")}><div style={css_style}> {fermenter?.target_pressure} {model?.props?.unit }</div></Tooltip>;
   };
 
   export {FermenterTargetTemp, FermenterTargetPressure};

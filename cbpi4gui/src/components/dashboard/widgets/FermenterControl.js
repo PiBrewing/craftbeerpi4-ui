@@ -275,19 +275,19 @@ export const FermenterControl = ({ id }) => {
     return (
       <>
         <ButtonGroup size={size()} disabled={state.draggable || !model.props.fermenter} orientation={orientation} color="primary" aria-label="contained primary button group">
-          {heater ? <Tooltip title="Heater" placement={placement}>
+          {heater ? <Tooltip title={fermenter ? fermenter.name.concat(": Heater") : "Heater"} placement={placement}>
             <Button variant={heater?.state ? "contained" : "outlined"}  color="primary" startIcon={<WhatshotIcon />} onClick={() => toggle(fermenter?.heater)}></Button>
           </Tooltip> : ""}
-          {cooler ? <Tooltip title="Cooler" placement={placement}>
+          {cooler ? <Tooltip title={fermenter ? fermenter.name.concat(": Cooler") : "Cooler"} placement={placement}>
             <Button variant={cooler?.state ? "contained" : "outlined"}  color="primary" startIcon={<AcUnitIcon />} onClick={() => toggle(fermenter?.cooler)}></Button>
           </Tooltip> : ""}
-          {fermenter?.type ? <Tooltip title="Auto mode" placement={placement}>
+          {fermenter?.type ? <Tooltip title={fermenter ? fermenter.name.concat(": Auto Mode") : "Auto Mode"} placement={placement}>
             <Button variant={fermenter?.state ? "contained" : "outlined"}  color="primary" startIcon={<DriveEtaIcon />} onClick={() => toggle_fermenter_logic(fermenter?.id)}></Button>
           </Tooltip> : ""}
-          <Tooltip title="Target temperature" placement={placement}>
+          <Tooltip title={fermenter ? fermenter.name.concat(": Target Temperature") : "Target Temperatur"} placement={placement}>
             <Button variant="outlined"  color="primary" onClick={() => setOpen(true)} startIcon={<TrackChangesIcon />}></Button>
           </Tooltip>
-          {valve ? <Tooltip title="Set target pressure" placement={placement}>
+          {valve ? <Tooltip title={fermenter ? fermenter.name.concat(": Set target pressure") : "Set target pressure"} placement={placement}>
             <Button variant="outlined" color="primary" onClick={() => setOpenp(true)} startIcon={<SpeedIcon />}></Button>
           </Tooltip> : ""}
         </ButtonGroup>

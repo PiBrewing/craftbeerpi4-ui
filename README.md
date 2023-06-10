@@ -21,6 +21,10 @@ http://localhost:8000#
 
 ### Changelog
 
+- 31.05.23: (0.3.12) Change version to release
+- 31.05.23: (0.3.12.rc1) Added various tooltips and fixed issue if fermenter recipe contained special characters (-> will be automatically replaced). Option on analytics page to delete all logs
+- 17.04.23: (0.3.12.a5) Added selection option to settings page for global plugin settings, Option to remove obsolete global settings on system page.
+- 18.03.23: (0.3.11) Added play buzzer option to web interface, some fixes in grafana widget.pip install
 - 10.03.23: (0.3.10) Added datatype to sensor values -> Allows datetime and string (e.g. time of last received data from ispindle plugin or alarmtimer)
 - 07.03.23: (0.3.7) Added Power Slider for Actors
 - 17.02.23: (0.3.6) Fix Bug in Grafana Widget | Add text property timeframe to Grafana widget (e.g. now-2h or now-7d 2023-02-17 12:00 can be entered)
