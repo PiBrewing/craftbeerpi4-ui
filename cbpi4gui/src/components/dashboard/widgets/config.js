@@ -117,6 +117,7 @@ export const widget_list = [
     props: [
       { name: "width", default: "100", type: "text", unit:"px"  },
       { name: "name", default: "", type: "widget" },
+      { name: "rotation", options: ["0","90","180","270"], default: "0", type: "select"}
     ],
   },
   {
