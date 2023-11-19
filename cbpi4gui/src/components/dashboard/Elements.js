@@ -6,7 +6,7 @@ import "../../App.css";
 import "../../led.css";
 import { DashboardContext, useModel } from "./DashboardContext";
 
-export const DashboardContainer = ({ name, id, index, type }) => {
+export const DashboardContainer = ({ name, id, index, type, gridxy=5 }) => {
   const { state, actions } = useContext(DashboardContext);
   const selected = actions.is_selected(id);
   const model = useModel(id)
@@ -59,9 +59,9 @@ export const DashboardContainer = ({ name, id, index, type }) => {
   };
 
   return (
-    <Draggable disabled={!draggable} onStop={stopDrag} onDrag={handleDrag} grid={[5, 5]} defaultPosition={{ x, y }}>
+    <Draggable disabled={!draggable} onStop={stopDrag} onDrag={handleDrag} grid={[gridxy, gridxy]} defaultPosition={{ x, y }}>
       <div onPointerDown={select} style={inputStyle}>
-        { typeof type === 'string' ? <div><img className="no-drag" width={model.props?.width} height={model.props?.height}  src={type} alt="Element"/></div> :
+        { typeof type === 'string' ? <div><img className="no-drag" width={model.props?.height} height={model.props?.width}  src={type} alt="Element"/></div> :
         <Widget id={id} width={model.props?.width} height={model.props?.height} />}
         {render_icons()}
       </div>
