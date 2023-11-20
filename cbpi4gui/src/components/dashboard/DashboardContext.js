@@ -117,7 +117,7 @@ export const DashboardProvider = ({ children }) => {
       
       setElements({ ...data_model });
       setElements2(data_model2);  
-      let dm = data.pathes.map((v) => ({ ...v, instance: <Path key={v.id} id={v.id} coordinates={v.coordinates} condition={v.condition} max_x={width} max_y={height} /> }));
+      let dm = data.pathes.map((v) => ({ ...v, instance: <Path key={v.id} id={v.id} coordinates={v.coordinates} condition={v.condition} max_x={width} max_y={height} gridxy={currentgrid} /> }));
 
       setPathes(dm);
     });
@@ -244,7 +244,7 @@ export const DashboardProvider = ({ children }) => {
     ];
     const conditionInitData = {left: [], right: [], leftExpression:"", rightExpression:"" };
     //setPathes([...pathes, { id, path: data, instance: <Path id={id} coordinates={data} condition={conditionInitData} max_x={width} max_y={height} /> }]);
-    setPathes([...pathes, { id, path: data, condition: conditionInitData, instance: <Path id={id} coordinates={data} condition={conditionInitData} max_x={width} max_y={height} /> }]);
+    setPathes([...pathes, { id, path: data, condition: conditionInitData, instance: <Path id={id} coordinates={data} condition={conditionInitData} max_x={width} max_y={height} gridxy={currentgrid}/> }]);
     //console.log("DEBUG PAHT ADD : ")
     //console.log(pathes);
   };
@@ -335,7 +335,7 @@ export const Dashboard = ({ width, height , fixdash}) => {
   const gridlist=[{'value': 1, 'label': '1'},
   {'value': 5, 'label': '5'},
   {'value': 10, 'label': '10'},
-  {'value': 20, 'label': '20'},
+  {'value': 25, 'label': '25'},
   {'value': 50, 'label': '50'},
 ];
   const dashboardlist = [];
@@ -411,6 +411,7 @@ export const Dashboard = ({ width, height , fixdash}) => {
   };
 
   const GridChange = (event) => {
+    actions.save(state.dashboardX);
     actions.setCurrentGrid(event.target.value);  
     const gridwidth=event.target.value;
     dashboardapi.setcurrentgrid(gridwidth);   

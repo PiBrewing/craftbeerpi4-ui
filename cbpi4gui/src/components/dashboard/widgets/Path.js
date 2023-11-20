@@ -3,7 +3,7 @@ import { useActor } from "../../data";
 import classNames from 'classnames';
 import { DashboardContext } from "../DashboardContext";
 
-export const Path = ({ id, coordinates, condition = {left: [], right: [], leftExpression:null, rightExpression:null }, stroke = 10, max_x = 400, max_y = 600 }) => {
+export const Path = ({ id, coordinates, condition = {left: [], right: [], leftExpression:null, rightExpression:null }, stroke = 10, max_x = 400, max_y = 600, gridxy = 5}) => {
   const { state, actions } = useContext(DashboardContext);
   const actor = useActor();
   const [data, setData] = useState(coordinates);
@@ -215,7 +215,7 @@ export const Path = ({ id, coordinates, condition = {left: [], right: [], leftEx
         data2[0] = max_x;
       } else {
         const t = origin.x + delta_x;
-        data2[0] = origin.x + delta_x - (t % 5);
+        data2[0] = origin.x + delta_x - (t % gridxy);
       }
 
       if (origin.y + detal_y < 0) {
@@ -224,7 +224,7 @@ export const Path = ({ id, coordinates, condition = {left: [], right: [], leftEx
         data2[1] = max_y;
       } else {
         const t2 = origin.y + detal_y;
-        data2[1] = origin.y + detal_y - (t2 % 5);
+        data2[1] = origin.y + detal_y - (t2 % gridxy);
       }
       const d2 = [...data.slice(0, index), data2, ...data.slice(index + 1)];
       setData([...d2]);
