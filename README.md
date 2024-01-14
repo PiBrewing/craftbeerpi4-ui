@@ -21,6 +21,7 @@ http://localhost:8000#
 
 ### Changelog
 
+- 12.01.23: (0.3.13) Variable dashboard grid width in edit mode and some fixes
 - 31.05.23: (0.3.12) Change version to release
 - 31.05.23: (0.3.12.rc1) Added various tooltips and fixed issue if fermenter recipe contained special characters (-> will be automatically replaced). Option on analytics page to delete all logs
 - 17.04.23: (0.3.12.a5) Added selection option to settings page for global plugin settings, Option to remove obsolete global settings on system page.

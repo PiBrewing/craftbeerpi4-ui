@@ -30,6 +30,7 @@ export const DashboardProvider = ({ children }) => {
   const [widgets, setWidgets] = useState([]);
   const widget_dict = widget_list.reduce((a, x) => ({ ...a, [x.type]: x }), {});
   const [dashboardX, setDashboardX] = useState(1);
+  const [currentgrid, setCurrentGrid] = useState(5);
   const [maxdashboard, setMaxdashboard] = useState(4);
   const [initialdashboard, setInitialdashboard] = useState(0) 
   const [slowPipeAnimation, setSlowPipeAnimation] = useState( true );
@@ -38,15 +39,24 @@ export const DashboardProvider = ({ children }) => {
     dashboardapi.getcurrentdashboard((data) => {
       setInitialdashboard(data);
     });
+    dashboardapi.getcurrentgrid((data) => {
+      setCurrentGrid(data);
+    });
     dashboardapi.getpipeanimation((data) => {
       setSlowPipeAnimation( (data === 'Yes') ? true : false);
     });
-  }, []);
+  }, [currentgrid]);
  
   dashboardapi.getcurrentdashboard((data) => {
     window.currentDashboard = data;
     setDashboardX(data);
     }); 
+
+    dashboardapi.getcurrentgrid((data) => {
+      setCurrentGrid(data);
+      }); 
+
+
 
   const deleteKeyPressed = useKeyPress(8);
 
@@ -89,7 +99,7 @@ export const DashboardProvider = ({ children }) => {
       const errors = [];
       let data_model = data.elements.reduce((a, x) => {
         if (x.type in widget_dict) {
-          return { ...a, [x.id]: { ...x, instance: <DashboardContainer key={x.id} id={x.id} type={widget_dict[x.type].component} /> } };
+          return { ...a, [x.id]: { ...x, instance: <DashboardContainer key={x.id} id={x.id} type={widget_dict[x.type].component} gridxy={currentgrid} /> } };
         } else {
           errors.push("Error can't find " + x.type + " Widget");
           return { ...a };
@@ -98,7 +108,7 @@ export const DashboardProvider = ({ children }) => {
 
       let data_model2 = data.elements.reduce((a, x) => {
         if (x.type in widget_dict) {
-          return [ ...a, { ...x, instance: <DashboardContainer key={x.id} id={x.id} type={widget_dict[x.type].component} /> } ];
+          return [ ...a, { ...x, instance: <DashboardContainer key={x.id} id={x.id} type={widget_dict[x.type].component} gridxy={currentgrid}/> } ];
         } else {
           errors.push("Error can't find " + x.type + " Widget");
           return [ ...a ];
@@ -107,7 +117,7 @@ export const DashboardProvider = ({ children }) => {
       
       setElements({ ...data_model });
       setElements2(data_model2);  
-      let dm = data.pathes.map((v) => ({ ...v, instance: <Path key={v.id} id={v.id} coordinates={v.coordinates} condition={v.condition} max_x={width} max_y={height} /> }));
+      let dm = data.pathes.map((v) => ({ ...v, instance: <Path key={v.id} id={v.id} coordinates={v.coordinates} condition={v.condition} max_x={width} max_y={height} gridxy={currentgrid} /> }));
 
       setPathes(dm);
     });
@@ -214,7 +224,7 @@ export const DashboardProvider = ({ children }) => {
       name: item.name,
       x: 10,
       y: 10,
-      instance: <DashboardContainer key={id} id={id} type={item.component} />,
+      instance: <DashboardContainer key={id} id={id} type={item.component} gridxy={currentgrid} />,
     };
     setElements2([ ...elements2,  model ]);
   };
@@ -234,7 +244,7 @@ export const DashboardProvider = ({ children }) => {
     ];
     const conditionInitData = {left: [], right: [], leftExpression:"", rightExpression:"" };
     //setPathes([...pathes, { id, path: data, instance: <Path id={id} coordinates={data} condition={conditionInitData} max_x={width} max_y={height} /> }]);
-    setPathes([...pathes, { id, path: data, condition: conditionInitData, instance: <Path id={id} coordinates={data} condition={conditionInitData} max_x={width} max_y={height} /> }]);
+    setPathes([...pathes, { id, path: data, condition: conditionInitData, instance: <Path id={id} coordinates={data} condition={conditionInitData} max_x={width} max_y={height} gridxy={currentgrid}/> }]);
     //console.log("DEBUG PAHT ADD : ")
     //console.log(pathes);
   };
@@ -280,6 +290,7 @@ export const DashboardProvider = ({ children }) => {
       maxdashboard,
       dashboardX,
       initialdashboard,
+      currentgrid,
       slowPipeAnimation	  
     },
     actions: {
@@ -304,6 +315,7 @@ export const DashboardProvider = ({ children }) => {
       load,
       setSelectedPath,
       setDashboardX,
+      setCurrentGrid,
       save,
 	  setSlowPipeAnimation
     },
@@ -320,25 +332,33 @@ export const Dashboard = ({ width, height , fixdash}) => {
   const [edittooltip, setEdittooltip] = useState("Edit Dashboard");
   const parentRef = useRef(null);
   const { actions, state } = useContext(DashboardContext);
-  
+  const gridlist=[{'value': 1, 'label': '1'},
+  {'value': 5, 'label': '5'},
+  {'value': 10, 'label': '10'},
+  {'value': 25, 'label': '25'},
+  {'value': 50, 'label': '50'},
+];
   const dashboardlist = [];
   for (let i=1; i <= state.maxdashboard; i++) {
     dashboardlist.push({'value': i, 'label': String(i)});
   };
-
+  
   useEffect(() => {
     if (state.draggable)
-    {setEdittooltip("Stop Editing")}
+    {setEdittooltip("Stop Editing")
+    }
     else
-    {setEdittooltip("Edit Dashboard")}
+    {setEdittooltip("Edit Dashboard")
+    }
 
   },[state.draggable]
   )
 
-  const SelectBox = ({ options, value, onChange }) => {
+
+  const SelectBox = ({ options, value, onChange, title}) => {
     return (
     <>
-      <Tooltip title="Select Dashboard" placement="left"><Select variant="standard" labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={onChange}>
+      <Tooltip title={title} placement="left"><Select variant="standard" labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={onChange}>
         {options.map((item) => (
           <MenuItem key={item.value} value={item.value}>
             {item.label}
@@ -373,7 +393,7 @@ export const Dashboard = ({ width, height , fixdash}) => {
         actions.load(parentWidth, parentHeight,0)
         actions.load(parentWidth, parentHeight,fixdash)}
       };
-  }, [parentRef,state.initialdashboard, fixdash]);
+  }, [parentRef,state.initialdashboard, fixdash, state.currentgrid]);
 
   const DashBoardChange = (event) => {
     actions.setDashboardX(event.target.value);
@@ -389,7 +409,15 @@ export const Dashboard = ({ width, height , fixdash}) => {
       }
 
   };
+
+  const GridChange = (event) => {
+    actions.save(state.dashboardX);
+    actions.setCurrentGrid(event.target.value);  
+    const gridwidth=event.target.value;
+    dashboardapi.setcurrentgrid(gridwidth);   
+  };
   
+
 //  const refresh_dashboard = () => {
 //  actions.setDraggable(!state.draggable);
 //	if (state.draggable) {
@@ -421,7 +449,6 @@ export const Dashboard = ({ width, height , fixdash}) => {
   };
     
   const [svgRef, svgWidth] = useBBox();
-    
   
   return (
     <>
@@ -451,7 +478,7 @@ export const Dashboard = ({ width, height , fixdash}) => {
           
           {!fixdash ?
           <div style={{ position: "absolute", top: 0, right: 0 }}>
-          {state.draggable ? state.dashboardX : <SelectBox options={dashboardlist} value={state.dashboardX} onChange={DashBoardChange}/>} 
+          {state.draggable ? state.dashboardX : <SelectBox options={dashboardlist} value={state.dashboardX} onChange={DashBoardChange} title="Select Dashboard"/>} 
             {state.draggable ? 
             
             <DeleteDialog
@@ -464,6 +491,10 @@ export const Dashboard = ({ width, height , fixdash}) => {
           />
 
             : "" }
+
+          {state.draggable ? <SelectBox options={gridlist} value={state.currentgrid} onChange={GridChange} title="Select Grid"/> : "" }
+
+
             {state.draggable ? <Tooltip title="Save Dashbpard"><IconButton onClick={() => actions.save(state.dashboardX)}><SaveIcon/></IconButton></Tooltip> : "" }
             <Tooltip title={edittooltip}><IconButton onClick={() => actions.setDraggable(!state.draggable)}>{state.draggable ? <LockOpenIcon /> : <LockIcon />}</IconButton></Tooltip>
           </div>

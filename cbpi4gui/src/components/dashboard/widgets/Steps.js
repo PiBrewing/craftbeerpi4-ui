@@ -168,6 +168,7 @@ function StepDetailsDialog(props) {
     setActions(t?.actions || []);
   }, [state.stepTypes]);
 
+  if(type){
   return (
     <Dialog fullWidth onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
       <DialogContent>
@@ -197,6 +198,7 @@ function StepDetailsDialog(props) {
       </DialogActions>
     </Dialog>
   );
+  }
 }
 
 const State = ({ state }) => {
