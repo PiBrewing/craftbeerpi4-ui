@@ -1,6 +1,6 @@
 {
   "name": "craftbeerpi-app",
-  "version": "0.3.2",
+  "version": "0.3.13",
   "private": true,
   "proxy": "http://localhost:8000",
   "homepage": "./",
@@ -11,11 +11,11 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@date-io/date-fns": "^2.15.0",
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
-    "@mui/icons-material": "^5.11.0",
-    "@mui/lab": "^5.0.0-alpha.95",
+    "@date-io/date-fns": "^3.0.0",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.15.16",
+    "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.11.3",
     "@mui/styles": "^5.11.2",
     "@mui/system": "^5.11.13",

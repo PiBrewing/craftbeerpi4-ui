@@ -35,7 +35,16 @@ const backupConfig = (callback_susscess = () => { }, callback_failed = () => { }
       const downloadUrl = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = downloadUrl;
-      link.setAttribute('download', 'cbpi4_config.zip'); //any other extension
+      var date  = new Date();
+      const formattedDate = `${date.getFullYear()}_${(date.getMonth() +1).toLocaleString('en-US', {
+        minimumIntegerDigits: 2,
+        useGrouping: false
+      })}_${date.getDate().toLocaleString('en-US', {
+        minimumIntegerDigits: 2,
+        useGrouping: false
+      })}`;
+      console.log(formattedDate);
+      link.setAttribute('download',formattedDate+'_cbpi4_config.zip'); //any other extension
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -59,7 +68,7 @@ const downloadlog = (logtime, callback_susscess = () => { }, callback_failed = (
       const downloadUrl = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = downloadUrl;
-      link.setAttribute('download', 'cbpi4_log.zip'); //any other extension
+      link.setAttribute('download'); //any other extension
       document.body.appendChild(link);
       link.click();
       link.remove();
