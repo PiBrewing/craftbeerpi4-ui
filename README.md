@@ -20,7 +20,7 @@ http://localhost:8000#
 ```python3 setup.py sdist```
 
 ### Changelog
-
+- 24.05.24: (0.3.14.a2) Fixed error in donwload log introduced with 0.3.14.a1
 - 10.05.24: (0.3.14.a1) Add date in front of filename for backup download
 - 12.01.24: (0.3.13) Variable dashboard grid width in edit mode and some fixes
 - 31.05.23: (0.3.12) Change version to release
