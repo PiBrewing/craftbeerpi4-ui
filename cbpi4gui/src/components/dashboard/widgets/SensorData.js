@@ -8,6 +8,7 @@ import { useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { sensorapi } from "../../data/sensorapi";
 import PropsEdit from "../../util/PropsEdit";
+import { useCBPi } from "../../data";
 
 const ButtonActionPropsDialog = ({ action = {}, config, open, onClose, onSubmit }) => {
   const [props, setProps] = useState({});
@@ -101,7 +102,14 @@ export const SensorData = ({ id }) => {
     const handleClose = () => setOpen(false);
     const handleOpen = () => setOpen(true);
 
-    const css_style = { color: model?.props?.color || "#fff", fontSize: `${model?.props?.size}px` };
+    const { state } = useCBPi();
+    const inrange = state?.sensorInRange[sensor_id];
+    let css_style = { color: model?.props?.color || "#fff", fontSize: `${model?.props?.size}px` };
+
+    if (inrange === false){
+      css_style = { color: model?.props?.colorrange || "#f00", fontSize: `${model?.props?.size}px` };
+    }
+
     if (!action || action === "no") {
     return sensor_id ? (<Tooltip title={sensor ? sensor.name : ""}><div style={css_style}><SensorValue id={sensor_id} digits={sensor_digits} />{model.props?.unit}</div></Tooltip>) : "MISSING CONFIG";
     }

@@ -77,6 +77,7 @@ export const widget_list = [
       { name: "unit", default: "°", type: "text" },
       { name: "size", default: "12", type: "text", unit: "pt" },
       { name: "color", default: "#fff", type: "text" },
+      { name: "colorrange", default: "#f00", type: "text" },
       { name: "digits", options: ["N/A","0","1", "2","3","4"], default: "N/A", type: "select" },
       { name: "action", options: ["yes", "no"], default: "no", type: "select" }
     ],

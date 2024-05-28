@@ -14,6 +14,7 @@ export const CBPiProvider = ({ children }) => {
   const [sensors, setSensors] = useState([]);
   const [sensorData, setSensorData] = useState({});
   const [sensorDataType, setSensorDataType] = useState({});
+  const [sensorInRange, setSensorInRange] = useState({});
   const [config, setConfig] = useState({});
   const [actors, setActors] = useState([]);
   const [logic, setLogic] = useState([]);
@@ -57,6 +58,7 @@ export const CBPiProvider = ({ children }) => {
       case "sensorstate":
         setSensorData((current) => ({ ...current, [data.id]: data.value }));
         setSensorDataType((current) => ({ ...current, [data.id]: data.datatype }));
+        setSensorInRange((current) => ({ ...current, [data.id]: data.inrange }));
         break;
       case "step_update":
         setMashProfile(() => data.data);
@@ -155,7 +157,7 @@ export const CBPiProvider = ({ children }) => {
   const get_sensor_by_id = (id) => sensors.find((item) => item.id === id);
 
   const value = {
-    state: { sensors, version, guiversion, codename, actors, logic, kettle, fermenter, fermenterlogic, auth, plugins, temp, sensorData, sensorDataType,
+    state: { sensors, version, guiversion, codename, actors, logic, kettle, fermenter, fermenterlogic, auth, plugins, temp, sensorData, sensorDataType, sensorInRange,
              actorTypes, sensorTypes, config, mashProfile, fermentersteps, FermenterProfile, mashBasic, stepTypes, stepTypesFermenter, connection },
     actions: {
       delete_kettle,
