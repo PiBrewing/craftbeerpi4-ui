@@ -83,27 +83,8 @@ const NotificationsDeleteDialog = () => {
             Yes
           </Button>
         </DialogActions>
-      </Dialog>) : (null)}
-      
-      {/*(<Dialog open={open} onClose={no} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-
-      <DialogTitle id="alert-dialog-title">Delete Notifications</DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          No old Notifications found. 
-          
-      </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={no} color="primary" autoFocus variant="contained">
-          ok
-        </Button>
-      </DialogActions>
-      </Dialog>
-      )
-    
-    }*/}
-    </>
+      </Dialog>) : (false)}
+          </>
 
   );
 
