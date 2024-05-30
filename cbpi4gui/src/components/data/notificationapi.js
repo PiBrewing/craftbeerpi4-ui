@@ -12,7 +12,18 @@ const action = (notifiaction_id, action_id, data, callback_susscess = () => {}, 
     });
 };
 
+const deletenotifications = (callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .post(`/notification/delete`)
+    .then(function (response) {
+      callback_susscess(response.data);
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
 
 export const notificationapi = {
-  action
+  action,
+  deletenotifications
 }

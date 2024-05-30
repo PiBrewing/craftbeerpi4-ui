@@ -34,6 +34,7 @@ export const CBPiProvider = ({ children }) => {
   const [codename, setCodename] = useState("---");
   const a = useAlert();
   const [notification, setNotifiaction] = useState("");
+  const [allnotifications, setAllNotifiactions] = useState([]);
   const [fermenter, setFermenter] = useState([]);
   const [fermenterlogic, setFermenterLogic] = useState([]);
   const [fermentersteps, setFermenterSteps] = useState([]);
@@ -79,6 +80,9 @@ export const CBPiProvider = ({ children }) => {
       case "notifiaction":
         a.show(data.id, data.title, data.message, data.type, data.action);
         break;
+      case "notificationupdate":
+          setAllNotifiactions(() => data.data);
+          break;
       default:
         break;
     }
@@ -115,7 +119,8 @@ export const CBPiProvider = ({ children }) => {
       setStepTypesFermenter(Object.values(data.fermenter.steptypes));
       setAuth(true);
       setConnection(true);
-    });
+      setAllNotifiactions(data.notifications);
+      });
   }, []);
 
   // Step API
@@ -158,7 +163,7 @@ export const CBPiProvider = ({ children }) => {
 
   const value = {
     state: { sensors, version, guiversion, codename, actors, logic, kettle, fermenter, fermenterlogic, auth, plugins, temp, sensorData, sensorDataType, sensorInRange,
-             actorTypes, sensorTypes, config, mashProfile, fermentersteps, FermenterProfile, mashBasic, stepTypes, stepTypesFermenter, connection },
+             actorTypes, sensorTypes, config, mashProfile, fermentersteps, FermenterProfile, mashBasic, stepTypes, stepTypesFermenter, connection, allnotifications },
     actions: {
       delete_kettle,
       add_kettle,
