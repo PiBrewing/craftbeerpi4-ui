@@ -21,6 +21,7 @@ http://localhost:8000#
 
 ### Changelog
 
+- 31.05.24: (0.3.14.a7) Added actor dependency possibility to CustomSVG (Different SVG to be displayed depending on actor status). Activated Badge icon to display past 100 notifications
 - 28.05.24: (0.3.14.a3) Test on different color of sensor value if value is to far from target
 - 24.05.24: (0.3.14.a2) Fixed error in download log introduced with 0.3.14.a1
 - 10.05.24: (0.3.14.a1) Add date in front of filename for backup download
