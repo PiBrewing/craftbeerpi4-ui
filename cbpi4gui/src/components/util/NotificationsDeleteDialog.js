@@ -19,7 +19,7 @@ const NotificationsDeleteDialog = () => {
   let [notifications, setNotifications] = React.useState([]);
   const [render, setRender] = React.useState(false);
 
-  console.log(notifications)
+  //console.log(notifications)
   
   React.useEffect(() => {
     setNotifications(state.allnotifications)
