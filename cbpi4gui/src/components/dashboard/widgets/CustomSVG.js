@@ -7,7 +7,7 @@ import "../../../rotate.css";
  const CustomSVG = ({ id }) => {
     const model = useModel(id);
     const actor = useActor(model?.props.actor);
-    const [name, setName] = useState(actor?.state ? model?.props.nameon : model?.props.name)
+    const [name, setName] = useState(actor?.state ? model?.props.WidgetOn : model?.props.WidgetOff)
     const angle = model?.props.rotation || 0;
     const width = model?.props?.width || 100;
     const height = "auto"
@@ -15,9 +15,9 @@ import "../../../rotate.css";
 
     useEffect(() => {
       if (actor?.state){
-      setName(model?.props.nameon || model?.props.name)}
+      setName(model?.props.WidgetOn || model?.props.WidgetOff)}
       else {
-        setName(model?.props.name)
+        setName(model?.props.WidgetOff)
       }       
     }, [actor?.state]);
 

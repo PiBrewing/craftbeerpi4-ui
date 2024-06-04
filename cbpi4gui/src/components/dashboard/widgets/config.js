@@ -119,9 +119,9 @@ export const widget_list = [
       { name: "width", default: "100", type: "text", unit:"px"  },
     //  { name: "fixratio", options: ["yes","no"], default: "yes", type: "select"},
     // { name: "height", default: "auto", type: "text", unit:"px"  },
-      { name: "name", default: "", type: "widget" },
+      { name: "WidgetOff", default: "", type: "widget" },
       { name: "actor", default: "", type: "actor" },
-      { name: "nameon", default: "", type: "widget" },
+      { name: "WidgetOn", default: "", type: "widget" },
       { name: "rotation", options: ["0","90","180","270"], default: "0", type: "select"}
     ],
   },

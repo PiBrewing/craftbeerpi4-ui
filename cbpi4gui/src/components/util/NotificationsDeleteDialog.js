@@ -85,11 +85,7 @@ const NotificationsDeleteDialog = () => {
         </DialogActions>
       </Dialog>) : (false)}
           </>
-
   );
-
 };
-
-
 
 export default NotificationsDeleteDialog;

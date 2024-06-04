@@ -10,7 +10,7 @@ import KettleSelect from "../util/KettleSelect";
 import FermenterSelect from "../util/FermenterSelect";
 import { SelectInput } from "../util/SelectInput";
 import SensorSelect from "../util/SensorSelect";
-import WidgetSelet from "../util/WidgetSelect";
+import WidgetSelect from "../util/WidgetSelect";
 import { DashboardContext, useModel } from "./DashboardContext";
 import { widget_list } from "./widgets/config";
 import { Container, Draggable } from "react-smooth-dnd";
@@ -134,7 +134,7 @@ const PropsEditor = ({ data }) => {
       case "fermenter":
         return <FermenterSelect fullWidth value={data.props[s.name]} key={s.name} onChange={(e) => handlechange(e, s.name)} />;
       case "widget":
-        return <WidgetSelet value={data.props[s.name]} key={s.name} onChange={(e) => handlechange(e, s.name)} />;
+        return <WidgetSelect label={s.name} value={data.props[s.name]} key={s.name} onChange={(e) => handlechange(e, s.name)} />;
       default:
         return "";
     }
