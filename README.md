@@ -21,7 +21,12 @@ http://localhost:8000#
 
 ### Changelog
 
-- 12.01.23: (0.3.13) Variable dashboard grid width in edit mode and some fixes
+- 06.06.24: (0.3.14.rc0) Some internal adaptions which require also server version 4.4.1.rc0 (Renaming of CustomSVG properties)
+- 31.05.24: (0.3.14.a7) Added actor dependency possibility to CustomSVG (Different SVG to be displayed depending on actor status). Activated Badge icon to display past 100 notifications
+- 28.05.24: (0.3.14.a3) Test on different color of sensor value if value is to far from target
+- 24.05.24: (0.3.14.a2) Fixed error in download log introduced with 0.3.14.a1
+- 10.05.24: (0.3.14.a1) Add date in front of filename for backup download
+- 12.01.24: (0.3.13) Variable dashboard grid width in edit mode and some fixes
 - 31.05.23: (0.3.12) Change version to release
 - 31.05.23: (0.3.12.rc1) Added various tooltips and fixed issue if fermenter recipe contained special characters (-> will be automatically replaced). Option on analytics page to delete all logs
 - 17.04.23: (0.3.12.a5) Added selection option to settings page for global plugin settings, Option to remove obsolete global settings on system page.

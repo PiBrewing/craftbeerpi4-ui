@@ -4,7 +4,7 @@ import logo from "../../images/cbpi.png";
 import pythonlogo from "../../images/python-powered.png"
 import reactlogo from "../../images/Reacticon.png"
 import { useCBPi } from "../data";
-import paypal_logo from "./paypal.png";
+//import paypal_logo from "./paypal.png";
 import Button from "@mui/material/Button";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 const About = () => {
   const classes = useStyles();
-  const {state} = useCBPi();
+  let {state} = useCBPi();
  
   return (
     <Container maxWidth="lg" >

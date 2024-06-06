@@ -5,12 +5,12 @@ import Select from '@mui/material/Select';
 import { useDashboard } from "../dashboard/DashboardContext";
 
 
- const WidgetSelet = ({label="Widget", value, onChange, }) => {
+ const WidgetSelect = ({label, value, key, onChange, }) => {
     const { state } = useDashboard()
     return <>
         <InputLabel shrink id="demo-simple-select-placeholder-label-label">
             {label}
-     </InputLabel>
+        </InputLabel>
         <Select variant="standard" fullWidth
             labelId="demo-simple-select-label"
             id="demo-simple-select"
@@ -24,4 +24,4 @@ import { useDashboard } from "../dashboard/DashboardContext";
 }
 
 
-export default WidgetSelet
+export default WidgetSelect

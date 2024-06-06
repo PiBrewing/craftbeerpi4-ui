@@ -6,15 +6,12 @@ import { makeStyles } from "@mui/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import React, {useRef, useLayoutEffect, useState} from "react";
+import React, {useRef, useLayoutEffect, useState, useEffect} from "react";
 import "../../App.css";
 import { configapi } from "../data/configapi";
 import Menu from "../util/Menu";
 import logo from "../../images/cbpi_no_border.png";
-
-
-
+import NotificationsDeleteDialog from "../util/NotificationsDeleteDialog";
 
 const drawerWidth = 240;
 
@@ -118,13 +115,11 @@ const useStyles = makeStyles((theme) => ({
 const MainMenu = () => {
   const classes = useStyles();
   const navBarRef = useRef();
-//  const [appBarHeight, setAppBarHeight] = useState(64);
   const [open, setOpen] = useState(false);
   const [brewery,setBrewery] = useState("CraftBeerPi 4.0");
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-  
 
   configapi.getone('BREWERY_NAME', (data) => {
     if (data){
@@ -136,9 +131,7 @@ const MainMenu = () => {
     const updateNavBarHeight = () => {
       if (!navBarRef.current)
         return;
-//     const newHeight = navBarRef.current.clientHeight;
-//	  console.log("Navbar height = " + newHeight);
-//      setAppBarHeight(newHeight);
+
     };
     window.addEventListener("resize", updateNavBarHeight);
     updateNavBarHeight();
@@ -159,11 +152,7 @@ return (
                     {brewery}
                   </Typography>
                 </div>
-                <IconButton color="inherit">
-                  <Badge badgeContent={0} color="secondary">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
+                    <NotificationsDeleteDialog/>
               </Toolbar>
             </AppBar>
             <Drawer open={open} onClose={() => setOpen(false)}>
