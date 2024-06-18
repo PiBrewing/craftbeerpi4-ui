@@ -42,12 +42,12 @@ const Upload = () => {
     const fileUploaded = event.target.files[0];
     let formData = new FormData();
     formData.append("File", fileUploaded);
-    console.log("Start upload");
+    //console.log("Start upload");
     uploadapi.sendFile(formData, ReloadPage());
   };
 
   const ReloadPage = () => {
-    console.log("Upload done -> reload page");
+    //console.log("Upload done -> reload page");
     /*window.location.reload();*/
   }
 
@@ -113,7 +113,6 @@ const Upload = () => {
       for (let i = 0; i <= Math.floor(data.length/length); i++) {
       list[i]={ 'value': i*length, 'label': i*length }
       }
-      console.log(list)
       setOffsetlist(list)
       setBFListselect(data.slice(offset,offset+length))
       
@@ -138,10 +137,10 @@ const Upload = () => {
 
   const OffsetChange = (event) => {
     setOffset(event.target.value);
-    uploadapi.getbf(event.target.value, (data) => {
-      setBFList(data)
-      setBFListselect(data.slice(event.target.value,event.target.value+length))
-    });
+    //uploadapi.getbf(event.target.value, (data) => {
+    //  setBFList(data)
+    //});
+    setBFListselect(bflist.slice(event.target.value,event.target.value+length))
   };
 
   return (
