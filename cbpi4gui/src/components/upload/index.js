@@ -5,6 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from '@mui/material/InputLabel';
 import { uploadapi } from "../data/uploadapi"
+import { configapi } from "../data/configapi";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,12 +43,12 @@ const Upload = () => {
     const fileUploaded = event.target.files[0];
     let formData = new FormData();
     formData.append("File", fileUploaded);
-    console.log("Start upload");
+    //console.log("Start upload");
     uploadapi.sendFile(formData, ReloadPage());
   };
 
   const ReloadPage = () => {
-    console.log("Upload done -> reload page");
+    //console.log("Upload done -> reload page");
     /*window.location.reload();*/
   }
 
@@ -72,23 +73,27 @@ const Upload = () => {
   const [xmllist, setXMLList] = useState([]);
   const [jsonlist, setJSONList] = useState([]);
   const [bflist, setBFList] = useState([]);
+  const [bflistselect, setBFListselect] = useState([]);
   const [xml, setXML] = useState([]);
   const [json, setJSON] = useState([]);
   const [kbh, setKBH] = useState([]);
   const [bf, setBF] = useState([]);
   const [path, setPath] = useState([]);
   const [offset, setOffset] = useState(0);
-  const offsetlist = [{ 'value': 0, 'label': '0' },
-  { 'value': 50, 'label': '50' },
-  { 'value': 100, 'label': '100' },
-  { 'value': 150, 'label': '150' },
-  { 'value': 200, 'label': '200' }];
+  const [length, setLength] = useState(50)
+  const [offsetlist,setOffsetlist] = useState([{ 'value': 0, 'label': '0' }]);
 
   useEffect(() => {
     uploadapi.getpath((data) => {
       setPath(data);
     });
   }, []);
+
+
+//    configapi.getone('brewfather_list_length',(data) => {
+//      console.log(data)
+//      setLength(data);
+//    });
 
   useEffect(() => {
     uploadapi.getkbh((data) => {
@@ -111,8 +116,15 @@ const Upload = () => {
   useEffect(() => {
     uploadapi.getbf(offset, (data) => {
       setBFList(data);
+      const list =[]
+      for (let i = 0; i <= Math.floor(data.length/length); i++) {
+      list[i]={ 'value': i*length, 'label': i*length }
+      }
+      setOffsetlist(list)
+      setBFListselect(data.slice(offset,offset+length))
+      
     });
-  }, []);
+  }, [length]);
 
   const XMLChange = (event) => {
     setXML(event.target.value);
@@ -128,13 +140,14 @@ const Upload = () => {
 
   const BFChange = (event) => {
     setBF(event.target.value);
-  };
+    };
 
   const OffsetChange = (event) => {
     setOffset(event.target.value);
-    uploadapi.getbf(event.target.value, (data) => {
-      setBFList(data)
-    });
+    //uploadapi.getbf(event.target.value, (data) => {
+    //  setBFList(data)
+    //});
+    setBFListselect(bflist.slice(event.target.value,event.target.value+length))
   };
 
   return (
@@ -247,11 +260,11 @@ const Upload = () => {
               </TableRow>
               <TableRow>
                 <TableCell>
-                  <InputLabel id="demo-simple-select-helper-label">Brewfather Recipes (50 Items max)</InputLabel>
-                  <SelectBox options={bflist} value={bf} onChange={BFChange} />
+                  <InputLabel id="demo-simple-select-helper-label">Brewfather Recipes ({length} Items max)</InputLabel>
+                  <SelectBox options={bflistselect} value={bf} onChange={BFChange} />
                 </TableCell>
                 <TableCell>
-                  <InputLabel id="demo-simple-select-helper-label">Recipe Offset (display 50 items after offset)</InputLabel>
+                  <InputLabel id="demo-simple-select-helper-label">Recipe Offset (display {length} items after offset)</InputLabel>
                   <SelectBox options={offsetlist} value={offset} onChange={OffsetChange} />
                 </TableCell>
                 <TableCell align="right">
