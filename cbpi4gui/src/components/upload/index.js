@@ -80,7 +80,7 @@ const Upload = () => {
   const [bf, setBF] = useState([]);
   const [path, setPath] = useState([]);
   const [offset, setOffset] = useState(0);
-  const [length, setLength] = useState(50);
+  const [length, setLength] = useState(50)
   const [offsetlist,setOffsetlist] = useState([{ 'value': 0, 'label': '0' }]);
 
   useEffect(() => {
@@ -89,12 +89,11 @@ const Upload = () => {
     });
   }, []);
 
-  useEffect(() => {
-    configapi.getone('brewfather_list_length',(data) => {
-      console.log(data)
-      setLength(data);
-    });
-  }, []);
+
+//    configapi.getone('brewfather_list_length',(data) => {
+//      console.log(data)
+//      setLength(data);
+//    });
 
   useEffect(() => {
     uploadapi.getkbh((data) => {
@@ -261,11 +260,11 @@ const Upload = () => {
               </TableRow>
               <TableRow>
                 <TableCell>
-                  <InputLabel id="demo-simple-select-helper-label">Brewfather Recipes (50 Items max)</InputLabel>
+                  <InputLabel id="demo-simple-select-helper-label">Brewfather Recipes ({length} Items max)</InputLabel>
                   <SelectBox options={bflistselect} value={bf} onChange={BFChange} />
                 </TableCell>
                 <TableCell>
-                  <InputLabel id="demo-simple-select-helper-label">Recipe Offset (display 50 items after offset)</InputLabel>
+                  <InputLabel id="demo-simple-select-helper-label">Recipe Offset (display {length} items after offset)</InputLabel>
                   <SelectBox options={offsetlist} value={offset} onChange={OffsetChange} />
                 </TableCell>
                 <TableCell align="right">
