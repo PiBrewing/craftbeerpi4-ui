@@ -91,9 +91,12 @@ const Upload = () => {
 
 
     configapi.getone('brewfather_list_length',(data) => {
-      console.log(data)
       setLength(data);
     });
+
+    uploadapi.getbf(offset, (data) => {
+      setBFList(data);
+    })
 
   useEffect(() => {
     uploadapi.getkbh((data) => {
