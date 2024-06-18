@@ -90,10 +90,10 @@ const Upload = () => {
   }, []);
 
 
-//    configapi.getone('brewfather_list_length',(data) => {
-//      console.log(data)
-//      setLength(data);
-//    });
+    configapi.getone('brewfather_list_length',(data) => {
+      console.log(data)
+      setLength(data);
+    });
 
   useEffect(() => {
     uploadapi.getkbh((data) => {
