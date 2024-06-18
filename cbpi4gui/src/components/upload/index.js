@@ -5,6 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from '@mui/material/InputLabel';
 import { uploadapi } from "../data/uploadapi"
+import { configapi } from "../data/configapi";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,6 +90,13 @@ const Upload = () => {
   }, []);
 
   useEffect(() => {
+    configapi.getone('brewfather_list_length',(data) => {
+      console.log(data)
+      setLength(data);
+    });
+  }, []);
+
+  useEffect(() => {
     uploadapi.getkbh((data) => {
       setKBHList(data);
     });
@@ -117,7 +125,7 @@ const Upload = () => {
       setBFListselect(data.slice(offset,offset+length))
       
     });
-  }, []);
+  }, [length]);
 
   const XMLChange = (event) => {
     setXML(event.target.value);
