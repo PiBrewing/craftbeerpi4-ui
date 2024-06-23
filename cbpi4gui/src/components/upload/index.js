@@ -5,7 +5,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from '@mui/material/InputLabel';
 import { uploadapi } from "../data/uploadapi"
-import { configapi } from "../data/configapi";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,15 +88,6 @@ const Upload = () => {
     });
   }, []);
 
-
-    configapi.getone('brewfather_list_length',(data) => {
-      setLength(data);
-    });
-
-    uploadapi.getbf(offset, (data) => {
-      setBFList(data);
-    })
-
   useEffect(() => {
     uploadapi.getkbh((data) => {
       setKBHList(data);
@@ -117,17 +107,16 @@ const Upload = () => {
   }, []);
 
   useEffect(() => {
-    uploadapi.getbf(offset, (data) => {
-      setBFList(data);
-      const list =[]
-      for (let i = 0; i <= Math.floor(data.length/length); i++) {
-      list[i]={ 'value': i*length, 'label': i*length }
-      }
-      setOffsetlist(list)
-      setBFListselect(data.slice(offset,offset+length))
-      
+    uploadapi.getbf(0, (data) => {
+      setBFList(data[0]);
+      setOffsetlist(data[1])
+      setLength(data[2])        
     });
-  }, [length]);
+  },[]);
+
+  useEffect(() => {
+    setBFListselect(bflist.slice(offset,offset+length))
+  }, [bflist,offset,length]);
 
   const XMLChange = (event) => {
     setXML(event.target.value);
@@ -147,9 +136,9 @@ const Upload = () => {
 
   const OffsetChange = (event) => {
     setOffset(event.target.value);
-    //uploadapi.getbf(event.target.value, (data) => {
-    //  setBFList(data)
-    //});
+    console.log(length);
+    console.log(event.target.value);
+
     setBFListselect(bflist.slice(event.target.value,event.target.value+length))
   };
 
