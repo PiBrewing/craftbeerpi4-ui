@@ -71,7 +71,7 @@ const getbf = (offset, callback_susscess = () => { }, callback_failed = () => { 
     .post("/upload/bf/" + offset + "/")
     .then(function (response) {
       callback_susscess(response.data);
-    })
+      })
     .catch(function (error) {
       callback_failed();
     });
