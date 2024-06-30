@@ -7,7 +7,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import React from "react";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { Table, TableBody,  TableHead, TableRow } from "@mui/material";
+import { Table, TableBody,  TableRow } from "@mui/material";
 import { useCBPi } from "../data";
 import Badge from "@mui/material/Badge";
 import { notificationapi } from "../data/notificationapi";
@@ -23,6 +23,12 @@ const NotificationsDeleteDialog = () => {
   
   React.useEffect(() => {
     setNotifications(state.allnotifications)
+    if (state.allnotifications.length === 0) {
+    document.title = "Craftbeerpi 4" 
+  }
+    else {
+      document.title = "Craftbeerpi 4".concat(" (", state.allnotifications.length,")")
+    }
   },[state.allnotifications]);
 
   
