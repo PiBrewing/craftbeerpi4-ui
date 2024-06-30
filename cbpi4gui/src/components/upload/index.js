@@ -24,10 +24,22 @@ const useStyles = makeStyles((theme) => ({
 
 
 const SelectBox = ({ options, value, onChange }) => {
-  return (
+  let emptyoptions = []
+  return options ? (
     <>
       <Select variant="standard" labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={onChange}>
         {options.map((item) => (
+          <MenuItem key={item.value} value={item.value}>
+            {item.label}
+          </MenuItem>
+        ))}
+      </Select>
+    </>
+  ) :
+   (
+    <>
+      <Select variant="standard" labelId="demo-simple-select-label" id="demo-simple-select" value={emptyoptions} onChange={onChange}>
+        {emptyoptions.map((item) => (
           <MenuItem key={item.value} value={item.value}>
             {item.label}
           </MenuItem>
@@ -124,13 +136,14 @@ const Upload = () => {
 
   useEffect(() => {
       setBFList(state.bf_recipes[0]);
-      setOffsetlist(state.bf_recipes[1])
-      setLength(state.bf_recipes[2])        
+      setOffsetlist(state.bf_recipes[1]);
+      setLength(state.bf_recipes[2]);
      },[state.bf_recipes]);
 
 
   useEffect(() => {
-    setBFListselect(bflist.slice(offset,offset+length))
+    if (bflist) {
+    setBFListselect(bflist.slice(offset,offset+length))}
   }, [bflist,offset,length]);
 
   const XMLChange = (event) => {
