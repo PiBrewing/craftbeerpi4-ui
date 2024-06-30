@@ -24,10 +24,22 @@ const useStyles = makeStyles((theme) => ({
 
 
 const SelectBox = ({ options, value, onChange }) => {
-  return (
+  let emptyoptions = []
+  return options ? (
     <>
       <Select variant="standard" labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={onChange}>
         {options.map((item) => (
+          <MenuItem key={item.value} value={item.value}>
+            {item.label}
+          </MenuItem>
+        ))}
+      </Select>
+    </>
+  ) :
+   (
+    <>
+      <Select variant="standard" labelId="demo-simple-select-label" id="demo-simple-select" value={emptyoptions} onChange={onChange}>
+        {emptyoptions.map((item) => (
           <MenuItem key={item.value} value={item.value}>
             {item.label}
           </MenuItem>
@@ -80,6 +92,7 @@ const Upload = () => {
   const [xmllist, setXMLList] = useState([]);
   const [jsonlist, setJSONList] = useState([]);
   const [bflist, setBFList] = useState([]);
+  const [bflistlength, setBFListlength] = useState(0);
   const [bflistselect, setBFListselect] = useState([]);
   const [xml, setXML] = useState([]);
   const [json, setJSON] = useState([]);
@@ -87,7 +100,7 @@ const Upload = () => {
   const [bf, setBF] = useState([]);
   const [path, setPath] = useState([]);
   const [offset, setOffset] = useState(0);
-  const [length, setLength] = useState(50)
+  const [length, setLength] = useState(50);
   const [offsetlist,setOffsetlist] = useState([{ 'value': 0, 'label': '0' }]);
 
   useEffect(() => {
@@ -124,13 +137,15 @@ const Upload = () => {
 
   useEffect(() => {
       setBFList(state.bf_recipes[0]);
-      setOffsetlist(state.bf_recipes[1])
-      setLength(state.bf_recipes[2])        
+      setOffsetlist(state.bf_recipes[1]);
+      setLength(state.bf_recipes[2]);
      },[state.bf_recipes]);
 
 
   useEffect(() => {
-    setBFListselect(bflist.slice(offset,offset+length))
+    if (bflist) {
+    setBFListlength(bflist.length)
+    setBFListselect(bflist.slice(offset,offset+length))}
   }, [bflist,offset,length]);
 
   const XMLChange = (event) => {
@@ -151,9 +166,6 @@ const Upload = () => {
 
   const OffsetChange = (event) => {
     setOffset(event.target.value);
-    console.log(length);
-    console.log(event.target.value);
-
     setBFListselect(bflist.slice(event.target.value,event.target.value+length))
   };
 
@@ -278,7 +290,7 @@ const Upload = () => {
               </TableRow>
               <TableRow>
                 <TableCell>
-                  <InputLabel id="demo-simple-select-helper-label">Brewfather Recipes ({length} Items max)</InputLabel>
+                  <InputLabel id="demo-simple-select-helper-label">Brewfather Recipes ({length} Items max at a time. {bflistlength} Recipes total)</InputLabel>
                   <SelectBox options={bflistselect} value={bf} onChange={BFChange} />
                 </TableCell>
                 <TableCell>
