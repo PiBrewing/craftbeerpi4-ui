@@ -120,7 +120,7 @@ export const SensorData = ({ id }) => {
                           <MoreVertIcon />
                           </Button>
                           </Tooltip>
-                          {sensor.type? <SensorActionDialog open={open} onClose={handleClose} model={model} sensor={sensor} /> : ""}
+                          {sensor ? <SensorActionDialog open={open} onClose={handleClose} model={model} sensor={sensor} /> : ""}
                          </div></Tooltip>) : "MISSING CONFIG";
     };
   };
