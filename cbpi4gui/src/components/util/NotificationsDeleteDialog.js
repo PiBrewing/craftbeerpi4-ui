@@ -27,7 +27,7 @@ const NotificationsDeleteDialog = () => {
     document.title = "Craftbeerpi 4" 
   }
     else {
-      document.title = "Craftbeerpi 4".concat(" (", state.allnotifications.length,")")
+      document.title = ("(".concat(state.allnotifications.length,") Craftbeerpi 4"))
     }
   },[state.allnotifications]);
 

@@ -21,6 +21,7 @@ http://localhost:8000#
 
 ### Changelog
 
+- 08.07.24: (0.3.16.a1) Change position of notification information in tab title
 - 01.07.24: (0.3.15) Update Brewfather API calls to V2 API, Add information about # of notifications to tab title
 - 06.06.24: (0.3.14.rc0) Some internal adaptions which require also server version 4.4.1.rc0 (Renaming of CustomSVG properties)
 - 31.05.24: (0.3.14.a7) Added actor dependency possibility to CustomSVG (Different SVG to be displayed depending on actor status). Activated Badge icon to display past 100 notifications
