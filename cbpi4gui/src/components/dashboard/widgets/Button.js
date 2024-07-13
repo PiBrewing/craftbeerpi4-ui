@@ -155,11 +155,11 @@ const ActionButton = ({ action, actorid }) => {
 const ButtonActionDialog = ({ open, onClose, model, actor }) => {
   const type = useActorType(actor.type);
   const { actor: actorid } = model.props;
-  return (
+  return type? (
     <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open}>
       <DialogTitle id="simple-dialog-title">{model.name}</DialogTitle>
       <List>
-        {type.actions.map((action, index) => (
+        {type?.actions.map((action, index) => (
           <ActionButton actorid={actorid} action={action} key={index} />
         ))}
         <ListItemButton color="secondary">
@@ -167,7 +167,7 @@ const ButtonActionDialog = ({ open, onClose, model, actor }) => {
         </ListItemButton>
       </List>
     </Dialog>
-  );
+  ) : ("");
 };
 
 export const DashboardButton = ({ id, width, height }) => {
