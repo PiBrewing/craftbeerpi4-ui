@@ -208,6 +208,12 @@ const PathSettings = () => {
       }
     };
 
+    const handleChangeWidth = (e, property) => {
+      if (property === "width"){
+        actions.update_path_width(selected_id, e.target.value);
+      }
+    };
+
   useEffect(() => {
     setSelectedType(() => state.selected?.type);
   }, [state.selected]);
@@ -232,6 +238,9 @@ const PathSettings = () => {
           overflowY: "scroll",
         }}
       >
+        Width
+        <TextField variant="standard" type="number" label="Path width" fullWidth value={item?.condition?.stroke} InputProps={{inputProps: { max: 50, min: 1 }}} onChange={(e) => handleChangeWidth(e, "width")} />
+
         Flow Left
         <List disableGutters={true} dense component="nav" aria-label="main mailbox folders">
           {actor.map((item) => (

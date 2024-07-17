@@ -117,7 +117,7 @@ export const DashboardProvider = ({ children }) => {
       
       setElements({ ...data_model });
       setElements2(data_model2);  
-      let dm = data.pathes.map((v) => ({ ...v, instance: <Path key={v.id} id={v.id} coordinates={v.coordinates} condition={v.condition} max_x={width} max_y={height} gridxy={currentgrid} /> }));
+      let dm = data.pathes.map((v) => ({ ...v, instance: <Path key={v.id} id={v.id} coordinates={v.coordinates} condition={v.condition} stroke={v.stroke} max_x={width} max_y={height} gridxy={currentgrid} /> }));
 
       setPathes(dm);
     });
@@ -214,6 +214,16 @@ export const DashboardProvider = ({ children }) => {
     setPathes([...temp_pathes]);
   };
 
+
+  const update_path_width = (id, width) => {
+    const index = pathes.findIndex((e) => e.id === id);
+    const temp_pathes = [...pathes];
+    temp_pathes[index].condition.stroke = width;
+    //console.log("data temp_pathes : ")
+    //console.log(temp_pathes[index])
+    setPathes([...temp_pathes]);
+  };
+
   const add = (item) => {
     const id = uuidv4();
     var props = item.props.reduce((obj, item) => Object.assign(obj, { [item.name]: item.default }), {});
@@ -242,7 +252,7 @@ export const DashboardProvider = ({ children }) => {
       [100, 10],
       [100, 110],
     ];
-    const conditionInitData = {left: [], right: [], leftExpression:"", rightExpression:"" };
+    const conditionInitData = {left: [], right: [], leftExpression:"", rightExpression:"" , stroke: 10};
     //setPathes([...pathes, { id, path: data, instance: <Path id={id} coordinates={data} condition={conditionInitData} max_x={width} max_y={height} /> }]);
     setPathes([...pathes, { id, path: data, condition: conditionInitData, instance: <Path id={id} coordinates={data} condition={conditionInitData} max_x={width} max_y={height} gridxy={currentgrid}/> }]);
     //console.log("DEBUG PAHT ADD : ")
@@ -262,6 +272,7 @@ export const DashboardProvider = ({ children }) => {
     // let p = pathes.map((value) => ({ id: value.id, coordinates: value.coordinates, condition: value.condition }));
     var p = [];
     pathes.forEach(function(value) {  // remove pathes with empty coordinates
+      //console.log(value)
         if (value.coordinates.length !== 0) {
             var newValue = {id: value.id, coordinates: value.coordinates, condition: value.condition };
             p.push(newValue);
@@ -308,6 +319,7 @@ export const DashboardProvider = ({ children }) => {
       update_default_prop,
       update_prop,
       update_path_condition,
+      update_path_width,
       update_path_condition_exp, // New Method added for the boolean expression
       update_coordinates,
       setDraggable,
