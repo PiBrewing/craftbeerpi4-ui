@@ -215,6 +215,16 @@ const PathSettings = () => {
       if (property === "corner"){
         actions.update_path_corner(selected_id, e.target.value);
       }
+      if (property === "opacity"){
+        if (e.target.value){
+        actions.update_path_opacity(selected_id, e.target.value)}
+        else {
+          actions.update_path_opacity(selected_id, "yes")
+        }
+      }
+      if (property === "color"){
+        actions.update_path_color(selected_id, e.target.value);
+      }
     };
 
   useEffect(() => {
@@ -243,9 +253,12 @@ const PathSettings = () => {
       >
         Width
         <TextField variant="standard" type="number" label="Path width" fullWidth value={item?.condition?.stroke} InputProps={{inputProps: { max: 50, min: 1 }}} onChange={(e) => handleChangeProps(e, "width")} />
-
         Corner
-        <SelectInput label="Pipe Corner" value={item?.condition?.corner} onChange={(e) => handleChangeProps(e, "corner")} options={["round","miter","bevel"]} />
+        <SelectInput label="Pipe Corner" key="Corner" value={item?.condition?.corner} onChange={(e) => handleChangeProps(e, "corner")} options={["round","miter","bevel"]} />
+        Opacity
+        <SelectInput label="Pipe Opacity" key="Opacity" value={item?.condition?.opacity} onChange={(e) => handleChangeProps(e, "opacity")} options={["yes","no"]} />
+        Color
+        <TextField variant="standard"  label="Color (default: #4A4A4A)" fullWidth value={item?.condition?.color || "#4A4A4A"} onChange={(e) => handleChangeProps(e, "color")} />
         Flow Left
         <List disableGutters={true} dense component="nav" aria-label="main mailbox folders">
           {actor.map((item) => (

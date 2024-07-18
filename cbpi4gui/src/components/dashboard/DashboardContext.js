@@ -233,6 +233,24 @@ export const DashboardProvider = ({ children }) => {
     setPathes([...temp_pathes]);
   };
 
+  const update_path_opacity = (id, opacity) => {
+    const index = pathes.findIndex((e) => e.id === id);
+    const temp_pathes = [...pathes];
+    temp_pathes[index].condition.opacity = opacity;
+    //console.log("data temp_pathes : ")
+    //console.log(temp_pathes[index])
+    setPathes([...temp_pathes]);
+  };
+
+  const update_path_color = (id, color) => {
+    const index = pathes.findIndex((e) => e.id === id);
+    const temp_pathes = [...pathes];
+    temp_pathes[index].condition.color = color;
+    //console.log("data temp_pathes : ")
+    //console.log(temp_pathes[index])
+    setPathes([...temp_pathes]);
+  };
+
   const add = (item) => {
     const id = uuidv4();
     var props = item.props.reduce((obj, item) => Object.assign(obj, { [item.name]: item.default }), {});
@@ -261,7 +279,7 @@ export const DashboardProvider = ({ children }) => {
       [100, 10],
       [100, 110],
     ];
-    const conditionInitData = {left: [], right: [], leftExpression:"", rightExpression:"" , stroke: 10, corner:"round"};
+    const conditionInitData = {left: [], right: [], leftExpression:"", rightExpression:"" , stroke: 10, corner:"round", opacity:"yes", color:"#4A4A4A"};
     //setPathes([...pathes, { id, path: data, instance: <Path id={id} coordinates={data} condition={conditionInitData} max_x={width} max_y={height} /> }]);
     setPathes([...pathes, { id, path: data, condition: conditionInitData, instance: <Path id={id} coordinates={data} condition={conditionInitData} max_x={width} max_y={height} gridxy={currentgrid}/> }]);
     //console.log("DEBUG PAHT ADD : ")
@@ -330,6 +348,8 @@ export const DashboardProvider = ({ children }) => {
       update_path_condition,
       update_path_width,
       update_path_corner,
+      update_path_opacity,
+      update_path_color,
       update_path_condition_exp, // New Method added for the boolean expression
       update_coordinates,
       setDraggable,
