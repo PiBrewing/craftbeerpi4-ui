@@ -3,7 +3,7 @@ import { useActor } from "../../data";
 import classNames from 'classnames';
 import { DashboardContext } from "../DashboardContext";
 
-export const Path = ({ id, coordinates, condition = {left: [], right: [], leftExpression:null, rightExpression:null, stroke:10 }, max_x = 400, max_y = 600, gridxy = 5}) => {
+export const Path = ({ id, coordinates, condition = {left: [], right: [], leftExpression:null, rightExpression:null, stroke:10, conrner:"round" }, max_x = 400, max_y = 600, gridxy = 5}) => {
   const { state, actions } = useContext(DashboardContext);
   const actor = useActor();
   const [data, setData] = useState(coordinates);
@@ -21,6 +21,11 @@ export const Path = ({ id, coordinates, condition = {left: [], right: [], leftEx
 
   if (!p.condition.stroke){
     p.condition.stroke=10
+  }
+
+  
+  if (!p.condition.corner){
+    p.condition.corner="round"
   }
 
   useEffect(() => {
@@ -283,9 +288,9 @@ export const Path = ({ id, coordinates, condition = {left: [], right: [], leftEx
   return (
     <>
       <g key={id}>
-        <path d={gen_path()} id="1" fill="none" stroke="#9A9A9A" strokeLinejoin="round" strokeWidth={condition.stroke} pointerEvents="stroke"></path>
-        <path className={state.slowPipeAnimation ? animation : animationFast} strokeLinejoin="round" d={gen_path()} fill="none" stroke="#4A4A4A" strokeWidth={condition.stroke - 2} strokeMiterlimit="10" pointerEvents="stroke"></path>
-        <path onPointerDown={(e) => select(e)} d={gen_path()} fill="none" strokeOpacity={glow()} stroke="blue" strokeLinejoin="round" strokeWidth={condition.stroke} pointerEvents="stroke"></path>
+        <path d={gen_path()} id="1" fill="none" stroke="#9A9A9A" stroke-opacity="1" strokeLinejoin={condition.corner} strokeWidth={condition.stroke} pointerEvents="stroke"></path>
+        <path className={state.slowPipeAnimation ? animation : animationFast} stroke-opacity="1" strokeLinejoin={condition.corner} d={gen_path()} fill="none" stroke="#4A4A4A" strokeWidth={condition.stroke - 2} strokeMiterlimit="10" pointerEvents="stroke"></path>
+        <path onPointerDown={(e) => select(e)} d={gen_path()} fill="none" strokeOpacity={glow()} stroke="blue" strokeLinejoin={condition.corner} strokeWidth={condition.stroke} pointerEvents="stroke"></path>
         {is_acktive() ? handle() : ""}
         {is_acktive() ? render_handles() : ""}
       </g>

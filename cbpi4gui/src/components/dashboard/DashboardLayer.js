@@ -208,9 +208,12 @@ const PathSettings = () => {
       }
     };
 
-    const handleChangeWidth = (e, property) => {
+    const handleChangeProps = (e, property) => {
       if (property === "width"){
         actions.update_path_width(selected_id, e.target.value);
+      }
+      if (property === "corner"){
+        actions.update_path_corner(selected_id, e.target.value);
       }
     };
 
@@ -239,8 +242,10 @@ const PathSettings = () => {
         }}
       >
         Width
-        <TextField variant="standard" type="number" label="Path width" fullWidth value={item?.condition?.stroke} InputProps={{inputProps: { max: 50, min: 1 }}} onChange={(e) => handleChangeWidth(e, "width")} />
+        <TextField variant="standard" type="number" label="Path width" fullWidth value={item?.condition?.stroke} InputProps={{inputProps: { max: 50, min: 1 }}} onChange={(e) => handleChangeProps(e, "width")} />
 
+        Corner
+        <SelectInput label="Pipe Corner" value={item?.condition?.corner} onChange={(e) => handleChangeProps(e, "corner")} options={["round","miter","bevel"]} />
         Flow Left
         <List disableGutters={true} dense component="nav" aria-label="main mailbox folders">
           {actor.map((item) => (
