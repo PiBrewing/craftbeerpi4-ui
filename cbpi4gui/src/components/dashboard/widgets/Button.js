@@ -180,26 +180,14 @@ export const DashboardButton = ({ id, width, height }) => {
   const [open, setOpen] = useState(false);
   const [boom, setBoom] = useState(false);
   const [powerOpen, setPowerOpen] = useState(false);
-  const config = {
-    angle: 90,
-    spread: 360,
-    startVelocity: 40,
-    elementCount: 70,
-    dragFriction: 0.12,
-    duration: 3000,
-    stagger: 3,
-    width: "10px",
-    height: "10px",
-    perspective: "500px",
-    colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
-  };
+
   
 
   return useMemo(() => {
     let cssStyle = { width: model.width + "px", height: model.height + "px" };
     let btnColor = actor?.state ? "primary" : "primary";
     let btnVariant = actor?.state ? "contained" : "outlined";
-    let timedIconOff = (actor?.props.delay_type == "switch-off delay") ? true : false;
+    let timedIconOff = (actor?.props.delay_type === "switch-off delay") ? true : false;
     
     const toggle = () => {
       if (!draggable && model.props?.actor) {
@@ -258,6 +246,16 @@ export const DashboardButton = ({ id, width, height }) => {
       }
     };
 
+    const power_bar = () => {
+      if (model.props?.actor && actor) {
+        if(actor.power >= 0 && actor.power <=100)
+          return actor.power;
+      } 
+      else {
+        return 0;
+      }
+    };
+
     const size = () => {
       if (model.props?.size) {
         let css={ fontSize: model.props.size+"px"};
@@ -295,6 +293,7 @@ export const DashboardButton = ({ id, width, height }) => {
               </Button>
               </Tooltip>
             </ButtonGroup>
+            <LinearProgress variant="determinate" value={power_bar()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
             <ButtonActionDialog open={open} onClose={handleClose} model={model} actor={actor} />
             <PowerDialog onClose={PowerSliderClose} actor={actor} open={powerOpen} />
           </div>
@@ -316,6 +315,7 @@ export const DashboardButton = ({ id, width, height }) => {
               </Button>
               </Tooltip>
             </ButtonGroup>
+            <LinearProgress variant="determinate" value={power_bar()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
             <ButtonActionDialog open={open} onClose={handleClose} model={model} actor={actor} />
           </div>
         );
@@ -354,6 +354,7 @@ export const DashboardButton = ({ id, width, height }) => {
             <Button disabled={draggable} onClick={PowerSliderOpen} color="primary" startIcon={<BoltIcon />} size="small" aria-label="select merge strategy" aria-haspopup="menu"></Button>
             </Tooltip>
             </ButtonGroup>
+            <LinearProgress variant="determinate" value={power_bar()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
             <PowerDialog onClose={PowerSliderClose} actor={actor} open={powerOpen} />
           </div>
         );
@@ -367,6 +368,7 @@ export const DashboardButton = ({ id, width, height }) => {
             <div style={size()}> {name()} ({power()}) </div>
             </Button>
             </Tooltip>
+            <LinearProgress variant="determinate" value={power_bar()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
             </div>
         );
       }
