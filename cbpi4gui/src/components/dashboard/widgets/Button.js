@@ -8,6 +8,7 @@ import { actorapi } from "../../data/actorapi";
 import PropsEdit from "../../util/PropsEdit";
 import { ListItemButton, Tooltip} from "@mui/material";
 import BoltIcon from '@mui/icons-material/Bolt';
+import LinearProgress from '@mui/material/LinearProgress';
 
 
 const PowerDialog = ({ onClose, actor, open }) => {
@@ -179,13 +180,26 @@ export const DashboardButton = ({ id, width, height }) => {
   const [open, setOpen] = useState(false);
   const [boom, setBoom] = useState(false);
   const [powerOpen, setPowerOpen] = useState(false);
-
+  const config = {
+    angle: 90,
+    spread: 360,
+    startVelocity: 40,
+    elementCount: 70,
+    dragFriction: 0.12,
+    duration: 3000,
+    stagger: 3,
+    width: "10px",
+    height: "10px",
+    perspective: "500px",
+    colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
+  };
   
 
   return useMemo(() => {
     let cssStyle = { width: model.width + "px", height: model.height + "px" };
     let btnColor = actor?.state ? "primary" : "primary";
     let btnVariant = actor?.state ? "contained" : "outlined";
+    let timedIconOff = (actor?.props.delay_type == "switch-off delay") ? true : false;
     
     const toggle = () => {
       if (!draggable && model.props?.actor) {
@@ -199,6 +213,38 @@ export const DashboardButton = ({ id, width, height }) => {
         return model.name;
       } else {
         return "Missing Config";
+      }
+    };
+
+    const timedactor = () => {
+      if (model.props?.actor && actor) {
+            return actor.type.includes("TimedActor");
+      }
+      else {
+          return false;
+      }
+    };
+
+    const progress = () => {
+      if (model.props?.actor && actor) {
+        return 100 / Number(actor.props.delay_time) * actor.timer;
+      } 
+      else {
+        return 100;
+      }
+    };
+
+    const timer = () => {
+      if (model.props?.actor && actor) {
+        if (timedIconOff) {
+          return actor.timer + " s";
+        }
+        else {
+          return actor.timer + "/" + actor.props.delay_time + " s";
+        }
+      } 
+      else {
+        return "NV";
       }
     };
 
@@ -228,6 +274,7 @@ export const DashboardButton = ({ id, width, height }) => {
     const PowerSliderClose = () => setPowerOpen(false);
     const PowerSliderOpen = () => setPowerOpen(true);
 
+    if (!timedactor()) {
     if (action === "yes" && actor) {
       if (powerslider === "yes" && power()) 
       {
@@ -331,6 +378,15 @@ export const DashboardButton = ({ id, width, height }) => {
           </Button>
         </div>
       )}
-    }
+    }}
+    else{
+      return (
+      <div style={cssStyle}>
+        <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor} style={{borderRadius: '0px'}} >
+        <div style={size()}> {name()} ({timer()}) </div>
+        </Button>
+        <LinearProgress variant="determinate" value={progress()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
+      </div>
+    )}
   }, [model.props?.actor, model.props?.size, model.props?.action, powerslider, model.name, actor, actor?.power, id, open, powerOpen,draggable]);
 };
