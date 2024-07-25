@@ -39,6 +39,7 @@ export const CBPiProvider = ({ children }) => {
   const [fermenterlogic, setFermenterLogic] = useState([]);
   const [fermentersteps, setFermenterSteps] = useState([]);
   const [connection, setConnection] = useState(false);
+  const [bf_recipes,setBF_recipes] = useState([]);
 
   const onMessage = useCallback((data) => {
     //console.log("WS", data);
@@ -83,6 +84,10 @@ export const CBPiProvider = ({ children }) => {
       case "notificationupdate":
           setAllNotifiactions(() => data.data);
           break;
+      case "bfupdate":
+          setBF_recipes(() => data.data);
+          //console.log(data.data)
+          break;
       default:
         break;
     }
@@ -120,6 +125,7 @@ export const CBPiProvider = ({ children }) => {
       setAuth(true);
       setConnection(true);
       setAllNotifiactions(data.notifications);
+      setBF_recipes(data.bf_recipes);
       });
   }, []);
 
@@ -163,7 +169,7 @@ export const CBPiProvider = ({ children }) => {
 
   const value = {
     state: { sensors, version, guiversion, codename, actors, logic, kettle, fermenter, fermenterlogic, auth, plugins, temp, sensorData, sensorDataType, sensorInRange,
-             actorTypes, sensorTypes, config, mashProfile, fermentersteps, FermenterProfile, mashBasic, stepTypes, stepTypesFermenter, connection, allnotifications },
+             actorTypes, sensorTypes, config, mashProfile, fermentersteps, FermenterProfile, mashBasic, stepTypes, stepTypesFermenter, connection, allnotifications, bf_recipes },
     actions: {
       delete_kettle,
       add_kettle,

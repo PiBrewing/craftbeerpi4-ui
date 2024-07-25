@@ -3,7 +3,7 @@ import { useActor } from "../../data";
 import classNames from 'classnames';
 import { DashboardContext } from "../DashboardContext";
 
-export const Path = ({ id, coordinates, condition = {left: [], right: [], leftExpression:null, rightExpression:null }, stroke = 10, max_x = 400, max_y = 600, gridxy = 5}) => {
+export const Path = ({ id, coordinates, condition = {left: [], right: [], leftExpression:null, rightExpression:null, stroke:10, corner:"round", opacity: "yes", color:"#4A4A4A" }, max_x = 400, max_y = 600, gridxy = 5}) => {
   const { state, actions } = useContext(DashboardContext);
   const actor = useActor();
   const [data, setData] = useState(coordinates);
@@ -18,6 +18,22 @@ export const Path = ({ id, coordinates, condition = {left: [], right: [], leftEx
   const [animationFast, setAnimationFast] = useState("");
   
   const p = state.pathes.find((e) => e.id === id);
+
+  if (!p.condition.stroke){
+    p.condition.stroke=10
+  }
+  
+  if (!p.condition.corner){
+    p.condition.corner="round"
+  }
+
+  if (!p.condition.opacity){
+    p.condition.opacity="yes"
+  }
+
+  if (!p.condition.opacity){
+    p.condition.color="#4A4A4A"
+  }
 
   useEffect(() => {
 	if (state.draggable) {
@@ -267,8 +283,8 @@ export const Path = ({ id, coordinates, condition = {left: [], right: [], leftEx
     actions.setSelected((current) => ({ type: "P", id }));
   };
 
-  const glow = () => (is_acktive() ? "10%" : "0%");
-  const is_acktive = () => draggable ? actions.is_selected(id) : false;
+  const glow = () => (is_active() ? "10%" : "0%");
+  const is_active = () => draggable ? actions.is_selected(id) : false;
   
   useEffect(() => {
   // animation only if not draggable
@@ -276,15 +292,34 @@ export const Path = ({ id, coordinates, condition = {left: [], right: [], leftEx
     setAnimationFast(state.draggable ? "" : classNames({ flowLeftFast: flowLeft }, { flowRightFast: flowRight }));
   }, [state.draggable, flowLeft, flowRight]);
   
+  if (condition.opacity === "no"){
   return (
     <>
       <g key={id}>
-        <path d={gen_path()} id="1" fill="none" stroke="#9A9A9A" strokeLinejoin="round" strokeWidth={stroke} pointerEvents="stroke"></path>
-        <path className={state.slowPipeAnimation ? animation : animationFast} strokeLinejoin="round" d={gen_path()} fill="none" stroke="#4A4A4A" strokeWidth={stroke - 2} strokeMiterlimit="10" pointerEvents="stroke"></path>
-        <path onPointerDown={(e) => select(e)} d={gen_path()} fill="none" strokeOpacity={glow()} stroke="blue" strokeLinejoin="round" strokeWidth={stroke + 10} pointerEvents="stroke"></path>
-        {is_acktive() ? handle() : ""}
-        {is_acktive() ? render_handles() : ""}
+        <path d={gen_path()} id="1" fill="none" stroke="#9A9A9A" stroke-opacity="0.1" strokeLinejoin={condition.corner} strokeWidth={condition.stroke} pointerEvents="stroke"></path>
+        <path className={state.slowPipeAnimation ? animation : animationFast} stroke-opacity={animation?  "0.5" : "0.2"} strokeLinejoin={condition.corner} d={gen_path()} fill="none" stroke={condition.color} strokeWidth={condition.stroke - 2} strokeMiterlimit="10" pointerEvents="stroke"></path>
+        <path onPointerDown={(e) => select(e)} d={gen_path()} fill="none" strokeOpacity={glow()} stroke="blue" strokeLinejoin={condition.corner} strokeWidth={condition.stroke} pointerEvents="stroke"></path>
+        {is_active() ? handle() : ""}
+        {is_active() ? render_handles() : ""}
+
+        
       </g>
     </>
-  );
+  );}
+  else{
+    return (
+      <>
+        <g key={id}>
+          <path d={gen_path()} id="1" fill="none" stroke="#9A9A9A" stroke-opacity="1" strokeLinejoin={condition.corner} strokeWidth={condition.stroke} pointerEvents="stroke"></path>
+          <path className={state.slowPipeAnimation ? animation : animationFast} stroke-opacity="1" strokeLinejoin={condition.corner} d={gen_path()} fill="none" stroke={condition.color} strokeWidth={condition.stroke - 2} strokeMiterlimit="10" pointerEvents="stroke"></path>
+          <path onPointerDown={(e) => select(e)} d={gen_path()} fill="none" strokeOpacity={glow()} stroke="blue" strokeLinejoin={condition.corner} strokeWidth={condition.stroke} pointerEvents="stroke"></path>
+          {is_active() ? handle() : ""}
+          {is_active() ? render_handles() : ""}
+  
+          
+        </g>
+      </>
+    );
+
+  }
 };

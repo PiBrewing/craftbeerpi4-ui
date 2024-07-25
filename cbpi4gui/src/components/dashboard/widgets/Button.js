@@ -8,6 +8,7 @@ import { actorapi } from "../../data/actorapi";
 import PropsEdit from "../../util/PropsEdit";
 import { ListItemButton, Tooltip} from "@mui/material";
 import BoltIcon from '@mui/icons-material/Bolt';
+import LinearProgress from '@mui/material/LinearProgress';
 
 
 const PowerDialog = ({ onClose, actor, open }) => {
@@ -155,11 +156,11 @@ const ActionButton = ({ action, actorid }) => {
 const ButtonActionDialog = ({ open, onClose, model, actor }) => {
   const type = useActorType(actor.type);
   const { actor: actorid } = model.props;
-  return (
+  return type? (
     <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open}>
       <DialogTitle id="simple-dialog-title">{model.name}</DialogTitle>
       <List>
-        {type.actions.map((action, index) => (
+        {type?.actions.map((action, index) => (
           <ActionButton actorid={actorid} action={action} key={index} />
         ))}
         <ListItemButton color="secondary">
@@ -167,7 +168,7 @@ const ButtonActionDialog = ({ open, onClose, model, actor }) => {
         </ListItemButton>
       </List>
     </Dialog>
-  );
+  ) : ("");
 };
 
 export const DashboardButton = ({ id, width, height }) => {
@@ -186,6 +187,7 @@ export const DashboardButton = ({ id, width, height }) => {
     let cssStyle = { width: model.width + "px", height: model.height + "px" };
     let btnColor = actor?.state ? "primary" : "primary";
     let btnVariant = actor?.state ? "contained" : "outlined";
+    let timedIconOff = (actor?.props.delay_type === "switch-off delay") ? true : false;
     
     const toggle = () => {
       if (!draggable && model.props?.actor) {
@@ -202,6 +204,38 @@ export const DashboardButton = ({ id, width, height }) => {
       }
     };
 
+    const timedactor = () => {
+      if (model.props?.actor && actor) {
+            return actor.type.includes("TimedActor");
+      }
+      else {
+          return false;
+      }
+    };
+
+    const progress = () => {
+      if (model.props?.actor && actor) {
+        return 100 / Number(actor.props.delay_time) * actor.timer;
+      } 
+      else {
+        return 100;
+      }
+    };
+
+    const timer = () => {
+      if (model.props?.actor && actor) {
+        if (timedIconOff) {
+          return actor.timer + " s";
+        }
+        else {
+          return actor.timer + "/" + actor.props.delay_time + " s";
+        }
+      } 
+      else {
+        return "NV";
+      }
+    };
+
     const power = () => {
       if (model.props?.actor && actor) {
         if(actor.power >= 0 && actor.power <=100)
@@ -209,6 +243,16 @@ export const DashboardButton = ({ id, width, height }) => {
       } 
       else {
         return "NV";
+      }
+    };
+
+    const power_bar = () => {
+      if (model.props?.actor && actor) {
+        if(actor.power >= 0 && actor.power <=100)
+          return actor.power;
+      } 
+      else {
+        return 0;
       }
     };
 
@@ -228,6 +272,7 @@ export const DashboardButton = ({ id, width, height }) => {
     const PowerSliderClose = () => setPowerOpen(false);
     const PowerSliderOpen = () => setPowerOpen(true);
 
+    if (!timedactor()) {
     if (action === "yes" && actor) {
       if (powerslider === "yes" && power()) 
       {
@@ -248,6 +293,7 @@ export const DashboardButton = ({ id, width, height }) => {
               </Button>
               </Tooltip>
             </ButtonGroup>
+            <LinearProgress variant="determinate" value={power_bar()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
             <ButtonActionDialog open={open} onClose={handleClose} model={model} actor={actor} />
             <PowerDialog onClose={PowerSliderClose} actor={actor} open={powerOpen} />
           </div>
@@ -269,6 +315,7 @@ export const DashboardButton = ({ id, width, height }) => {
               </Button>
               </Tooltip>
             </ButtonGroup>
+            <LinearProgress variant="determinate" value={power_bar()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
             <ButtonActionDialog open={open} onClose={handleClose} model={model} actor={actor} />
           </div>
         );
@@ -307,6 +354,7 @@ export const DashboardButton = ({ id, width, height }) => {
             <Button disabled={draggable} onClick={PowerSliderOpen} color="primary" startIcon={<BoltIcon />} size="small" aria-label="select merge strategy" aria-haspopup="menu"></Button>
             </Tooltip>
             </ButtonGroup>
+            <LinearProgress variant="determinate" value={power_bar()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
             <PowerDialog onClose={PowerSliderClose} actor={actor} open={powerOpen} />
           </div>
         );
@@ -320,6 +368,7 @@ export const DashboardButton = ({ id, width, height }) => {
             <div style={size()}> {name()} ({power()}) </div>
             </Button>
             </Tooltip>
+            <LinearProgress variant="determinate" value={power_bar()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
             </div>
         );
       }
@@ -331,6 +380,15 @@ export const DashboardButton = ({ id, width, height }) => {
           </Button>
         </div>
       )}
-    }
+    }}
+    else{
+      return (
+      <div style={cssStyle}>
+        <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor} style={{borderRadius: '0px'}} >
+        <div style={size()}> {name()} ({timer()}) </div>
+        </Button>
+        <LinearProgress variant="determinate" value={progress()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
+      </div>
+    )}
   }, [model.props?.actor, model.props?.size, model.props?.action, powerslider, model.name, actor, actor?.power, id, open, powerOpen,draggable]);
 };

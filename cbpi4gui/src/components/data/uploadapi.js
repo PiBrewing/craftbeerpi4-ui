@@ -71,7 +71,18 @@ const getbf = (offset, callback_susscess = () => { }, callback_failed = () => { 
     .post("/upload/bf/" + offset + "/")
     .then(function (response) {
       callback_susscess(response.data);
-    })
+      })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
+const getbfupdate = (callback_susscess = () => { }, callback_failed = () => { }) => {
+  axios
+    .get("/upload/bfupdate")
+    .then(function (response) {
+      callback_susscess(response.data);
+      })
     .catch(function (error) {
       callback_failed();
     });
@@ -126,6 +137,7 @@ export const uploadapi = {
   getjson,
   sendJSON,
   getbf,
+  getbfupdate,
   sendBF,
   sendFile,
   getpath,

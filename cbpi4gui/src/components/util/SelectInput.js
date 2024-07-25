@@ -15,7 +15,7 @@ export const SelectInput = ({ label, description="", options=[], value, onChange
             </MenuItem>
           ))}
         </Select>
-        <FormHelperText>{description}111</FormHelperText>
+        <FormHelperText>{description}</FormHelperText>
       </>
     );
   };
