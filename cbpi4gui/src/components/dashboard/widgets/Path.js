@@ -3,7 +3,7 @@ import { useActor } from "../../data";
 import classNames from 'classnames';
 import { DashboardContext } from "../DashboardContext";
 
-export const Path = ({ id, coordinates, condition = {left: [], right: [], leftExpression:null, rightExpression:null, stroke:10, corner:"round", opacity: "yes", color:"#4A4A4A" }, max_x = 400, max_y = 600, gridxy = 5}) => {
+export const Path = ({ id, coordinates, condition = {left: [], right: [], leftExpression:null, rightExpression:null, stroke:10, corner:"round", opacity: "yes", color: "#4A4A4A" }, max_x = 400, max_y = 600, gridxy = 5}) => {
   const { state, actions } = useContext(DashboardContext);
   const actor = useActor();
   const [data, setData] = useState(coordinates);
@@ -31,7 +31,7 @@ export const Path = ({ id, coordinates, condition = {left: [], right: [], leftEx
     p.condition.opacity="yes"
   }
 
-  if (!p.condition.opacity){
+  if (!p.condition.color){
     p.condition.color="#4A4A4A"
   }
 
