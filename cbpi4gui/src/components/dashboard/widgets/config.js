@@ -90,7 +90,7 @@ export const widget_list = [
     props: [{ name: "actor", default: "", type: "actor" },
     { name: "size", default: "12", type: "text", unit: "pt" },
     { name: "action", options: ["yes", "no"], default: "No", type: "select" },
-    { name: "powerslider", options: ["yes", "no"], default: "No", type: "select" }
+    { name: "powerslider", options: ["Power","Output", "No"], default: "No", type: "select" }
   ],
   },
   {

@@ -150,6 +150,7 @@ export const CBPiProvider = ({ children }) => {
   const delete_actor = (id, onSuccess = () => {}, onError = () => {}) => actorapi.remove(id, onSuccess, onError);
   const get_actor_by_id = (id) => actors.find((item) => item.id === id);
   const set_actor_power = useEventCallback((id, power) => actorapi.set_power(id, power), []);
+  const set_actor_output = useEventCallback((id, output) => actorapi.set_output(id, output), []);
 
   const toggle_actor = useEventCallback((id) => {
     const actor = get_actor_by_id(id);
@@ -188,6 +189,7 @@ export const CBPiProvider = ({ children }) => {
       toggle_actor,
       get_actor_by_id,
       set_actor_power,
+      set_actor_output,
       add_sensor,
       update_sensor,
       delete_sensor,

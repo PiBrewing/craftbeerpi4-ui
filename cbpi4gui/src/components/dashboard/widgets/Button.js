@@ -11,11 +11,12 @@ import BoltIcon from '@mui/icons-material/Bolt';
 import LinearProgress from '@mui/material/LinearProgress';
 
 
-const PowerDialog = ({ onClose, actor, open }) => {
-  const [value, setValue] = useState(actor?.power || 100);
-  const [minval, setMinval] = useState(0);
-  const [maxval, setMaxval] = useState(100);
-  const [marks, setMarks] = useState(
+const PowerDialog = ({ onClose, actor, open, type }) => {
+  
+  const [powervalue, setPowerValue] = useState(actor?.power || 100);
+  const [powerminval, setPowerMinval] = useState(0);
+  const [powermaxval, setPowerMaxval] = useState(100);
+  const [powermarks, setPowerMarks] = useState(
     [
       {
         value: 0,
@@ -40,11 +41,53 @@ const PowerDialog = ({ onClose, actor, open }) => {
     ]
   );
 
+  const [outputvalue, setOutputValue] = useState(actor?.output || 100);
+  const [outputminval, setOutputMinval] = useState(0);
+  const [outputmaxval, setOutputMaxval] = useState(actor?.maxoutput || 100);
+  const [outputmarks, setOutputMarks] = useState(
+    [
+      {}
+            ]
+  );
+
 
   const {actions} = useCBPi()
+  
   useEffect(()=>{
-    setValue(actor?.power)
-  },[])
+    setPowerValue(actor?.power)
+  },[actor?.power])
+
+  useEffect(()=>{
+    setOutputMarks(
+      [
+        {
+          value: 0,
+          label: "0",
+        },
+        {
+          value: Math.round(actor?.maxoutput*0.25),
+          label: Math.round(actor?.maxoutput*0.25),
+        },
+        {
+          value: Math.round(actor?.maxoutput/2),
+          label: Math.round(actor?.maxoutput/2),
+        },
+        {
+          value: Math.round(actor?.maxoutput*0.75),
+          label: Math.round(actor?.maxoutput*0.75),
+        },
+        {
+          value: actor?.maxoutput,
+          label: actor?.maxoutput,
+        },
+              ]
+
+    )
+  },[actor?.maxoutput])
+
+  useEffect(()=>{
+    setOutputValue(actor?.output)
+  },[actor?.output])
 
   if (!actor) return "";
 
@@ -52,16 +95,26 @@ const PowerDialog = ({ onClose, actor, open }) => {
     onClose();
   };
 
-  const handleSet = () => {
-    actions.set_actor_power(actor.id, value)
+  const PowerSet = () => {
+    actions.set_actor_power(actor.id, powervalue)
     onClose();
   };
 
-  
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const OutputSet = () => {
+    //console.log(outputvalue)
+    actions.set_actor_output(actor.id, outputvalue)
+    onClose();
   };
 
+  const PowerChange = (event, newValue) => {
+    setPowerValue(newValue);
+  };
+
+  const OutputChange = (event, newValue) => {
+    setOutputValue(newValue);
+  };
+
+  if (type === "Power" || type === "yes"){
   return (
     <Dialog fullWidth onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
       <DialogTitle id="simple-dialog-title">Set Power {actor.name} </DialogTitle>
@@ -69,15 +122,15 @@ const PowerDialog = ({ onClose, actor, open }) => {
         <DialogContentText id="alert-dialog-description">
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
             <Typography variant="h2" component="h2" gutterBottom>
-              {value}%
+              {powervalue}%
             </Typography>
           </div>
-          <Slider min={minval} max={maxval} marks={marks} step={1} value={value} onChange={handleChange} aria-labelledby="continuous-slider" />
+          <Slider min={powerminval} max={powermaxval} marks={powermarks} step={1} value={powervalue} onChange={PowerChange} aria-labelledby="continuous-slider" />
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
             <Button variant="contained" onClick={handleClose} color="secondary" autoFocus>
               Cancel
             </Button>
-            <Button variant="contained" onClick={handleSet} color="primary" autoFocus
+            <Button variant="contained" onClick={PowerSet} color="primary" autoFocus
               >
               Set
             </Button>
@@ -86,7 +139,34 @@ const PowerDialog = ({ onClose, actor, open }) => {
       </DialogContent>
       <DialogActions></DialogActions>
     </Dialog>
-  );
+  )}
+  if (type === "Output"){
+    return (
+      <Dialog fullWidth onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+        <DialogTitle id="simple-dialog-title">Set Power {actor.name} </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Typography variant="h2" component="h2" gutterBottom>
+                {outputvalue}
+              </Typography>
+            </div>
+            <Slider min={outputminval} max={outputmaxval} marks={outputmarks} step={1} value={outputvalue} onChange={OutputChange} aria-labelledby="continuous-slider" />
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Button variant="contained" onClick={handleClose} color="secondary" autoFocus>
+                Cancel
+              </Button>
+              <Button variant="contained" onClick={OutputSet} color="primary" autoFocus
+                >
+                Set
+              </Button>
+            </div>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions></DialogActions>
+      </Dialog>
+    )
+  }
 };
 
 
@@ -271,10 +351,10 @@ export const DashboardButton = ({ id, width, height }) => {
 
     const PowerSliderClose = () => setPowerOpen(false);
     const PowerSliderOpen = () => setPowerOpen(true);
-
+    
     if (!timedactor()) {
     if (action === "yes" && actor) {
-      if (powerslider === "yes" && power()) 
+      if (powerslider !== "No" && power()) 
       {
         return (
           <div style={cssStyle}>
@@ -295,7 +375,7 @@ export const DashboardButton = ({ id, width, height }) => {
             </ButtonGroup>
             <LinearProgress variant="determinate" value={power_bar()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
             <ButtonActionDialog open={open} onClose={handleClose} model={model} actor={actor} />
-            <PowerDialog onClose={PowerSliderClose} actor={actor} open={powerOpen} />
+            <PowerDialog onClose={PowerSliderClose} actor={actor} open={powerOpen} type={powerslider}/>
           </div>
         );
       }
@@ -340,7 +420,7 @@ export const DashboardButton = ({ id, width, height }) => {
         );
       }
     } else {
-      if (powerslider === "yes" && power())
+      if (powerslider !== "No" && power())
       {
         return (
           <div style={cssStyle}>
