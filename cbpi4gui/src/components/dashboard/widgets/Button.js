@@ -44,7 +44,7 @@ const PowerDialog = ({ onClose, actor, open }) => {
   const {actions} = useCBPi()
   useEffect(()=>{
     setValue(actor?.power)
-  },[])
+  },[actor?.power])
 
   if (!actor) return "";
 
