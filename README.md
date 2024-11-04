@@ -21,6 +21,7 @@ http://localhost:8000#
 
 ### Changelog
 
+- 21.08.24: (0.3.17.1) Update power value on power slider, if button action was used to adjust power
 - 01.08.24: (0.3.17) Fixed Bug for pipe color for existing pipes
 - 08.07.24: (0.3.16) Change position of notification information in tab title. Add options to pipes (opaqueness, width, color). Add progress bar to actor button for power display and for progress on compressor actor plugin
 - 01.07.24: (0.3.15) Update Brewfather API calls to V2 API, Add information about # of notifications to tab title
