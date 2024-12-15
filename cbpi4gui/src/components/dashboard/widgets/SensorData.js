@@ -49,7 +49,7 @@ const SensorActionDialog = ({ open, onClose, model, sensor }) => {
     <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open}>
       <DialogTitle id="simple-dialog-title">{model.name}</DialogTitle>
       <List>
-        {type.action.map((action, index) => (
+        {type.actions.map((action, index) => (
           <ActionButton sensorid={sensorid} action={action} key={index} />
         ))}
         <ListItemButton color="secondary">
