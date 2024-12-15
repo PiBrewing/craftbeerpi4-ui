@@ -44,6 +44,7 @@ const SensorActionDialog = ({ open, onClose, model, sensor }) => {
   const type = useSensorType(sensor.type);
   const { sensor: sensorid } = model.props;
 
+  try{
   return (
     <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open}>
       <DialogTitle id="simple-dialog-title">{model.name}</DialogTitle>
@@ -57,6 +58,10 @@ const SensorActionDialog = ({ open, onClose, model, sensor }) => {
       </List>
     </Dialog>
   );
+}
+catch(error){
+//console.log(error)
+}
 };
 
 const ActionButton = ({ action, sensorid }) => {
