@@ -5,8 +5,8 @@
   "proxy": "http://localhost:8000",
   "homepage": "./",
   "scripts": {
-    "start": "react-app-rewired --max-old-space-size=4096 start",
-    "build": "react-app-rewired --expose-gc --max-old-space-size=4096 build",
+    "start": "react-app-rewired --max-old-space-size=8192 start",
+    "build": "react-app-rewired --expose-gc --max-old-space-size=8192 build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
