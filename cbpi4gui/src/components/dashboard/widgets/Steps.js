@@ -250,7 +250,8 @@ const StepItem = ({ size, item }) => {
         <ListItemIcon>
           <State state={item.status} />
         </ListItemIcon>
-        <ListItemText primaryTypographyProps={{ sx: primaryprops }} primary={item.name} secondaryTypographyProps={{ style: secondaryprops }} secondary={item.state_text} />
+            <ListItemText primaryTypographyProps={{ sx: primaryprops }} primary={item.name} secondaryTypographyProps={{ style: secondaryprops }} secondary={item.state_text2 ? 
+          <div>{item.state_text}<br/>{item.state_text2}</div> : item.state_text} />
       </ListItemButton>
       <StepDetailsDialog item={item} selectedValue={selectedValue} open={open} onClose={handleClose} />
     </>
