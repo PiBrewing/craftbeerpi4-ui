@@ -1,6 +1,6 @@
 {
   "name": "craftbeerpi-app",
-  "version": "0.3.17.2",
+  "version": "0.3.18.alpha",
   "private": true,
   "proxy": "http://localhost:8000",
   "homepage": "./",

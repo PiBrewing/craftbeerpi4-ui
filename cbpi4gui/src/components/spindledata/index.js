@@ -2,7 +2,7 @@ import { Container, Divider, Grid, IconButton, Typography, Table, TableContainer
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import { ToggleButton, Tooltip } from "@mui/material";
 import { ToggleButtonGroup } from '@mui/material';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import { useSensor } from "../data";
 import { logapi } from "../data/logapi";
@@ -10,13 +10,42 @@ import DeleteDialog from "../util/DeleteDialog";
 import { useNavigate , useParams} from "react-router-dom";
 import Paper from '@mui/material/Paper';
 import { makeStyles } from '@mui/styles';
-
+import { sqlapi } from "../data/sqlapi";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import InputLabel from '@mui/material/InputLabel';
 
 const useStyles = makeStyles({
   table: {
       minWidth: 650,
   },
 });
+
+const SelectBox = ({ options, value, onChange }) => {
+  let emptyoptions = []
+  return options ? (
+    <>
+      <Select style={{minWidth:370, maxWidth:370}} variant="standard" labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={onChange}>
+        {options.map((item) => (
+          <MenuItem key={item.value} value={item.value}>
+            {item.label}
+          </MenuItem>
+        ))}
+      </Select>
+    </>
+  ) :
+   (
+    <>
+      <Select style={{minWidth:370, maxWidth:370}} variant="standard" labelId="demo-simple-select-label" id="demo-simple-select" value={emptyoptions} onChange={onChange}>
+        {emptyoptions.map((item) => (
+          <MenuItem key={item.value} value={item.value}>
+            {item.label}
+          </MenuItem>
+        ))}
+      </Select>
+    </>
+  );
+};
 
 export const Spindledata = () => {
   const navigate = useNavigate();
@@ -27,9 +56,13 @@ export const Spindledata = () => {
   const handleFormat = (event, newFormats) => {
     setFormats(newFormats);
   };
-  const { fermentid } = useParams();
+  const { archive } = useParams();
   const { diagram } = useParams();
-  
+  const [archivelist, setArchivelist] = useState([]);
+  const [currentarchive, setCurrentarchive] = useState([]);
+  const [diagramlist, setDiagramlist] = useState([]);
+  const [currentdiagram, setCurrentdiagram] = useState([]);
+  const [archiveheader, setArchiveheader] = useState([]);
 
   const classes = useStyles();
 
@@ -61,6 +94,44 @@ export const Spindledata = () => {
       setData(temp);
     });
   };
+  
+  useEffect(() => {
+    sqlapi.getarchivelist((data) => {
+      setArchivelist(data);
+      setCurrentarchive(data[0].value);
+      sqlapi.getarchiveheader(data[0].value, (data) => {  
+        setArchiveheader(data);
+        console.log(data);
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    sqlapi.getdiagramlist((data) => {
+      setDiagramlist(data);
+      setCurrentdiagram(data[0].value);
+    });
+  }, []);
+
+  useEffect(() => {
+    sqlapi.getarchiveheader(currentarchive, (data) => { 
+      setArchiveheader(data);
+      console.log(data);  
+    });
+  }, [currentarchive]);
+
+
+  const ArchiveChange = (event) => {
+    setCurrentarchive(event.target.value);
+    //navigate("/data/"+event.target.value+"/"+currentdiagram);
+    };
+
+  const DiagramChange = (event) => {
+    //navigate("/data/"+currentarchive+"/"+event.target.value);
+      setCurrentdiagram(event.target.value);
+      };
+  
+
 const clear_logs = () => {
   formats.map(format =>(
     logapi.clear(format)
@@ -89,39 +160,60 @@ const clear_logs = () => {
       <Grid container spacing={3}>
         <Grid item xs="12">
         <TableContainer component={Paper}>
-        <Table className={classes.table} dense={true} table size="medium" aria-label="simple table">
-          <TableBody>
-                        <TableRow>
-                            <TableCell>Archiv:</TableCell>
-                            <TableCell align="right" className="hidden-xs">DropdownSelect Archive</TableCell>
-                            <TableCell align="right" className="hidden-xs">Device:</TableCell>
-                            <TableCell align="right" className="hidden-xs">Devicename</TableCell>
-                            <TableCell align="right" className="hidden-xs">Name:</TableCell>
-                            <TableCell align="right" className="hidden-xs">BatchName</TableCell>
-                            <TableCell align="right" className="hidden-xs">Start:</TableCell>
-                            <TableCell align="right" className="hidden-xs">startDate</TableCell>
-                            <TableCell align="right" className="hidden-xs">End:</TableCell>
-                            <TableCell align="right" className="hidden-xs">Enddate</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>Diagram:</TableCell>
-                            <TableCell align="right" className="hidden-xs">DropdownSelect Diagram</TableCell>
-                            <TableCell align="right" className="hidden-xs">Original Gravity:</TableCell>
-                            <TableCell align="right" className="hidden-xs">OGData</TableCell>
-                            <TableCell align="right" className="hidden-xs">Final Gravity:</TableCell>
-                            <TableCell align="right" className="hidden-xs">FGData</TableCell>
-                            <TableCell align="right" className="hidden-xs">Attenuation:</TableCell>
-                            <TableCell align="right" className="hidden-xs">ATData</TableCell>
-                            <TableCell align="right" className="hidden-xs">Alcohol:</TableCell>
-                            <TableCell align="right" className="hidden-xs">ABVData</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>Calibration:</TableCell>
-                            <TableCell align="right" className="hidden-xs">Calibration Formular</TableCell>
-                        </TableRow>
-
-        </TableBody>
-        </Table>
+          <Table className={classes.table} dense={true} table size="medium" aria-label="simple table">
+            <TableBody>
+              <TableRow>
+                <TableCell style={{minWidth:370, maxWidth:370}}>
+                  <InputLabel id="demo-simple-select-helper-label">Archive:</InputLabel>
+                  <SelectBox options={archivelist} value={currentarchive} onChange={ArchiveChange} />
+                </TableCell>
+                <TableCell align="right" className="hidden-xs">
+                  <InputLabel id="demo-simple-select-helper-label">Device:</InputLabel>
+                  {archiveheader.Spindle_Name}
+                </TableCell>
+                <TableCell align="right" className="hidden-xs">
+                  <InputLabel id="demo-simple-select-helper-label">Name:</InputLabel>
+                  {archiveheader.Recipe}
+                </TableCell>
+                <TableCell align="right" className="hidden-xs">
+                  <InputLabel id="demo-simple-select-helper-label">Start:</InputLabel>
+                  {archiveheader.Start_date}
+                </TableCell>
+                <TableCell align="right" className="hidden-xs">
+                  <InputLabel id="demo-simple-select-helper-label">End:</InputLabel>
+                  {archiveheader.End_date}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell style={{minWidth:370, maxWidth:370}}>
+                  <InputLabel id="demo-simple-select-helper-label">Diagram:</InputLabel>
+                  <SelectBox options={diagramlist} value={currentdiagram} onChange={DiagramChange} />
+                </TableCell>
+                <TableCell align="right" className="hidden-xs">
+                  <InputLabel id="demo-simple-select-helper-label">Original Gravity:</InputLabel>
+                  {archiveheader.Initial_Gravity} °P
+                </TableCell>
+                <TableCell align="right" className="hidden-xs">
+                  <InputLabel id="demo-simple-select-helper-label">Final Gravity:</InputLabel>
+                  {archiveheader.Final_Gravity} °P
+                </TableCell>
+                <TableCell align="right" className="hidden-xs">
+                  <InputLabel id="demo-simple-select-helper-label">Attenuation:</InputLabel>
+                  {archiveheader.Attenuation} %
+                </TableCell>
+                <TableCell align="right" className="hidden-xs">
+                  <InputLabel id="demo-simple-select-helper-label">Alcohol:</InputLabel>
+                  {archiveheader.Alcohol_by_volume} %
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell align="left" className="hidden-xs">
+                  <InputLabel id="demo-simple-select-helper-label">Calibration:</InputLabel>
+                  {archiveheader.Const0}* titl^3 {archiveheader.Const1} * tilt^2 {archiveheader.Const2} * tilt + {archiveheader.Const3}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
         </TableContainer>
 
 
