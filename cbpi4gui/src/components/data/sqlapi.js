@@ -33,10 +33,21 @@ const getarchiveheader = (ArchiveID, callback_susscess = () => { }, callback_fai
     });
 };
 
+const getarchivevalues = (data, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .post("/api/hydrometer/v1/data/getarchivevalues", data)
+    .then(function (response) {
+      callback_susscess(response.data);
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
 
 
 export const sqlapi = {
   getdiagramlist,
   getarchivelist,
-  getarchiveheader
+  getarchiveheader,
+  getarchivevalues
 }

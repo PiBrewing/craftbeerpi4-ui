@@ -84,11 +84,6 @@ export const Spindledata = () => {
 			shape: 'spline'
           },
         });
-
-        /*
-[
-            */
-        //console.log(`${key}: ${value}`);
       }
 	  setLoading(false);
       setData(temp);
@@ -101,7 +96,6 @@ export const Spindledata = () => {
       setCurrentarchive(data[0].value);
       sqlapi.getarchiveheader(data[0].value, (data) => {  
         setArchiveheader(data);
-        console.log(data);
       });
     });
   }, []);
@@ -116,9 +110,161 @@ export const Spindledata = () => {
   useEffect(() => {
     sqlapi.getarchiveheader(currentarchive, (data) => { 
       setArchiveheader(data);
-      console.log(data);  
+      sqlapi.getarchivevalues(data, (data) => {  
+        console.log(data)
+        const temp = [];
+
+        console.log(currentdiagram)
+        if (currentdiagram === '0') {
+          temp.push({
+            x: data.time,
+            y: data.Servergravity,
+            name: "Gravity (Server Polynomial)",
+            type: "scatter",
+            line: {
+              width: 3,
+        shape: 'spline'
+            },
+
+        })
+
+        temp.push({
+          x: data.time,
+          y: data.temperature,
+          name: "Temperature",
+          type: "scatter",
+          yaxis: 'y2',
+          line: {
+            width: 3,
+      shape: 'spline'
+          },
+      })
+    } 
+
+        if (currentdiagram === '1') {
+          temp.push({
+            x: data.time,
+            y: data.gravity,
+            name: "Gravity (iSpindle Polynomial)",
+            type: "scatter",
+            line: {
+              width: 3,
+        shape: 'spline'
+            },
+
+        })
+
+        temp.push({
+          x: data.time,
+          y: data.temperature,
+          name: "Temperature",
+          type: "scatter",
+          yaxis: 'y2',
+          line: {
+            width: 3,
+      shape: 'spline'
+          },
+      })
+    } 
+
+        if (currentdiagram === '2') {
+          temp.push({
+            x: data.time,
+            y: data.angle,
+            name: "Angle",
+            type: "scatter",
+            line: {
+              width: 3,
+        shape: 'spline'
+            },
+
+        })
+
+        temp.push({
+          x: data.time,
+          y: data.temperature,
+          name: "Temperature",
+          type: "scatter",
+          yaxis: 'y2',
+          line: {
+            width: 3,
+      shape: 'spline'
+          },
+      })
+    } 
+
+    if (currentdiagram === '3') {
+      temp.push({
+        x: data.time,
+        y: data.attenuation,
+        name: "Attenuation",
+        type: "scatter",
+        line: {
+          width: 3,
+    shape: 'spline'
+        },
+
+    })
+
+    temp.push({
+      x: data.time,
+      y: data.alcohol,
+      name: "ABV %",
+      type: "scatter",
+      yaxis: 'y2',
+      line: {
+        width: 3,
+  shape: 'spline'
+      },
+
+  })
+
+    temp.push({
+      x: data.time,
+      y: data.temperature,
+      name: "Temperature",
+      type: "scatter",
+      yaxis: 'y2',
+      line: {
+        width: 3,
+  shape: 'spline'
+      },
+  })
+} 
+    
+    if (currentdiagram === '4') {
+      temp.push({
+        x: data.time,
+        y: data.battery,
+        name: "Battery",
+        type: "scatter",
+        line: {
+          width: 3,
+    shape: 'spline'
+        },
+
+    })
+
+    temp.push({
+      x: data.time,
+      y: data.rssi,
+      name: "RSSI",
+      yaxis: 'y2',
+      type: "scatter",
+      line: {
+        width: 3,
+  shape: 'spline'
+      },
+  })
+} 
+       setData(temp);
+
+
+
+
     });
-  }, [currentarchive]);
+  })
+}, [currentarchive, currentdiagram]);
 
 
   const ArchiveChange = (event) => {
@@ -134,14 +280,16 @@ export const Spindledata = () => {
 
 const clear_logs = () => {
   formats.map(format =>(
-    logapi.clear(format)
+    //logapi.clear(format)
+    console.log(format)
   ));
   navigate(0);
   };
 
   const clear_all_logs = () => {
     sensors.map(sensor => (
-      logapi.clear(sensor.id)
+      //logapi.clear(sensor.id)
+      console.log(sensor.id)
     ));
     navigate(0);
     };
@@ -209,7 +357,7 @@ const clear_logs = () => {
               <TableRow>
                 <TableCell align="left" className="hidden-xs">
                   <InputLabel id="demo-simple-select-helper-label">Calibration:</InputLabel>
-                  {archiveheader.Const0}* titl^3 {archiveheader.Const1} * tilt^2 {archiveheader.Const2} * tilt + {archiveheader.Const3}
+                  {archiveheader.Formula}
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -255,7 +403,7 @@ const clear_logs = () => {
               plot_bgcolor: "rgba(0,0,0,0)",
               margin: {
                 l: 80,
-                r: 20,
+                r: 80,
                 b: 50,
                 t: 30,
                 pad: 0,
@@ -266,7 +414,7 @@ const clear_logs = () => {
                 y: 1,
                 font: {
                   family: "sans-serif",
-                  size: 8,
+                  size: 10,
                   color: "#fff",
                 },
               },
@@ -281,11 +429,23 @@ const clear_logs = () => {
                 showgrid: true,
                 tickformat: '.1f',
                 tickfont: {
-                  size: 10,
+                  size: 12,
                   color: "#fff",
                 },
+                side: 'left'
+              },
+              yaxis2: {
+                showgrid: true,
+                tickformat: '.1f',
+                tickfont: {
+                  size: 12,
+                  color: "#fff",
+                },
+                overlaying: 'y',
+                side: 'right',
               },
             }}
+
           />
         </Grid>
       </Grid>
