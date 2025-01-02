@@ -5,7 +5,6 @@ import { ToggleButtonGroup } from '@mui/material';
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import { useSensor } from "../data";
-import { logapi } from "../data/logapi";
 import DeleteDialog from "../util/DeleteDialog";
 import { useNavigate , useParams} from "react-router-dom";
 import Paper from '@mui/material/Paper';
@@ -14,6 +13,13 @@ import { sqlapi } from "../data/sqlapi";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from '@mui/material/InputLabel';
+import { letterSpacing } from "@mui/system";
+import { Button } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const useStyles = makeStyles({
   table: {
@@ -47,15 +53,11 @@ const SelectBox = ({ options, value, onChange }) => {
   );
 };
 
+
 export const Spindledata = () => {
   const navigate = useNavigate();
-  const sensors = useSensor();
-  const [formats, setFormats] = useState(() => []);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const handleFormat = (event, newFormats) => {
-    setFormats(newFormats);
-  };
   const { archive } = useParams();
   const { diagram } = useParams();
   const [archivelist, setArchivelist] = useState([]);
@@ -63,33 +65,181 @@ export const Spindledata = () => {
   const [diagramlist, setDiagramlist] = useState([]);
   const [currentdiagram, setCurrentdiagram] = useState([]);
   const [archiveheader, setArchiveheader] = useState([]);
-
+  const [range_y1, setRange_y1] = useState([]);
+  const [range_y2, setRange_y2] = useState([]);
+  const [rid, setRID] = useState("");
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState("");
+  const [message, setMessage] = useState("");
+  const [ridFlag, setRIDFlag] = useState(false);
 
-  const load = () => {
-	setLoading(true) ;
-    logapi.get2(formats, (d) => {
-      const temp = [];
-      
-      for (const [key, value] of Object.entries(d)) {
-        const senosr_config = sensors.find((item) => item.id === key);
+const load = () => {
+    setLoading(true);
+    sqlapi.getarchiveheader(currentarchive, (data) => {
+        setArchiveheader(data);
+        sqlapi.getarchivevalues(data, (data) => {
+            const temp = [];
+            let range_1 = [];
+            let range_2 = [];
 
-        temp.push({
-          x: value.time,
-          y: value.value,
-          name: senosr_config.name,
-          type: "scatter",
-          line: {
-            width: 2,
-			shape: 'spline'
-          },
+            if (currentdiagram === '0') {
+                range_1 = [0, 20]
+                range_2 = [0, 40]
+                temp.push({
+                    x: data.time,
+                    y: data.Servergravity,
+                    name: "Gravity (Server Polynomial)",
+                    type: "scatter",
+                    line: {
+                        width: 3,
+                        shape: 'spline'
+                    }
+                })
+
+                temp.push({
+                    x: data.time,
+                    y: data.temperature,
+                    name: "Temperature",
+                    type: "scatter",
+                    yaxis: 'y2',
+                    line: {
+                        width: 3,
+                        shape: 'spline'
+                    }
+                })
+            }
+
+            if (currentdiagram === '1') {
+                range_1 = [0, 20]
+                range_2 = [0, 40]
+                temp.push({
+                    x: data.time,
+                    y: data.gravity,
+                    name: "Gravity (iSpindle Polynomial)",
+                    type: "scatter",
+                    line: {
+                        width: 3,
+                        shape: 'spline'
+                    }
+                })
+
+                temp.push({
+                    x: data.time,
+                    y: data.temperature,
+                    name: "Temperature",
+                    type: "scatter",
+                    yaxis: 'y2',
+                    line: {
+                        width: 3,
+                        shape: 'spline'
+                    }
+                })
+            }
+
+            if (currentdiagram === '2') {
+                range_1 = [0, 80]
+                range_2 = [0, 40]
+                temp.push({
+                    x: data.time,
+                    y: data.angle,
+                    name: "Angle",
+                    type: "scatter",
+                    line: {
+                        width: 3,
+                        shape: 'spline'
+                    }
+                })
+
+                temp.push({
+                    x: data.time,
+                    y: data.temperature,
+                    name: "Temperature",
+                    type: "scatter",
+                    yaxis: 'y2',
+                    line: {
+                        width: 3,
+                        shape: 'spline'
+                    }
+                })
+            }
+
+            if (currentdiagram === '3') {
+                range_1 = [0, 85]
+                range_2 = [0, 42.5]
+                temp.push({
+                    x: data.time,
+                    y: data.attenuation,
+                    name: "Attenuation",
+                    type: "scatter",
+                    line: {
+                        width: 3,
+                        shape: 'spline'
+                    }
+                })
+
+                temp.push({
+                    x: data.time,
+                    y: data.alcohol,
+                    name: "ABV %",
+                    type: "scatter",
+                    yaxis: 'y2',
+                    line: {
+                        width: 3,
+                        shape: 'spline'
+                    }
+                })
+
+                temp.push({
+                    x: data.time,
+                    y: data.temperature,
+                    name: "Temperature",
+                    type: "scatter",
+                    yaxis: 'y2',
+                    line: {
+                        width: 3,
+                        shape: 'spline'
+                    }
+                })
+            }
+
+            if (currentdiagram === '4') {
+                range_1 = [2, 5]
+                range_2 = [-100, -20]
+                temp.push({
+                    x: data.time,
+                    y: data.battery,
+                    name: "Battery",
+                    type: "scatter",
+                    line: {
+                        width: 3,
+                        shape: 'spline'
+                    }
+                })
+
+                temp.push({
+                    x: data.time,
+                    y: data.rssi,
+                    name: "RSSI",
+                    yaxis: 'y2',
+                    type: "scatter",
+                    line: {
+                        width: 3,
+                        shape: 'spline'
+                    }
+                })
+            }
+            setData(temp);
+            setRange_y1(range_1);
+            setRange_y2(range_2);
+
         });
-      }
-	  setLoading(false);
-      setData(temp);
-    });
-  };
-  
+    })
+
+    setLoading(false);
+
+};
+
   useEffect(() => {
     sqlapi.getarchivelist((data) => {
       setArchivelist(data);
@@ -108,14 +258,25 @@ export const Spindledata = () => {
   }, []);
 
   useEffect(() => {
+ //   setCurrentarchive(archive);
+ //   setCurrentdiagram(diagram);
+  }, [archive, diagram]);  
+
+  useEffect(() => {
+    setRIDFlag(archiveheader.RID_END);
+  }, [archiveheader]);
+
+  useEffect(() => {
     sqlapi.getarchiveheader(currentarchive, (data) => { 
       setArchiveheader(data);
       sqlapi.getarchivevalues(data, (data) => {  
-        console.log(data)
         const temp = [];
-
-        console.log(currentdiagram)
+        let range_1 = [];
+        let range_2 = [];
+        
         if (currentdiagram === '0') {
+          range_1=[0,20]
+          range_2=[0,40]
           temp.push({
             x: data.time,
             y: data.Servergravity,
@@ -142,6 +303,8 @@ export const Spindledata = () => {
     } 
 
         if (currentdiagram === '1') {
+          range_1=[0,20]
+          range_2=[0,40]
           temp.push({
             x: data.time,
             y: data.gravity,
@@ -168,6 +331,8 @@ export const Spindledata = () => {
     } 
 
         if (currentdiagram === '2') {
+          range_1=[0,80]
+          range_2=[0,40]
           temp.push({
             x: data.time,
             y: data.angle,
@@ -194,6 +359,8 @@ export const Spindledata = () => {
     } 
 
     if (currentdiagram === '3') {
+      range_1=[0,85]
+      range_2=[0,42.5]
       temp.push({
         x: data.time,
         y: data.attenuation,
@@ -233,6 +400,8 @@ export const Spindledata = () => {
 } 
     
     if (currentdiagram === '4') {
+      range_1=[2,5]
+      range_2=[-100,-20]
       temp.push({
         x: data.time,
         y: data.battery,
@@ -257,8 +426,9 @@ export const Spindledata = () => {
       },
   })
 } 
-       setData(temp);
-
+      setData(temp);
+      setRange_y1(range_1);
+      setRange_y2(range_2);
 
 
 
@@ -269,30 +439,44 @@ export const Spindledata = () => {
 
   const ArchiveChange = (event) => {
     setCurrentarchive(event.target.value);
-    //navigate("/data/"+event.target.value+"/"+currentdiagram);
+    navigate("/data/"+event.target.value+"/"+currentdiagram);
     };
 
   const DiagramChange = (event) => {
-    //navigate("/data/"+currentarchive+"/"+event.target.value);
-      setCurrentdiagram(event.target.value);
+    setCurrentdiagram(event.target.value);
+    navigate("/data/"+currentarchive+"/"+event.target.value);
+      
       };
   
 
-const clear_logs = () => {
-  formats.map(format =>(
-    //logapi.clear(format)
-    console.log(format)
-  ));
+const delete_archive = () => {
+  sqlapi.deletearchive(archiveheader.ArchiveID, (data) => {});
   navigate(0);
   };
 
-  const clear_all_logs = () => {
-    sensors.map(sensor => (
-      //logapi.clear(sensor.id)
-      console.log(sensor.id)
-    ));
-    navigate(0);
-    };
+  const remove_rid = () => {
+    sqlapi.removeridflag(archiveheader.ArchiveID, (data) => {
+    load();
+        })
+  };
+
+const handleClickOpen = (data) => {
+  setTitle("Set Archive End Date");
+  setRID(Date.parse(data));
+  setMessage("Do you want to set end of archive to " + data + "?");
+  setOpen(true);
+};
+
+const no = () => {
+  setOpen(false);
+};
+
+const yes = () => {
+  sqlapi.addridflag(archiveheader.ArchiveID, rid, (data) => {
+    load();
+  })
+  setOpen(false);
+};
 
   return (
     <>
@@ -313,7 +497,7 @@ const clear_logs = () => {
               <TableRow>
                 <TableCell style={{minWidth:370, maxWidth:370}}>
                   <InputLabel id="demo-simple-select-helper-label">Archive:</InputLabel>
-                  <SelectBox options={archivelist} value={currentarchive} onChange={ArchiveChange} />
+                  <SelectBox options={archivelist} value={archive? archive : currentarchive} onChange={ArchiveChange} />
                 </TableCell>
                 <TableCell align="right" className="hidden-xs">
                   <InputLabel id="demo-simple-select-helper-label">Device:</InputLabel>
@@ -335,7 +519,7 @@ const clear_logs = () => {
               <TableRow>
                 <TableCell style={{minWidth:370, maxWidth:370}}>
                   <InputLabel id="demo-simple-select-helper-label">Diagram:</InputLabel>
-                  <SelectBox options={diagramlist} value={currentdiagram} onChange={DiagramChange} />
+                  <SelectBox options={diagramlist} value={diagram? diagram : currentdiagram} onChange={DiagramChange} />
                 </TableCell>
                 <TableCell align="right" className="hidden-xs">
                   <InputLabel id="demo-simple-select-helper-label">Original Gravity:</InputLabel>
@@ -372,19 +556,40 @@ const clear_logs = () => {
           </IconButton>
           </Tooltip>
           <DeleteDialog
-            title="Delete logs"
-            message="Do you want to delete the selected logs?"
-            callback={clear_logs}
+            title="Delete current Archive"
+            tooltip="Delete Archive"
+            message="Do you want to delete the current archive?"
+            callback={delete_archive}
             />
-          <DeleteDialog
-            title="Delete all logs"
-            message="Do you really want to delete ALL logs?"
-            callback={clear_all_logs}
-            icon="deletesweep"
-          />
+
+            {ridFlag ? (          <DeleteDialog
+            title="Delete Archive End Flag"
+            tooltip="Remove Archive End Flag"
+            message="Do you want to delete the current archive end flag?"
+            icon="RID"
+            callback={remove_rid}
+            />) : ( 
+              "")
+            }
         </Grid>
         <Grid item xs="12">
+        <Dialog open={open} onClose={no} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+        <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">{message}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={no} color="secondary" autoFocus variant="contained">
+            No
+          </Button>
+          <Button onClick={yes} color="primary" variant="contained">
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
           <Plot
+            onClick={(e) => { handleClickOpen(e.points[0].data.x[e.points[0].pointNumber]);
+                              }}
             data={data}
             config={{ displayModeBar: false }}
             useResizeHandler={true}
@@ -432,7 +637,8 @@ const clear_logs = () => {
                   size: 12,
                   color: "#fff",
                 },
-                side: 'left'
+                side: 'left',
+                range: range_y1,
               },
               yaxis2: {
                 showgrid: true,
@@ -443,6 +649,7 @@ const clear_logs = () => {
                 },
                 overlaying: 'y',
                 side: 'right',
+                range: range_y2,
               },
             }}
 

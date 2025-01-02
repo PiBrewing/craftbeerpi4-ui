@@ -9,15 +9,15 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import React from "react";
 
-const DeleteDialog = ({ btnText, title, message, callback, id, icon="delete" }) => {
+const DeleteDialog = ({ btnText, title, message, callback, id, tooltip="Delete", icon="delete" }) => {
   const [open, setOpen] = React.useState(false);
   const [symbol, setSymbol] = React.useState(<DeleteIcon />)
-  const [tip, setTip] = React.useState("Delete")
+  const [tip, setTip] = React.useState(tooltip)
 
   React.useEffect(() => {
     if (icon !== "delete") {
       setSymbol(<DeleteSweepIcon />)
-      setTip("Delete All")
+      setTip(tooltip)
     }
   }, [icon]);
 

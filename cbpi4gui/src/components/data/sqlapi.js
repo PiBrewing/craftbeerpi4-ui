@@ -33,6 +33,28 @@ const getarchiveheader = (ArchiveID, callback_susscess = () => { }, callback_fai
     });
 };
 
+const removeridflag = (ArchiveID, callback_susscess = () => { }, callback_failed = () => { }) => {
+  axios
+    .post("/api/hydrometer/v1/data/removeridflag/" + ArchiveID+"/")
+    .then(function (response) {
+      callback_susscess(response.data);
+      })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
+const addridflag = (ArchiveID, Timestamp, callback_susscess = () => { }, callback_failed = () => { }) => {
+  axios
+    .post("/api/hydrometer/v1/data/addridflag/" + ArchiveID+"/"+Timestamp+"/")
+    .then(function (response) {
+      callback_susscess(response.data);
+      })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
 const getarchivevalues = (data, callback_susscess = () => {}, callback_failed = () => {}) => {
   axios
     .post("/api/hydrometer/v1/data/getarchivevalues", data)
@@ -44,10 +66,23 @@ const getarchivevalues = (data, callback_susscess = () => {}, callback_failed = 
     });
 };
 
+const deletearchive = (ArchiveID, callback_susscess = () => { }, callback_failed = () => { }) => {
+  axios
+    .post("/api/hydrometer/v1/data/deletearchive/" + ArchiveID+"/")
+    .then(function (response) {
+      callback_susscess(response.data);
+      })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
 
 export const sqlapi = {
   getdiagramlist,
   getarchivelist,
   getarchiveheader,
-  getarchivevalues
+  getarchivevalues,
+  removeridflag,
+  addridflag,
+  deletearchive
 }
