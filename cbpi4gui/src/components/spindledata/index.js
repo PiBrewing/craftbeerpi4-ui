@@ -67,6 +67,7 @@ export const Spindledata = () => {
   const [archiveheader, setArchiveheader] = useState([]);
   const [range_y1, setRange_y1] = useState([]);
   const [range_y2, setRange_y2] = useState([]);
+  const [range_y3, setRange_y3] = useState([]);
   const [rid, setRID] = useState("");
   const classes = useStyles();
   const [open, setOpen] = useState(false);
@@ -82,6 +83,7 @@ const load = () => {
             const temp = [];
             let range_1 = [];
             let range_2 = [];
+            let range_3 = [];
 
             if (currentdiagram === '0') {
                 range_1 = [0, 20]
@@ -167,6 +169,7 @@ const load = () => {
             if (currentdiagram === '3') {
                 range_1 = [0, 85]
                 range_2 = [0, 42.5]
+                range_3 = [0, 15]
                 temp.push({
                     x: data.time,
                     y: data.attenuation,
@@ -232,6 +235,7 @@ const load = () => {
             setData(temp);
             setRange_y1(range_1);
             setRange_y2(range_2);
+            setRange_y3(range_3);
 
         });
     })
@@ -273,7 +277,8 @@ const load = () => {
         const temp = [];
         let range_1 = [];
         let range_2 = [];
-        
+        let range_3 = [];
+
         if (currentdiagram === '0') {
           range_1=[0,20]
           range_2=[0,40]
@@ -361,6 +366,7 @@ const load = () => {
     if (currentdiagram === '3') {
       range_1=[0,85]
       range_2=[0,42.5]
+      range_3=[0,15]
       temp.push({
         x: data.time,
         y: data.attenuation,
@@ -429,6 +435,7 @@ const load = () => {
       setData(temp);
       setRange_y1(range_1);
       setRange_y2(range_2);
+      setRange_y3(range_3);
 
 
 
@@ -509,7 +516,7 @@ const yes = () => {
                 </TableCell>
                 <TableCell align="right" className="hidden-xs">
                   <InputLabel id="demo-simple-select-helper-label">Start:</InputLabel>
-                  {archiveheader.Start_date}
+                  {archiveheader.Start_date} 
                 </TableCell>
                 <TableCell align="right" className="hidden-xs">
                   <InputLabel id="demo-simple-select-helper-label">End:</InputLabel>
@@ -540,8 +547,8 @@ const yes = () => {
               </TableRow>
               <TableRow>
                 <TableCell align="left" className="hidden-xs">
-                  <InputLabel id="demo-simple-select-helper-label">Calibration:</InputLabel>
-                  {archiveheader.Formula}
+                  <InputLabel id="demo-simple-select-helper-label">Calibration (Server):</InputLabel>
+                  {(currentdiagram==='0' || currentdiagram==='3')? archiveheader.Formula : "N/A"}
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -626,7 +633,7 @@ const yes = () => {
               xaxis: {
                 showgrid: false,
                 tickfont: {
-                  size: 10,
+                  size: 12,
                   color: "#fff",
                 },
               },
@@ -650,6 +657,18 @@ const yes = () => {
                 overlaying: 'y',
                 side: 'right',
                 range: range_y2,
+              },
+              yaxis3: {
+                showgrid: false,
+                //position: 200,
+                tickformat: '.1f',
+                tickfont: {
+                  size: 12,
+                  color: "#fff",
+                },
+                //overlaying: 'y',
+                side: 'right',
+                range: range_y3,
               },
             }}
 
