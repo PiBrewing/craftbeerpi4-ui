@@ -77,6 +77,29 @@ const deletearchive = (ArchiveID, callback_susscess = () => { }, callback_failed
     });
 };
 
+const getcalibration = (callback_susscess = () => { }, callback_failed = () => { }) => {
+  axios
+    .post("/api/hydrometer/v1/data/getcalibration/")
+    .then(function (response) {
+      callback_susscess(response.data);
+      })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
+const savecalibration = (id, data, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .post("/api/hydrometer/v1/data/savecalibration/"+ id +"/", data)
+    .then(function (response) {
+      callback_susscess(response.data);
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
+
 export const sqlapi = {
   getdiagramlist,
   getarchivelist,
@@ -84,5 +107,7 @@ export const sqlapi = {
   getarchivevalues,
   removeridflag,
   addridflag,
-  deletearchive
+  deletearchive,
+  getcalibration,
+  savecalibration
 }

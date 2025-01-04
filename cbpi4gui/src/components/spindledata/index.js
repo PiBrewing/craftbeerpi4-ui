@@ -20,6 +20,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import CalculateIcon from '@mui/icons-material/Calculate';
 
 const useStyles = makeStyles({
   table: {
@@ -495,6 +496,13 @@ const yes = () => {
           </Typography>
         </Grid>
       </Grid>
+      <Divider style={{ marginBottom: 10, marginTop: 10 }} />
+      <Tooltip title="Calibrate">
+      <IconButton aria-label="delete" size="small" onClick={() => { navigate("/calibrate") }} >
+        <CalculateIcon/>
+      </IconButton>
+      </Tooltip>
+
       <Divider style={{ marginBottom: 10, marginTop: 10 }} />
       <Grid container spacing={3}>
         <Grid item xs="12">
