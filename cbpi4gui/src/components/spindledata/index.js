@@ -21,6 +21,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import CalculateIcon from '@mui/icons-material/Calculate';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
 
 const useStyles = makeStyles({
   table: {
@@ -497,6 +498,13 @@ const yes = () => {
         </Grid>
       </Grid>
       <Divider style={{ marginBottom: 10, marginTop: 10 }} />
+      <Tooltip title="Current Spindle Data">
+      <IconButton aria-label="delete" size="small" onClick={() => { navigate("/currentdata") }} >
+        <NewspaperIcon />
+      </IconButton>
+      </Tooltip>
+
+
       <Tooltip title="Calibrate">
       <IconButton aria-label="delete" size="small" onClick={() => { navigate("/calibrate") }} >
         <CalculateIcon/>

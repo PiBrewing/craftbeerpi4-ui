@@ -27,6 +27,8 @@ import { Charting } from "./components/charting";
 import MainMenu from "./components/MainMenu";
 import { Spindledata } from "./components/spindledata";
 import SpindleCalForm from "./components/spindledata/SpindleCalForm";
+import CurrentSpindleData from "./components/spindledata/CurrentSpindleData";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -202,6 +204,7 @@ const CraftBeerPiApp = () => {
                   <Route path="data/:archive/:diagram" element={<Spindledata />}/> 
                   <Route path="calibrate" element={<SpindleCalForm />}/>
                   <Route path="calibrate/:id" element={<SpindleCalForm />}/>
+                  <Route path="currentdata" element={<CurrentSpindleData />}/>
 
           </Route>
         </Routes>

@@ -99,6 +99,27 @@ const savecalibration = (id, data, callback_susscess = () => {}, callback_failed
     });
 };
 
+const getrecentdata = (days, callback_susscess = () => { }, callback_failed = () => { }) => {
+  axios
+    .post("/api/hydrometer/v1/data/getrecentdata/" + days + "/")
+    .then(function (response) {
+      callback_susscess(response.data);
+      })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
+const resetrecipe = (id, data, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .post("/api/hydrometer/v1/data/resetspindlerecipe/"+ id +"/", data)
+    .then(function (response) {
+      callback_susscess(response.data);
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
 
 export const sqlapi = {
   getdiagramlist,
@@ -109,5 +130,7 @@ export const sqlapi = {
   addridflag,
   deletearchive,
   getcalibration,
-  savecalibration
+  savecalibration,
+  getrecentdata,
+  resetrecipe
 }
