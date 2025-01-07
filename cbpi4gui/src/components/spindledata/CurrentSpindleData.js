@@ -192,9 +192,7 @@ const CurrentSpindleData = () => {
                 </TableCell>
                 <TableCell >
                   <InputLabel id="demo-simple-select-helper-label">Set Recipe Start:</InputLabel>
-                  {calibrated ?
-                  <SetRecipeDialog title="Set New Recipe for " spindle={spindledata.find((item) => item.value === currentspindle)} message="Do you want to Start a new recipe for this spindle?" callback={save} id={currentspindle} /> :
-                  "Spindle not calibrated -> Calibrate Spindle first."}
+                  <SetRecipeDialog title="Set New Recipe for " spindle={spindledata.find((item) => item.value === currentspindle)} message="Do you want to Start a new recipe for this spindle?" callback={save} id={currentspindle} /> 
                 </TableCell>
               </TableRow>
             </Table>
