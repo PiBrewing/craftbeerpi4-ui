@@ -469,6 +469,16 @@ const delete_archive = () => {
         })
   };
 
+  const transfercalibration = () => {
+    console.log(archiveheader.ArchiveID);
+    console.log(archiveheader.SpindleID);
+    sqlapi.transfercalibration(archiveheader.SpindleID, archiveheader.ArchiveID, (data) => {
+      load();
+          }
+    )
+  };
+          
+
 const handleClickOpen = (data) => {
   setTitle("Set Archive End Date");
   setRID(Date.parse(data));
@@ -594,6 +604,15 @@ const yes = () => {
             />) : ( 
               "")
             }
+            <DeleteDialog
+            title="Apply current spindle calibration to archive"
+            tooltip="Apply current spindle calibration to archive"
+            message = "Do you want to apply calibration to the current archive from spindle"
+            icon="Calibrate"
+            Spindle_Name={archiveheader.Spindle_Name}
+            callback={transfercalibration}
+            />
+
         </Grid>
         <Grid item xs="12">
         <Dialog open={open} onClose={no} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
