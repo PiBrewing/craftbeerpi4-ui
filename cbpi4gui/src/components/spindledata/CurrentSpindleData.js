@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
     padding: theme.spacing(2),
+    maxWidth: 1200,
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       marginTop: theme.spacing(6),
       marginBottom: theme.spacing(6),
@@ -156,7 +157,7 @@ const CurrentSpindleData = () => {
 
   return (
     <>
-    <Container maxWidth="lg">
+    <Container width="100%">
       <Typography variant="h6" gutterBottom>
         Recent Spindle Data
       </Typography>
@@ -173,9 +174,10 @@ const CurrentSpindleData = () => {
       </Breadcrumbs>
 
       <Divider />
-      <Paper className={classes.paper}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={8}>
+      <Paper elevation={12} className={classes.paper}>
+        <Grid spacing={3} >
+          <Grid item xs={12} md={10}>
+            <TableContainer component={Paper}>
             <Table>
               <TableRow>
                 <TableCell>
@@ -196,53 +198,53 @@ const CurrentSpindleData = () => {
                 </TableCell>
               </TableRow>
             </Table>
+            </TableContainer>
           </Grid>
 
-
+        <TableContainer>
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Parameter</TableCell>
-              <TableCell align="right">Value</TableCell>
+              <TableCell align="left">Device</TableCell>
+              <TableCell align="left">Date/Time</TableCell>
+              <TableCell align="left">Batch ID</TableCell>
+              <TableCell align="left">Recipe Name</TableCell>
+              <TableCell align="left">Angle</TableCell>
+              <TableCell align="left">Temperature</TableCell>
+              <TableCell align="left">Initial Gravity</TableCell>
+              <TableCell align="left">Current Gravity</TableCell>
+              <TableCell align="left">Delta (last 12 hours)</TableCell>
+              <TableCell align="left">Attenuation</TableCell>
+              <TableCell align="left">Alcohol (ABV)</TableCell>
+              <TableCell align="left">Battery</TableCell>
+               <TableCell align="left">RSSI</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-{/*}          <TableRow>
-                <TableCell align="left">
-                  Const0
-                </TableCell>
-                <TableCell align="right">
-                  <TextField label="const0" variant="standard" onChange={onchange0} value={const0} />
-                </TableCell>
-                </TableRow>
-                <TableRow>
-                <TableCell align="left">
-                  Const1
-                </TableCell>
-                <TableCell align="right">
-                <TextField label="const1" variant="standard" onChange={onchange1} value={const1} />
-                </TableCell>
-                </TableRow>
-                <TableRow>
-                <TableCell align="left">
-                  Const2
-                </TableCell>
-                <TableCell align="right">
-                <TextField label="const2" variant="standard" onChange={onchange2} value={const2} />
-                </TableCell>
-                </TableRow>
-                <TableRow>
-                <TableCell align="left">
-                  Const3
-                </TableCell>
-                <TableCell align="right">
-                <TextField label="const3" variant="standard" onChange={onchange3} value={const3} />
-                </TableCell>
-                </TableRow> */}
+            {spindledata.map((item) => (
+              <TableRow key={item.value}>
+                <TableCell align="left">{item.label}</TableCell>
+                <TableCell align="left">{item.data.unixtime}</TableCell>
+                <TableCell align="left">{item.data.BatchID}</TableCell>
+                <TableCell align="left">{item.data.recipe}</TableCell>
+                <TableCell align="left">{parseFloat(item.data.angle).toFixed(1)}</TableCell>
+                <TableCell align="left">{parseFloat(item.data.temperature).toFixed(1)}</TableCell>
+                <TableCell align="left">{parseFloat(item.data.InitialGravity).toFixed(1)}</TableCell>
+                <TableCell align="left">{parseFloat(item.data.Servergravity).toFixed(1)}</TableCell>
+                <TableCell align="left">{parseFloat(item.data.Delta_Gravity).toFixed(1)}</TableCell>
+                <TableCell align="left">{parseFloat(item.data.Attenuation).toFixed(1)}</TableCell>
+                <TableCell align="left">{parseFloat(item.data.ABV).toFixed(1)}</TableCell>
+                <TableCell align="left">{parseFloat(item.data.battery).toFixed(1)}</TableCell>
+                <TableCell align="left">{item.data.rssi}</TableCell>
+              </TableRow>
+            ))}
+                
           </TableBody>
         </Table>
-
+        </TableContainer>
         </Grid>
+        
+        <Divider />
         <div className={classes.buttons}>
           <Button
             variant="contained"
@@ -252,17 +254,7 @@ const CurrentSpindleData = () => {
             }}
             className={classes.button}
           >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              save();
-            }}
-            className={classes.button}
-          >
-            Save
+            Back
           </Button>
         </div>
       </Paper>
