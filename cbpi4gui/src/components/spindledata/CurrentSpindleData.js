@@ -11,6 +11,7 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import InputLabel from '@mui/material/InputLabel';
 import CheckIcon from '@mui/icons-material/Check';
 import SetRecipeDialog from "./SetRecipeDialog";
+import { withStyles, createStyles} from '@mui/styles';
 
 
 
@@ -51,6 +52,29 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
   },
 }));
+
+const StyledTableCell = withStyles((theme) =>
+  createStyles({
+    head: {
+      color: theme.palette.common.white,
+      fontSize: 12,
+      fontWeight: "bold",
+    },
+    body: {
+      fontSize: 10,
+    },
+  }),
+)(TableCell);
+
+const StyledTableRow = withStyles((theme) =>
+  createStyles({
+    root: {
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+      },
+    },
+  }),
+)(TableRow);
 
 const SelectBox = ({ options, value, onChange }) => {
   let emptyoptions = []
@@ -157,7 +181,6 @@ const CurrentSpindleData = () => {
 
   return (
     <>
-    <Container width="100%">
       <Typography variant="h6" gutterBottom>
         Recent Spindle Data
       </Typography>
@@ -174,7 +197,7 @@ const CurrentSpindleData = () => {
       </Breadcrumbs>
 
       <Divider />
-      <Paper elevation={12} className={classes.paper}>
+      <Paper elevation={12}>
         <Grid spacing={3} >
           <Grid item xs={12} md={10}>
             <TableContainer component={Paper}>
@@ -205,38 +228,38 @@ const CurrentSpindleData = () => {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="left">Device</TableCell>
-              <TableCell align="left">Date/Time</TableCell>
-              <TableCell align="left">Batch ID</TableCell>
-              <TableCell align="left">Recipe Name</TableCell>
-              <TableCell align="left">Angle</TableCell>
-              <TableCell align="left">Temperature</TableCell>
-              <TableCell align="left">Initial Gravity</TableCell>
-              <TableCell align="left">Current Gravity</TableCell>
-              <TableCell align="left">Delta (last 12 hours)</TableCell>
-              <TableCell align="left">Attenuation</TableCell>
-              <TableCell align="left">Alcohol (ABV)</TableCell>
-              <TableCell align="left">Battery</TableCell>
-               <TableCell align="left">RSSI</TableCell>
+              <StyledTableCell align="left">Device</StyledTableCell>
+              <StyledTableCell align="left">Date/Time</StyledTableCell>
+              <StyledTableCell align="left">Batch ID</StyledTableCell>
+              <StyledTableCell align="left">Recipe Name</StyledTableCell>
+              <StyledTableCell align="left">Angle</StyledTableCell>
+              <StyledTableCell align="left">Temperature</StyledTableCell>
+              <StyledTableCell align="left">Initial Gravity</StyledTableCell>
+              <StyledTableCell align="left">Current Gravity</StyledTableCell>
+              <StyledTableCell align="left">Delta (last 12 hours)</StyledTableCell>
+              <StyledTableCell align="left">Attenuation</StyledTableCell>
+              <StyledTableCell align="left">Alcohol (ABV)</StyledTableCell>
+              <StyledTableCell align="left">Battery</StyledTableCell>
+               <StyledTableCell align="left">RSSI</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {spindledata.map((item) => (
-              <TableRow key={item.value}>
-                <TableCell align="left">{item.label}</TableCell>
-                <TableCell align="left">{item.data.unixtime}</TableCell>
-                <TableCell align="left">{item.data.BatchID}</TableCell>
-                <TableCell align="left">{item.data.recipe}</TableCell>
-                <TableCell align="left">{parseFloat(item.data.angle).toFixed(1)}</TableCell>
-                <TableCell align="left">{parseFloat(item.data.temperature).toFixed(1)}</TableCell>
-                <TableCell align="left">{parseFloat(item.data.InitialGravity).toFixed(1)}</TableCell>
-                <TableCell align="left">{parseFloat(item.data.Servergravity).toFixed(1)}</TableCell>
-                <TableCell align="left">{parseFloat(item.data.Delta_Gravity).toFixed(1)}</TableCell>
-                <TableCell align="left">{parseFloat(item.data.Attenuation).toFixed(1)}</TableCell>
-                <TableCell align="left">{parseFloat(item.data.ABV).toFixed(1)}</TableCell>
-                <TableCell align="left">{parseFloat(item.data.battery).toFixed(1)}</TableCell>
-                <TableCell align="left">{item.data.rssi}</TableCell>
-              </TableRow>
+              <StyledTableRow key={item.value}>
+                <StyledTableCell align="left">{item.label}</StyledTableCell>
+                <StyledTableCell align="left">{item.data.unixtime}</StyledTableCell>
+                <StyledTableCell align="left">{item.data.BatchID}</StyledTableCell>
+                <StyledTableCell align="left">{item.data.recipe}</StyledTableCell>
+                <StyledTableCell align="left">{parseFloat(item.data.angle).toFixed(1)}</StyledTableCell>
+                <StyledTableCell align="left">{parseFloat(item.data.temperature).toFixed(1)}</StyledTableCell>
+                <StyledTableCell align="left">{parseFloat(item.data.InitialGravity).toFixed(1)}</StyledTableCell>
+                <StyledTableCell align="left">{parseFloat(item.data.Servergravity).toFixed(1)}</StyledTableCell>
+                <StyledTableCell align="left">{parseFloat(item.data.Delta_Gravity).toFixed(1)}</StyledTableCell>
+                <StyledTableCell align="left">{parseFloat(item.data.Attenuation).toFixed(1)}</StyledTableCell>
+                <StyledTableCell align="left">{parseFloat(item.data.ABV).toFixed(1)}</StyledTableCell>
+                <StyledTableCell align="left">{parseFloat(item.data.battery).toFixed(1)}</StyledTableCell>
+                <StyledTableCell align="left">{item.data.rssi}</StyledTableCell>
+              </StyledTableRow>
             ))}
                 
           </TableBody>
@@ -258,7 +281,6 @@ const CurrentSpindleData = () => {
           </Button>
         </div>
       </Paper>
-      </Container>
     </>
   );
 };
