@@ -1,4 +1,4 @@
-import { Breadcrumbs, Container, Divider, Link, Paper, Typography, Table, TableContainer, TableBody,TableCell,TableHead,TableRow, Tooltip} from "@mui/material";
+import { IconButton, Breadcrumbs, Container, Divider, Link, Paper, Typography, Table, TableContainer, TableBody,TableCell,TableHead,TableRow, Tooltip} from "@mui/material";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import { makeStyles } from "@mui/styles";
@@ -12,7 +12,7 @@ import InputLabel from '@mui/material/InputLabel';
 import CheckIcon from '@mui/icons-material/Check';
 import SetRecipeDialog from "./SetRecipeDialog";
 import { withStyles, createStyles} from '@mui/styles';
-
+import AutorenewIcon from '@mui/icons-material/Autorenew';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -129,6 +129,19 @@ const CurrentSpindleData = () => {
     });
   }, []);
 
+  const load = () => {
+    sqlapi.getrecentdata(days , (data) => {
+      setSpindledata(data);
+      console.log(data)
+      setCurrentspindle(data[0].value);
+      setCalibrated(data[0].data.Calibrated)
+      setConst0(data[0].data.Const0);
+      setConst1(data[0].data.Const1);
+      setConst2(data[0].data.Const2);
+      setConst3(data[0].data.Const3);
+    });
+  }
+
   const save = (id, spindlename="iSpindle000", recipeName="Beer", batchID="0000") => {
 
     console.log("Save Recipe for Spindle " + id + " with name " + recipeName + " and batch ID " + batchID)
@@ -218,6 +231,13 @@ const CurrentSpindleData = () => {
                 <TableCell >
                   <InputLabel id="demo-simple-select-helper-label">Set Recipe Start:</InputLabel>
                   <SetRecipeDialog title="Set New Recipe for " spindle={spindledata.find((item) => item.value === currentspindle)} message="Do you want to Start a new recipe for this spindle?" callback={save} id={currentspindle} /> 
+                </TableCell>
+                <TableCell>
+                <Tooltip  title="Refresh">
+          <IconButton onClick={load}>
+            <AutorenewIcon/>
+          </IconButton>
+          </Tooltip>
                 </TableCell>
               </TableRow>
             </Table>

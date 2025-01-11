@@ -276,172 +276,8 @@ const load = () => {
     sqlapi.getarchiveheader(currentarchive, (data) => { 
       setArchiveheader(data);
       sqlapi.getarchivevalues(data, (data) => {  
-        const temp = [];
-        let range_1 = [];
-        let range_2 = [];
-        let range_3 = [];
-
-        if (currentdiagram === '0') {
-          range_1=[0,20]
-          range_2=[0,40]
-          temp.push({
-            x: data.time,
-            y: data.Servergravity,
-            name: "Gravity (Server Polynomial)",
-            type: "scatter",
-            line: {
-              width: 3,
-        shape: 'spline'
-            },
-
-        })
-
-        temp.push({
-          x: data.time,
-          y: data.temperature,
-          name: "Temperature",
-          type: "scatter",
-          yaxis: 'y2',
-          line: {
-            width: 3,
-      shape: 'spline'
-          },
-      })
-    } 
-
-        if (currentdiagram === '1') {
-          range_1=[0,20]
-          range_2=[0,40]
-          temp.push({
-            x: data.time,
-            y: data.gravity,
-            name: "Gravity (iSpindle Polynomial)",
-            type: "scatter",
-            line: {
-              width: 3,
-        shape: 'spline'
-            },
-
-        })
-
-        temp.push({
-          x: data.time,
-          y: data.temperature,
-          name: "Temperature",
-          type: "scatter",
-          yaxis: 'y2',
-          line: {
-            width: 3,
-      shape: 'spline'
-          },
-      })
-    } 
-
-        if (currentdiagram === '2') {
-          range_1=[0,80]
-          range_2=[0,40]
-          temp.push({
-            x: data.time,
-            y: data.angle,
-            name: "Angle",
-            type: "scatter",
-            line: {
-              width: 3,
-        shape: 'spline'
-            },
-
-        })
-
-        temp.push({
-          x: data.time,
-          y: data.temperature,
-          name: "Temperature",
-          type: "scatter",
-          yaxis: 'y2',
-          line: {
-            width: 3,
-      shape: 'spline'
-          },
-      })
-    } 
-
-    if (currentdiagram === '3') {
-      range_1=[0,85]
-      range_2=[0,42.5]
-      range_3=[0,15]
-      temp.push({
-        x: data.time,
-        y: data.attenuation,
-        name: "Attenuation",
-        type: "scatter",
-        line: {
-          width: 3,
-    shape: 'spline'
-        },
-
-    })
-
-    temp.push({
-      x: data.time,
-      y: data.alcohol,
-      name: "ABV %",
-      type: "scatter",
-      yaxis: 'y2',
-      line: {
-        width: 3,
-  shape: 'spline'
-      },
-
-  })
-
-    temp.push({
-      x: data.time,
-      y: data.temperature,
-      name: "Temperature",
-      type: "scatter",
-      yaxis: 'y2',
-      line: {
-        width: 3,
-  shape: 'spline'
-      },
-  })
-} 
-    
-    if (currentdiagram === '4') {
-      range_1=[2,5]
-      range_2=[-100,-20]
-      temp.push({
-        x: data.time,
-        y: data.battery,
-        name: "Battery",
-        type: "scatter",
-        line: {
-          width: 3,
-    shape: 'spline'
-        },
-
-    })
-
-    temp.push({
-      x: data.time,
-      y: data.rssi,
-      name: "RSSI",
-      yaxis: 'y2',
-      type: "scatter",
-      line: {
-        width: 3,
-  shape: 'spline'
-      },
-  })
-} 
-      setData(temp);
-      setRange_y1(range_1);
-      setRange_y2(range_2);
-      setRange_y3(range_3);
-
-
-
-    });
+        load();
+     });
   })
 }, [currentarchive, currentdiagram]);
 
@@ -583,11 +419,11 @@ const yes = () => {
 
 
           <Tooltip  title="Refresh">
-          <IconButton onClick={load}>
-            
+          <IconButton onClick={load}> 
             <AutorenewIcon className={loading ? "rotating-right" : "" }/>
           </IconButton>
           </Tooltip>
+
           <DeleteDialog
             title="Delete current Archive"
             tooltip="Delete Archive"
@@ -666,6 +502,7 @@ const yes = () => {
                 },
               },
               xaxis: {
+                autorange: true,
                 showgrid: false,
                 tickfont: {
                   size: 12,
