@@ -13,6 +13,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import SetRecipeDialog from "./SetRecipeDialog";
 import { withStyles, createStyles} from '@mui/styles';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
+import QueryStatsIcon from '@mui/icons-material/QueryStats';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -195,20 +196,9 @@ const CurrentSpindleData = () => {
   return (
     <>
       <Typography variant="h6" gutterBottom>
-        Recent Spindle Data
+        Current Spindle Data
       </Typography>
       
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link
-          color="inherit"
-          onClick={() => {
-            navigate("/data");
-          }}
-        >
-          Back to Archive data
-        </Link>
-      </Breadcrumbs>
-
       <Divider />
       <Paper elevation={12}>
         <Grid spacing={3} >
@@ -233,11 +223,20 @@ const CurrentSpindleData = () => {
                   <SetRecipeDialog title="Set New Recipe for " spindle={spindledata.find((item) => item.value === currentspindle)} message="Do you want to Start a new recipe for this spindle?" callback={save} id={currentspindle} /> 
                 </TableCell>
                 <TableCell>
+                <InputLabel id="demo-simple-select-helper-label">Refresh data:</InputLabel>
                 <Tooltip  title="Refresh">
-          <IconButton onClick={load}>
-            <AutorenewIcon/>
-          </IconButton>
-          </Tooltip>
+                <IconButton onClick={load}>
+                <AutorenewIcon/>
+                </IconButton>
+                </Tooltip>
+                </TableCell>
+                <TableCell>
+                <InputLabel id="demo-simple-select-helper-label">Show archive data:</InputLabel>
+                <Tooltip  title="Show archive data">
+                <IconButton aria-label="delete" onClick={() => { navigate("/data") }} >
+                <QueryStatsIcon />
+                </IconButton>
+                </Tooltip>
                 </TableCell>
               </TableRow>
             </Table>
@@ -288,18 +287,6 @@ const CurrentSpindleData = () => {
         </Grid>
         
         <Divider />
-        <div className={classes.buttons}>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => {
-              navigate("/data");
-            }}
-            className={classes.button}
-          >
-            Back
-          </Button>
-        </div>
       </Paper>
     </>
   );
