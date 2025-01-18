@@ -18,10 +18,9 @@ import { View, Text } from "react";
 export const ActionDialog = ({ item }) => {
   const alert = useAlert();
 
-  item.message = item.message.replace(/<br\s*\/?>/mg, "");
-  item.message = item.message.replace(/<b\s*\/?>/mg, " | ").replace(/<\/b>/mg, "");
-
-
+  const changehtml = (key) => {
+    return <td dangerouslySetInnerHTML={{__html: key}}></td>
+  } 
 
   const call_action = (dialog_id, action) => {
     alert.remove(dialog_id);
@@ -30,12 +29,11 @@ export const ActionDialog = ({ item }) => {
     });
   };
 
-
   return (
     <Dialog open={true} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
       <DialogTitle id="alert-dialog-title">{item.title}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">{item.message}</DialogContentText>
+        <DialogContentText id="alert-dialog-description">{changehtml(item.message)}</DialogContentText>
       </DialogContent>
       <DialogActions>
         {item.action.map((a) => {
