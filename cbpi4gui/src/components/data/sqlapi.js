@@ -132,7 +132,16 @@ const transfercalibration = (SpindleID, ArchiveID, callback_susscess = () => {},
     });
 };
 
-
+const testsqlconnection = (callback_susscess = () => { }, callback_failed = () => { }) => {
+  axios
+    .post("/api/hydrometer/v1/data/testsqlconnection")
+    .then(function (response) {
+      callback_susscess(response.data);
+      })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
 
 export const sqlapi = {
   getdiagramlist,
@@ -146,5 +155,6 @@ export const sqlapi = {
   savecalibration,
   getrecentdata,
   resetrecipe,
-  transfercalibration
+  transfercalibration,
+  testsqlconnection
 }

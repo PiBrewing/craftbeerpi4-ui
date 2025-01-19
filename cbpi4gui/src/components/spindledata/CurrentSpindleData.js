@@ -111,6 +111,7 @@ const CurrentSpindleData = () => {
   const [currentspindle, setCurrentspindle] = useState({});
   const [calibrated, setCalibrated] = useState(true);
   const [spindledata, setSpindledata] = useState([])
+  const [sql_config, setSql_config] = useState({})
   const [days, setDays] = useState(7)
   const [const0, setConst0] = useState(0);
   const [const1, setConst1] = useState(0);
@@ -118,6 +119,10 @@ const CurrentSpindleData = () => {
   const [const3, setConst3] = useState(0);
 
   useEffect(() => {
+    sqlapi.testsqlconnection((data) => {
+      setSql_config(data);
+      console.log(data)
+    });
     sqlapi.getrecentdata(days , (data) => {
       setSpindledata(data);
       console.log(data)
@@ -193,6 +198,63 @@ const CurrentSpindleData = () => {
 
   }
 
+  if (!sql_config.sql_connection) {
+    return (
+      <Container>
+        <Typography variant="h6" gutterBottom>
+          <TableContainer component={Paper}>
+          <InputLabel id="demo-simple-select-helper-label">No SQL Connection or database. Please check your settings or create database with these settings.</InputLabel>
+          <Divider />
+          <table>
+            <TableBody> 
+          <TableRow>
+          <TableCell>
+            Host:
+          </TableCell>
+          <TableCell>
+           {sql_config.spindle_SQL_HOST}
+          </TableCell>
+          </TableRow>
+          <TableRow>
+          <TableCell>
+            Port:
+          </TableCell>
+          <TableCell>
+           {sql_config.spindle_SQL_PORT}
+          </TableCell>
+          </TableRow>
+          <TableRow>
+          <TableCell>
+            User:
+          </TableCell>
+          <TableCell>
+            {sql_config.spindle_SQL_USER}
+          </TableCell>
+          </TableRow>
+          <TableRow>
+          <TableCell>
+            Database:
+          </TableCell>
+          <TableCell>
+            {sql_config.spindle_SQL_DB}
+          </TableCell>
+          </TableRow>
+          <TableRow>
+          <TableCell>
+            Password:
+          </TableCell>
+          <TableCell>
+            {sql_config.spindle_SQL_PASSWORD}
+          </TableCell>
+          </TableRow>
+          </TableBody>
+          </table>
+          </TableContainer>
+        </Typography>
+      </Container>
+    )
+  }
+  else {
   return (
     <>
       <Typography variant="h6" gutterBottom>
@@ -290,6 +352,7 @@ const CurrentSpindleData = () => {
       </Paper>
     </>
   );
+};
 };
 
 export default CurrentSpindleData;
