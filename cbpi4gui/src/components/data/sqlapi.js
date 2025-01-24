@@ -143,6 +143,17 @@ const testsqlconnection = (callback_susscess = () => { }, callback_failed = () =
     });
 };
 
+const createdatabse = (data, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .post("/api/hydrometer/v1/data/createdatabase", data)
+    .then(function (response) {
+      callback_susscess(response.data);
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
 export const sqlapi = {
   getdiagramlist,
   getarchivelist,
@@ -156,5 +167,6 @@ export const sqlapi = {
   getrecentdata,
   resetrecipe,
   transfercalibration,
-  testsqlconnection
+  testsqlconnection,
+  createdatabse
 }

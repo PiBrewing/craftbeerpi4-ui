@@ -14,6 +14,7 @@ import SetRecipeDialog from "./SetRecipeDialog";
 import { withStyles, createStyles} from '@mui/styles';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
+import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -117,6 +118,8 @@ const CurrentSpindleData = () => {
   const [const1, setConst1] = useState(0);
   const [const2, setConst2] = useState(0);
   const [const3, setConst3] = useState(0);
+  const [admin, setAdmin] = useState("");
+  const [adminpassword, setAdminpassword] = useState("");
 
   useEffect(() => {
     sqlapi.testsqlconnection((data) => {
@@ -198,7 +201,31 @@ const CurrentSpindleData = () => {
 
   }
 
-  if (!sql_config.sql_connection) {
+  const onchangeadmin = (e) => {
+    const value = e.target.value
+      setAdmin(value)
+  }
+
+  const onchangeadminpassword = (e) => {
+    const value = e.target.value
+      setAdminpassword(value)
+  }
+
+  const create = () => {
+    const sql_admin = {
+      admin: admin,
+      adminpassword: adminpassword
+    };
+
+    sqlapi.createdatabse(sql_admin, (data) => {
+     navigate(0); // reload page to show new data
+    });
+  };
+
+
+  if (!sql_config.sql_connection) 
+    
+    {
     return (
       <Container>
         <Typography variant="h6" gutterBottom>
@@ -245,6 +272,34 @@ const CurrentSpindleData = () => {
           </TableCell>
           <TableCell>
             {sql_config.spindle_SQL_PASSWORD}
+          </TableCell>
+          </TableRow>
+          <TableRow>
+          <TableCell align="left">
+            Database Admin:
+          </TableCell>
+          <TableCell align="right">
+          <TextField label="SQL admin" variant="standard" onChange={onchangeadmin} value={admin} />
+          </TableCell>
+          </TableRow>
+          <TableRow>
+          <TableCell align="left">
+            Database Admin Password:
+          </TableCell>
+          <TableCell align="right">
+          <TextField label="SQL adminpassword" variant="standard" onChange={onchangeadminpassword} value={adminpassword} />
+          </TableCell>
+          </TableRow>
+          <TableRow>
+          <TableCell>
+            Create Database: 
+          </TableCell>
+          <TableCell>
+          <Tooltip title="Create Database">
+          <IconButton aria-label="delete" size="small" onClick={() => { create() }} >
+          <CreateNewFolderIcon />
+          </IconButton>
+          </Tooltip>
           </TableCell>
           </TableRow>
           </TableBody>
@@ -353,6 +408,7 @@ const CurrentSpindleData = () => {
     </>
   );
 };
+
 };
 
 export default CurrentSpindleData;
