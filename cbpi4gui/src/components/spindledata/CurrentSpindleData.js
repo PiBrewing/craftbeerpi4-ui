@@ -15,6 +15,7 @@ import { withStyles, createStyles} from '@mui/styles';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
+import InfoDialog from "./InfoDialog";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -124,8 +125,8 @@ const CurrentSpindleData = () => {
   useEffect(() => {
     sqlapi.testsqlconnection((data) => {
       setSql_config(data);
-      console.log(data)
-    });
+      console.log(data.sql_connection)
+      if (data.sql_connection===true) {
     sqlapi.getrecentdata(days , (data) => {
       setSpindledata(data);
       console.log(data)
@@ -135,7 +136,10 @@ const CurrentSpindleData = () => {
       setConst1(data[0].data.Const1);
       setConst2(data[0].data.Const2);
       setConst3(data[0].data.Const3); 
+    
     });
+  }
+  });
   }, []);
 
   const load = () => {
@@ -212,13 +216,19 @@ const CurrentSpindleData = () => {
   }
 
   const create = () => {
+    if (admin === "" || adminpassword === "") {
+      return
+    }
     const sql_admin = {
       admin: admin,
       adminpassword: adminpassword
     };
 
     sqlapi.createdatabse(sql_admin, (data) => {
+      console.log(data)
+      setTimeout(() => {
      navigate(0); // reload page to show new data
+      }, 5000);
     });
   };
 
@@ -328,8 +338,12 @@ const CurrentSpindleData = () => {
                 <SelectBox label="Type" options={spindledata} value={currentspindle} onChange={onChangeSpindle} />
                 </TableCell>
                 <TableCell>
-                {!calibrated ? <Tooltip title="Spindle not calibrated" arrow><WarningAmberIcon color="error" /></Tooltip> : 
-                <Tooltip title="Calibrated" arrow><CheckIcon color="primary" /></Tooltip>}
+                {!calibrated ?  <Tooltip title="Spindle not calibrated" arrow>
+                                <IconButton aria-label="delete" size="small" onClick={() => { navigate("/calibrate") }} >
+                                <WarningAmberIcon color="error" />
+                                </IconButton>
+                                </Tooltip> : 
+                                <Tooltip title="Calibrated" arrow><CheckIcon color="primary" /></Tooltip>}
                 </TableCell>
 
                 <TableCell>
