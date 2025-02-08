@@ -63,7 +63,7 @@ export const Spindledata = () => {
   const { archive } = useParams();
   const { diagram } = useParams();
   const [archivelist, setArchivelist] = useState([]);
-  const [currentarchive, setCurrentarchive] = useState([]);
+  const [currentarchive, setCurrentarchive] = useState("");
   const [diagramlist, setDiagramlist] = useState([]);
   const [currentdiagram, setCurrentdiagram] = useState([]);
   const [archiveheader, setArchiveheader] = useState([]);
@@ -273,6 +273,9 @@ const load = () => {
   }, [archiveheader]);
 
   useEffect(() => {
+    if (currentarchive === "") {
+      return;
+    }
     sqlapi.getarchiveheader(currentarchive, (data) => { 
       setArchiveheader(data);
       sqlapi.getarchivevalues(data, (data) => {  
@@ -289,7 +292,7 @@ const load = () => {
 
   const DiagramChange = (event) => {
     setCurrentdiagram(event.target.value);
-    if (currentarchive ) {
+    if (currentarchive !== "") {
       navigate("/data/"+currentarchive+"/"+event.target.value);
     }      
       };
@@ -307,8 +310,8 @@ const delete_archive = () => {
   };
 
   const transfercalibration = () => {
-    console.log(archiveheader.ArchiveID);
-    console.log(archiveheader.SpindleID);
+    //console.log(archiveheader.ArchiveID);
+    //console.log(archiveheader.SpindleID);
     sqlapi.transfercalibration(archiveheader.SpindleID, archiveheader.ArchiveID, (data) => {
       load();
           }
