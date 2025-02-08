@@ -289,8 +289,9 @@ const load = () => {
 
   const DiagramChange = (event) => {
     setCurrentdiagram(event.target.value);
-    navigate("/data/"+currentarchive+"/"+event.target.value);
-      
+    if (currentarchive ) {
+      navigate("/data/"+currentarchive+"/"+event.target.value);
+    }      
       };
   
 
