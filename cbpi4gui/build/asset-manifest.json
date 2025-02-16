@@ -1,19 +1,17 @@
 {
   "files": {
-    "main.css": "./static/css/main.cb9a38ea.css",
-    "main.js": "./static/js/main.0091ada9.js",
+    "main.css": "./static/css/main.4be6cbd9.css",
+    "main.js": "./static/js/main.06432be7.js",
     "static/media/cbpi.png": "./static/media/cbpi.f1a4ae594af1e1df335b.png",
+    "static/media/buzzer.mp3": "./static/media/buzzer.4d5932be5f2519107768.mp3",
     "static/media/Reacticon.png": "./static/media/Reacticon.62b41405c3951389251c.png",
     "static/media/cbpi_no_border.png": "./static/media/cbpi_no_border.5446caa7c8efc97bdcc1.png",
-    "static/media/buzzer.mp3": "./static/media/buzzer.e835937ec3faa09cb1a0.mp3",
     "static/media/tank2.svg": "./static/media/tank2.891ce17091e46c74c1157a9c7013ea70.svg",
     "static/media/kettle.svg": "./static/media/kettle.77e9dd6425b5f8f52bbf9fb5e82777c0.svg",
-    "index.html": "./index.html",
-    "main.cb9a38ea.css.map": "./static/css/main.cb9a38ea.css.map",
-    "main.0091ada9.js.map": "./static/js/main.0091ada9.js.map"
+    "index.html": "./index.html"
   },
   "entrypoints": [
-    "static/css/main.cb9a38ea.css",
-    "static/js/main.0091ada9.js"
+    "static/css/main.4be6cbd9.css",
+    "static/js/main.06432be7.js"
   ]
 }

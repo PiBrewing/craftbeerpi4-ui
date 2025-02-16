@@ -55,6 +55,10 @@ const NotificationsDeleteDialog = () => {
     notificationapi.deletenotifications()
     };
 
+const changehtml = (key) => {
+  return <td dangerouslySetInnerHTML={{__html: key}}></td>
+}
+
   return (
     <>
       {
@@ -74,7 +78,7 @@ const NotificationsDeleteDialog = () => {
             <TableBody>
               {notifications.map((key) =>(
               <TableRow>
-              {key}  
+              {changehtml(key)}  
               </TableRow>))}
               </TableBody> 
         </Table>

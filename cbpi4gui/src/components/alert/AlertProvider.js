@@ -12,9 +12,15 @@ import React from "react";
 import buzzer from './buzzer.mp3';
 import {configapi} from '../data/configapi'
 import { notificationapi } from "../data/notificationapi";
+import { Typography } from "@mui/material";
+import { View, Text } from "react";
 
 export const ActionDialog = ({ item }) => {
   const alert = useAlert();
+
+  const changehtml = (key) => {
+    return <td dangerouslySetInnerHTML={{__html: key}}></td>
+  } 
 
   const call_action = (dialog_id, action) => {
     alert.remove(dialog_id);
@@ -27,7 +33,7 @@ export const ActionDialog = ({ item }) => {
     <Dialog open={true} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
       <DialogTitle id="alert-dialog-title">{item.title}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">{item.message}</DialogContentText>
+        <DialogContentText id="alert-dialog-description">{changehtml(item.message)}</DialogContentText>
       </DialogContent>
       <DialogActions>
         {item.action.map((a) => {
@@ -109,7 +115,7 @@ export const AlertProvider = ({ children }) => {
           if (a?.action?.length > 0) {
             return <ActionDialog key={a.id} item={a} />;
           } else { 
-            return <Alert severity={a.type || "info"} key={a.id}>{a.title} - {a.message}</Alert>;
+            return <Alert severity={a.type || "info"} key={a.id}>{a.title} - <Typography>{a.message} </Typography></Alert>;
           }
         })}
       </div>
