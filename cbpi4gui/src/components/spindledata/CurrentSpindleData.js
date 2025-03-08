@@ -125,11 +125,11 @@ const CurrentSpindleData = () => {
   useEffect(() => {
     sqlapi.testsqlconnection((data) => {
       setSql_config(data);
-      console.log(data.sql_connection)
+      //console.log(data.sql_connection)
       if (data.sql_connection===true) {
     sqlapi.getrecentdata(days , (data) => {
       setSpindledata(data);
-      console.log(data)
+      //console.log(data)
       setCurrentspindle(data[0].value);
       setCalibrated(data[0].data.Calibrated)
       setConst0(data[0].data.Const0);
@@ -142,10 +142,19 @@ const CurrentSpindleData = () => {
   });
   }, []);
 
+  // reload data every 60 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      load();
+    }, 60000);
+  
+    return () => clearInterval(interval);
+  }, []);
+
   const load = () => {
     sqlapi.getrecentdata(days , (data) => {
       setSpindledata(data);
-      console.log(data)
+      //console.log(data)
       setCurrentspindle(data[0].value);
       setCalibrated(data[0].data.Calibrated)
       setConst0(data[0].data.Const0);
@@ -157,8 +166,8 @@ const CurrentSpindleData = () => {
 
   const save = (id, spindlename="iSpindle000", recipeName="Beer", batchID="0000") => {
 
-    console.log("Save Recipe for Spindle " + id + " with name " + recipeName + " and batch ID " + batchID)
-    console.log(spindlename)
+    //console.log("Save Recipe for Spindle " + id + " with name " + recipeName + " and batch ID " + batchID)
+    //console.log(spindlename)
     const data = {
       calibrated: calibrated,
       const0: const0,
@@ -170,7 +179,7 @@ const CurrentSpindleData = () => {
       Spindlename: spindlename
     };
 
-    console.log(data)
+    //console.log(data)
     
     sqlapi.resetrecipe(id, data, () => {
     navigate(0); // reload page to show new data
@@ -184,7 +193,7 @@ const CurrentSpindleData = () => {
     const value = e.target.value
     if (value) {
       setCurrentspindle(value)
-      console.log(spindledata.find((item) => item.value === value).data)
+      //console.log(spindledata.find((item) => item.value === value).data)
       //setCurrentspindle(calibration.find((item) => item.value === value))
       setConst0(spindledata.find((item) => item.value === value).data.Const0)
       setConst1(spindledata.find((item) => item.value === value).data.Const1)
@@ -225,7 +234,7 @@ const CurrentSpindleData = () => {
     };
 
     sqlapi.createdatabse(sql_admin, (data) => {
-      console.log(data)
+      //console.log(data)
       setTimeout(() => {
      navigate(0); // reload page to show new data
       }, 5000);

@@ -76,6 +76,7 @@ export const Spindledata = () => {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [ridFlag, setRIDFlag] = useState(false);
+  const [range_x, setRange_x] = useState([0,1]);
 
 const load = () => {
     setLoading(true);
@@ -235,6 +236,7 @@ const load = () => {
                 })
             }
             setData(temp);
+            setRange_x([data.time[0], data.time[data.time.length - 1]]);
             setRange_y1(range_1);
             setRange_y2(range_2);
             setRange_y3(range_3);
@@ -506,7 +508,8 @@ const yes = () => {
                 },
               },
               xaxis: {
-                autorange: true,
+                range: range_x,
+                type: "date",
                 showgrid: false,
                 tickfont: {
                   size: 12,
