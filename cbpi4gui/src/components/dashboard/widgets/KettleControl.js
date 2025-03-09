@@ -71,7 +71,7 @@ const TargetTempDialog = ({ onClose, kettle, open }) => {
   const {actions} = useCBPi()
   useEffect(()=>{
     setValue(kettle?.target_temp)
-  },[])
+  },[kettle?.target_temp])
 
   
   if (checkunit === false){

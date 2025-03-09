@@ -341,7 +341,9 @@ export const DashboardProvider = ({ children }) => {
       get_data,
       is_selected,
       clear,
+      setElements,
       setElements2,
+      setPathes,
       remove,
       update_default_prop,
       update_prop,
@@ -446,7 +448,11 @@ export const Dashboard = ({ width, height , fixdash}) => {
         let parentWidth = parentRef.current.offsetWidth;
         actions.setWidth(parentWidth);
         actions.setHeight(parentHeight);
-        actions.load(parentWidth, parentHeight, 0);
+        // clear current dashboard
+        actions.setElements({});
+        actions.setElements2([]);
+        actions.setPathes([]);
+        //actions.load(parentWidth, parentHeight, 0);
         actions.load(parentWidth, parentHeight, DashboardID);
       }
 
