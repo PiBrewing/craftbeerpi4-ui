@@ -67,7 +67,7 @@ const TargetTempDialog = ({ onClose, fermenter, open }) => {
   const {actions} = useCBPi()
   useEffect(()=>{
     setValue(fermenter?.target_temp)
-  },[])
+  },[fermenter?.target_temp])
 
   
   if (checkunit === false){
@@ -180,7 +180,7 @@ const TargetPressureDialog = ({ onClose, fermenter, open }) => {
   const {actions} = useCBPi()
   useEffect(()=>{
     setValue(fermenter?.target_pressure)
-  },[])
+  },[fermenter?.target_pressure])
 
   
   if (checkunit === false){
