@@ -325,7 +325,7 @@ export const FermenterSteps = ({ id }) => {
       <div style={{ marign: 20 }}>
         <div className="section_header">{brewname}</div>
         <FermenterControl fermenterid={fermenterid} disabled={state2.draggable} />
-        <List component="nav" aria-label="main mailbox folders" style={{maxHeight: `${model?.props?.maxHeight}px`, overflow: "auto"}}>
+        <List component="nav" aria-label="main mailbox folders" style={{maxHeight: `${model?.props?.maxheight}px`, overflow: "auto"}}>
           {profile.map((row, index) => (
             <StepItem size={model.props.stepsize} item={row} key={index} />
           ))}
