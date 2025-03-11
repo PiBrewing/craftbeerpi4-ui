@@ -21,6 +21,7 @@ http://localhost:8000#
 
 ### Changelog
 
+- 11.03.25: (0.3.18.3) Fix maxheight property variable name for steps and fermentersteps widget
 - 09.03.25: (0.3.18.2) Fix bugs #60, #61 and #62. Thanks to https://github.com/Corginyan
 - 08.03.25: (0.3.18.1) Minor tweaks for Spindle data pages
 - 16.02.25: (0.3.18) Add Spindle data pages (iSpindle plugin required)
