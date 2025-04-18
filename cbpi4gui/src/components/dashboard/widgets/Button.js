@@ -12,7 +12,6 @@ import LinearProgress from '@mui/material/LinearProgress';
 
 
 const PowerDialog = ({ onClose, actor, open, type }) => {
-  
   const [powervalue, setPowerValue] = useState(actor?.power || 100);
   const [powerminval, setPowerMinval] = useState(0);
   const [powermaxval, setPowerMaxval] = useState(100);
@@ -89,10 +88,6 @@ const PowerDialog = ({ onClose, actor, open, type }) => {
     setOutputValue(actor?.output)
   },[actor?.output])
   
-  useEffect(()=>{
-    setValue(actor?.power)
-  },[actor?.power])
-
   if (!actor) return "";
 
   const handleClose = () => {
