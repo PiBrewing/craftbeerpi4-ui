@@ -12,6 +12,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 
 
 const PowerDialog = ({ onClose, actor, open, type }) => {
+  //console.log(open)
   const [powervalue, setPowerValue] = useState(actor?.power || 100);
   const [powerminval, setPowerMinval] = useState(0);
   const [powermaxval, setPowerMaxval] = useState(100);
@@ -113,7 +114,7 @@ const PowerDialog = ({ onClose, actor, open, type }) => {
     setOutputValue(newValue);
   };
 
-  if (type === "Power" || type === "yes"){
+  if (type === "Power" || type === null){
   return (
     <Dialog fullWidth onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
       <DialogTitle id="simple-dialog-title">Set Power {actor.name} </DialogTitle>
@@ -142,7 +143,7 @@ const PowerDialog = ({ onClose, actor, open, type }) => {
   if (type === "Output"){
     return (
       <Dialog fullWidth onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-        <DialogTitle id="simple-dialog-title">Set Power {actor.name} </DialogTitle>
+        <DialogTitle id="simple-dialog-title">Set Output {actor.name} </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -355,6 +356,7 @@ export const DashboardButton = ({ id, width, height }) => {
     if (action === "yes" && actor) {
       if (powerslider !== "No" && power()) 
       {
+        //console.log("Action: " + action + "| Power: " + power() + "| Actor: " + actor?.name + "| Powerslider: " + powerslider);
         return (
           <div style={cssStyle}>
             <ButtonGroup>
@@ -380,6 +382,7 @@ export const DashboardButton = ({ id, width, height }) => {
       }
       else if ((powerslider === "no" || !powerslider) && power()) 
       {
+        //console.log("Action: " + action + "| Power: " + power() + "| Actor: " + actor?.name + "| Powerslider: " + powerslider);
         return (
           <div style={cssStyle}>
             <ButtonGroup>
@@ -400,6 +403,7 @@ export const DashboardButton = ({ id, width, height }) => {
         );
       }
       else {
+        //console.log("Action: " + action + "| Power: " + power() + "| Actor: " + actor?.name + "| Powerslider: " + powerslider);
         return (
           <div style={cssStyle}>
             <ButtonGroup>
@@ -421,6 +425,7 @@ export const DashboardButton = ({ id, width, height }) => {
     } else {
       if (powerslider !== "No" && power())
       {
+        //console.log("Action: " + action + "| Power: " + power() + "| Actor: " + actor?.name + "| Powerslider: " + powerslider);
         return (
           <div style={cssStyle}>
             <ButtonGroup>
@@ -434,12 +439,13 @@ export const DashboardButton = ({ id, width, height }) => {
             </Tooltip>
             </ButtonGroup>
             <LinearProgress variant="determinate" value={power_bar()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
-            <PowerDialog onClose={PowerSliderClose} actor={actor} open={powerOpen} />
+            <PowerDialog onClose={PowerSliderClose} actor={actor} open={powerOpen} type={powerslider}/>
           </div>
         );
       }
-      else if ((powerslider === "no" || !powerslider) && power()) 
+      else if ((powerslider === "No" || !powerslider) && power()) 
       {
+        //console.log("Action: " + action + "| Power: " + power() + "| Actor: " + actor?.name + "| Powerslider: " + powerslider);
         return (
           <div style={cssStyle}>
             <Tooltip title={actor ? actor.name : ""}>
@@ -452,6 +458,7 @@ export const DashboardButton = ({ id, width, height }) => {
         );
       }
       else{
+        //console.log("Action: " + action + "| Power: " + power() + "| Actor: " + actor?.name + "| Powerslider: " + powerslider);
         return (
         <div style={cssStyle}>
           <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
@@ -461,6 +468,7 @@ export const DashboardButton = ({ id, width, height }) => {
       )}
     }}
     else{
+      //console.log("Action: " + action + "| Power: " + power() + "| Actor: " + actor?.name + "| Powerslider: " + powerslider);
       return (
       <div style={cssStyle}>
         <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor} style={{borderRadius: '0px'}} >
