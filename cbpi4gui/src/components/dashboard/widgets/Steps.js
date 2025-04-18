@@ -25,6 +25,7 @@ import SensorName from "../../util/SensorName";
 import { DashboardContext, useDraggable, useModel } from "../DashboardContext";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import { useNavigate } from "react-router-dom";
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
@@ -250,7 +251,8 @@ const StepItem = ({ size, item }) => {
         <ListItemIcon>
           <State state={item.status} />
         </ListItemIcon>
-        <ListItemText primaryTypographyProps={{ sx: primaryprops }} primary={item.name} secondaryTypographyProps={{ style: secondaryprops }} secondary={item.state_text} />
+            <ListItemText primaryTypographyProps={{ sx: primaryprops }} primary={item.name} secondaryTypographyProps={{ style: secondaryprops }} secondary={item.state_text2 ? 
+          <div>{item.state_text}<br/>{item.state_text2}</div> : item.state_text} />
       </ListItemButton>
       <StepDetailsDialog item={item} selectedValue={selectedValue} open={open} onClose={handleClose} />
     </>
@@ -271,7 +273,7 @@ export const Steps = ({ id }) => {
     setProfile(state.mashProfile);
   }, [state.mashProfile]);
 
-  let inputStyle = { color: "#fff", width: `${model?.props?.width}px`,fontSize: `${model?.props?.namesize}pt`, backgroundColor: "#2c282e", padding: 5, borderRadius: 5 };
+  let inputStyle = { color: "#fff", width: `${model?.props?.width}px`, fontSize: `${model?.props?.namesize}pt`, backgroundColor: "#2c282e", padding: 5, borderRadius: 5 };
 
   if( draggable) {
     return <div className="box" style={{...inputStyle, display:"flex", justifyContent: "center", alignItems: "center"}}>
@@ -301,7 +303,7 @@ export const Steps = ({ id }) => {
       <div style={{ marign: 20 }}>
         <div className="section_header">{state.mashBasic?.name}</div>
         <MashControl disabled={state2.draggable} />
-        <List component="nav" aria-label="main mailbox folders">
+        <List component="nav" aria-label="main mailbox folders" style={{maxHeight: `${model?.props?.maxheight}px`, overflow: "auto"}}>
           {profile.map((row, index) => (
             <StepItem size={model.props.stepsize} item={row} key={index} />
           ))}

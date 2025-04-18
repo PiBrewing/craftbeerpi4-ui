@@ -21,6 +21,11 @@ http://localhost:8000#
 
 ### Changelog
 
+- 11.03.25: (0.3.18.3) Fix maxheight property variable name for steps and fermentersteps widget
+- 09.03.25: (0.3.18.2) Fix bugs #60, #61 and #62. Thanks to https://github.com/Corginyan
+- 08.03.25: (0.3.18.1) Minor tweaks for Spindle data pages
+- 16.02.25: (0.3.18) Add Spindle data pages (iSpindle plugin required)
+- 21.08.24: (0.3.17.1) Update power value on power slider, if button action was used to adjust power
 - 01.08.24: (0.3.17) Fixed Bug for pipe color for existing pipes
 - 08.07.24: (0.3.16) Change position of notification information in tab title. Add options to pipes (opaqueness, width, color). Add progress bar to actor button for power display and for progress on compressor actor plugin
 - 01.07.24: (0.3.15) Update Brewfather API calls to V2 API, Add information about # of notifications to tab title

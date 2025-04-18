@@ -25,6 +25,9 @@ import RecipeEditor from "./components/recipes/RecipeEditor";
 import FermenterRecipeEditor from "./components/fermenterrecipes/FermenterRecipeEditor";
 import { Charting } from "./components/charting";
 import MainMenu from "./components/MainMenu";
+import { Spindledata } from "./components/spindledata";
+import SpindleCalForm from "./components/spindledata/SpindleCalForm";
+import CurrentSpindleData from "./components/spindledata/CurrentSpindleData";
 
 const drawerWidth = 240;
 
@@ -197,6 +200,12 @@ const CraftBeerPiApp = () => {
                   <Route path="fermenterstep/:fermenterid" element={<FermenterStepForm />}/>
                   <Route path="fermenterstep" element={<FermenterStepForm />}/>
                   <Route path="charting" element={<Charting />}/>              
+                  <Route path="data" element={<Spindledata />}/>                  
+                  <Route path="data/:archive/:diagram" element={<Spindledata />}/> 
+                  <Route path="calibrate" element={<SpindleCalForm />}/>
+                  <Route path="calibrate/:id" element={<SpindleCalForm />}/>
+                  <Route path="currentdata" element={<CurrentSpindleData />}/>
+
           </Route>
         </Routes>
       </Router>

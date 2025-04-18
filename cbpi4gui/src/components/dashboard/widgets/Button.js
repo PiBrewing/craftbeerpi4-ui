@@ -88,6 +88,10 @@ const PowerDialog = ({ onClose, actor, open, type }) => {
   useEffect(()=>{
     setOutputValue(actor?.output)
   },[actor?.output])
+  
+  useEffect(()=>{
+    setValue(actor?.power)
+  },[actor?.power])
 
   if (!actor) return "";
 

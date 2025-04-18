@@ -8,17 +8,21 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import React from "react";
+import CalculateIcon from '@mui/icons-material/Calculate';
 
-const DeleteDialog = ({ btnText, title, message, callback, id, icon="delete" }) => {
+const DeleteDialog = ({ btnText, title, message, callback, id, Spindle_Name ,tooltip="Delete", icon="delete" }) => {
   const [open, setOpen] = React.useState(false);
   const [symbol, setSymbol] = React.useState(<DeleteIcon />)
-  const [tip, setTip] = React.useState("Delete")
+  const [tip, setTip] = React.useState(tooltip)
 
   React.useEffect(() => {
-    if (icon !== "delete") {
+    if (icon !== "delete" && icon !== "Calibrate") {
       setSymbol(<DeleteSweepIcon />)
-      setTip("Delete All")
+      setTip(tooltip)
     }
+    else if (icon === "Calibrate") {
+      setSymbol(<CalculateIcon />)
+      setTip(tooltip)}
   }, [icon]);
 
   const handleClickOpen = () => {
@@ -53,7 +57,7 @@ const DeleteDialog = ({ btnText, title, message, callback, id, icon="delete" }) 
       <Dialog open={open} onClose={no} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
         <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">{message}</DialogContentText>
+          <DialogContentText id="alert-dialog-description">{message} {Spindle_Name}</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={no} color="secondary" autoFocus variant="contained">

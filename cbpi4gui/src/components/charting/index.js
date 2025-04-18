@@ -45,6 +45,7 @@ export const Charting = () => {
       }
 	  setLoading(false);
       setData(temp);
+      console.log(data)
     });
   };
 const clear_logs = () => {

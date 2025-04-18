@@ -31,8 +31,8 @@ export const widget_list = [
     icon: CBPiKettle2Icon,
     component: KettleSVG,
     props: [
-      { name: "width", default: "100", type: "text", unit: "px" },
-      { name: "heigth", default: "150", type: "text", unit: "px" },
+      { name: "width", default: "100", type: "number", unit: "px" },
+      { name: "heigth", default: "150", type: "number", unit: "px" },
     ],
   },
   {
@@ -41,8 +41,8 @@ export const widget_list = [
     icon: CBPiTankIcon,
     component: TankSVG,
     props: [
-      { name: "width", default: "100", type: "text", unit: "px" },
-      { name: "heigth", default: "150", type: "text", unit: "px" },
+      { name: "width", default: "100", type: "number", unit: "px" },
+      { name: "heigth", default: "150", type: "number", unit: "px" },
     ],
   },
   {
@@ -51,7 +51,7 @@ export const widget_list = [
     icon: TextFieldsIcon,
     component: Text,
     props: [
-      { name: "size", default: "10", type: "text", unit: "pt" },
+      { name: "size", default: "10", type: "number", unit: "pt" },
       { name: "color", default: "#fff", type: "text" },
     ],
   },
@@ -63,7 +63,7 @@ export const widget_list = [
     props: [
       { name: "kettle", default: "1", type: "kettle" },
       { name: "unit", default: "°", type: "text" },
-      { name: "size", default: "12", type: "text" },
+      { name: "size", default: "12", type: "number" },
       { name: "color", default: "#fff", type: "text" },
     ],
   },
@@ -75,7 +75,7 @@ export const widget_list = [
     props: [
       { name: "sensor", default: "", type: "sensor" },
       { name: "unit", default: "°", type: "text" },
-      { name: "size", default: "12", type: "text", unit: "pt" },
+      { name: "size", default: "12", type: "number", unit: "pt" },
       { name: "color", default: "#fff", type: "text" },
       { name: "colorrange", default: "#f00", type: "text" },
       { name: "digits", options: ["N/A","0","1", "2","3","4"], default: "N/A", type: "select" },
@@ -88,7 +88,7 @@ export const widget_list = [
     component: DashboardButton,
     icon: ToggleOffIcon,
     props: [{ name: "actor", default: "", type: "actor" },
-    { name: "size", default: "12", type: "text", unit: "pt" },
+    { name: "size", default: "12", type: "number", unit: "pt" },
     { name: "action", options: ["yes", "no"], default: "No", type: "select" },
     { name: "powerslider", options: ["Power","Output", "No"], default: "No", type: "select" }
   ],
@@ -106,9 +106,10 @@ export const widget_list = [
     type: "Steps",
     component: Steps,
     icon: ListIcon,
-    props: [{ name: "width", default: "200", type: "text", unit: "px" },
-            { name: "stepsize", default: "14", type: "text", unit: "pt" },
-            { name: "namesize", default: "14", type: "text", unit: "pt" }],
+    props: [{ name: "width", default: "200", type: "number", unit: "px" },
+            { name: "maxheight", default: "600", type: "number", unit: "px" },
+            { name: "stepsize", default: "14", type: "number", unit: "pt" },
+            { name: "namesize", default: "14", type: "number", unit: "pt" }],
   },
   {
     name: "SVG",
@@ -116,7 +117,7 @@ export const widget_list = [
     component: CustomSVG,
     icon: CBPiSVGIcon,
     props: [
-      { name: "width", default: "100", type: "text", unit:"px"  },
+      { name: "width", default: "100", type: "number", unit:"px"  },
     //  { name: "fixratio", options: ["yes","no"], default: "yes", type: "select"},
     // { name: "height", default: "auto", type: "text", unit:"px"  },
       { name: "WidgetOff", default: "", type: "widget" },
@@ -143,7 +144,7 @@ export const widget_list = [
     component: Clock,
     icon: QueryBuilderIcon,
     props: [
-      { name: "size", default: "10", type: "text", unit: "pt" },
+      { name: "size", default: "10", type: "number", unit: "pt" },
       { name: "format", options: ["24","12"], default: "24", type: "select"},
       { name: "showDate", options: ["yes", "no"], default: "no", type: "select" },
       { name: "color", default: "#fff", type: "text" },
@@ -158,8 +159,8 @@ export const widget_list = [
       { name: "sensor", default: "", type: "sensor" },
       { name: "linecolor", default: "#00FF00", type: "text" },
       { name: "refresh", default: 10, type: "number" },
-      { name: "width", default: 100, type: "text" }, 
-      { name: "height", default: 100, type: "text" }
+      { name: "width", default: 100, type: "number" }, 
+      { name: "height", default: 100, type: "number" }
     ],
   },
   {
@@ -172,8 +173,8 @@ export const widget_list = [
       { name: "panelID", default: "2", type: "text" },
       { name: "refresh", default: "10s", type: "text" },
       { name: "timeframe", default: "now-12h", type: "text" },
-      { name: "width", default: 100, type: "text" }, 
-      { name: "height", default: 100, type: "text" }
+      { name: "width", default: 100, type: "number" }, 
+      { name: "height", default: 100, type: "number" }
     ],
   },
   {
@@ -209,7 +210,7 @@ export const widget_list = [
     props: [
       { name: "fermenter", default: "1", type: "fermenter" },
       { name: "unit", default: "°", type: "text" },
-      { name: "size", default: "12", type: "text" },
+      { name: "size", default: "12", type: "number" },
       { name: "color", default: "#fff", type: "text" },
     ],
   },
@@ -221,7 +222,7 @@ export const widget_list = [
     props: [
       { name: "fermenter", default: "1", type: "fermenter" },
       { name: "unit", default: "kPa", type: "text" },
-      { name: "size", default: "12", type: "text" },
+      { name: "size", default: "12", type: "number" },
       { name: "color", default: "#fff", type: "text" },
     ],
   },
@@ -243,9 +244,10 @@ export const widget_list = [
     component: FermenterSteps,
     icon: ListIcon,
     props: [{ name: "fermenter", default: "1", type: "fermenter" },
-            { name: "width", default: "200", type: "text", unit: "px" },
-            { name: "stepsize", default: "14", type: "text", unit: "pt" },
-            { name: "namesize", default: "14", type: "text", unit: "pt" }],
+            { name: "width", default: "200", type: "number", unit: "px" },
+            { name: "maxheight", default: "600", type: "number", unit: "px" },
+            { name: "stepsize", default: "14", type: "number", unit: "pt" },
+            { name: "namesize", default: "14", type: "number", unit: "pt" }],
   }
   
 ];

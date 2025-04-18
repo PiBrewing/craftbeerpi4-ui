@@ -30,6 +30,7 @@ export const CBPiProvider = ({ children }) => {
   const [plugins, setPlugins] = useState([]);
   const [temp, setTemp] = useState("");
   const [version, setVersion] = useState("---");
+  const [spindledata, setSpindledata] = useState(false);
   const [guiversion, setGUIersion] = useState("---");
   const [codename, setCodename] = useState("---");
   const a = useAlert();
@@ -118,6 +119,7 @@ export const CBPiProvider = ({ children }) => {
       setMashBasic(data.step.basic);
       setConfig(data.config);
       setVersion(data.version);
+      setSpindledata(data.spindledata);
       setGUIersion(data.guiversion);
       setCodename(data.codename);
       setStepTypes(Object.values(data.step.types));
@@ -169,7 +171,7 @@ export const CBPiProvider = ({ children }) => {
   const get_sensor_by_id = (id) => sensors.find((item) => item.id === id);
 
   const value = {
-    state: { sensors, version, guiversion, codename, actors, logic, kettle, fermenter, fermenterlogic, auth, plugins, temp, sensorData, sensorDataType, sensorInRange,
+    state: { sensors, version, guiversion, codename, actors, logic, kettle, fermenter, fermenterlogic, auth, plugins, temp, sensorData, sensorDataType, sensorInRange, spindledata,
              actorTypes, sensorTypes, config, mashProfile, fermentersteps, FermenterProfile, mashBasic, stepTypes, stepTypesFermenter, connection, allnotifications, bf_recipes },
     actions: {
       delete_kettle,
@@ -221,6 +223,7 @@ export const useCBPi = () => {
       sensor: state.sensors,
       sensorTypes: state.sensorTypes,
       config: state.config,
+      spindledata: state.spindledata,
       actions,
     };
   }, [state]);
