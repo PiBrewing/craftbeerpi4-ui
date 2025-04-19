@@ -11,8 +11,9 @@ import BoltIcon from '@mui/icons-material/Bolt';
 import LinearProgress from '@mui/material/LinearProgress';
 
 
+
 const PowerDialog = ({ onClose, actor, open, type }) => {
-  //console.log(open)
+  //console.log(type)
   const [powervalue, setPowerValue] = useState(actor?.power || 100);
   const [powerminval, setPowerMinval] = useState(0);
   const [powermaxval, setPowerMaxval] = useState(100);
@@ -56,6 +57,10 @@ const PowerDialog = ({ onClose, actor, open, type }) => {
   useEffect(()=>{
     setPowerValue(actor?.power)
   },[actor?.power])
+
+  useEffect(()=>{
+    setOutputMaxval(actor?.maxoutput)
+  },[actor?.maxoutput])
 
   useEffect(()=>{
     setOutputMarks(
@@ -114,7 +119,7 @@ const PowerDialog = ({ onClose, actor, open, type }) => {
     setOutputValue(newValue);
   };
 
-  if (type === "Power" || type === null){
+  if (type === "Power"){
   return (
     <Dialog fullWidth onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
       <DialogTitle id="simple-dialog-title">Set Power {actor.name} </DialogTitle>
@@ -141,6 +146,9 @@ const PowerDialog = ({ onClose, actor, open, type }) => {
     </Dialog>
   )}
   if (type === "Output"){
+    //console.log(actor?.name)
+    //console.log(outputmaxval)
+    //console.log(outputmarks)
     return (
       <Dialog fullWidth onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
         <DialogTitle id="simple-dialog-title">Set Output {actor.name} </DialogTitle>
@@ -260,9 +268,8 @@ export const DashboardButton = ({ id, width, height }) => {
   const [open, setOpen] = useState(false);
   const [boom, setBoom] = useState(false);
   const [powerOpen, setPowerOpen] = useState(false);
-
+  const [buttonvalue,setButtonvalue] = useState("N/V");
   
-
   return useMemo(() => {
     let cssStyle = { width: model.width + "px", height: model.height + "px" };
     let btnColor = actor?.state ? "primary" : "primary";
@@ -316,7 +323,8 @@ export const DashboardButton = ({ id, width, height }) => {
       }
     };
 
-    const power = () => {
+    const power = ({type}) => {  
+
       if (model.props?.actor && actor) {
         if(actor.power >= 0 && actor.power <=100)
           return actor.power + " %";
@@ -325,6 +333,19 @@ export const DashboardButton = ({ id, width, height }) => {
         return "NV";
       }
     };
+
+
+    const output = ({type}) => {  
+
+      if (model.props?.actor && actor) {
+
+          return actor.output + " / " + actor.maxoutput;
+      } 
+      else {
+        return "NV";
+      }
+    };
+
 
     const power_bar = () => {
       if (model.props?.actor && actor) {
@@ -353,122 +374,124 @@ export const DashboardButton = ({ id, width, height }) => {
     const PowerSliderOpen = () => setPowerOpen(true);
     
     if (!timedactor()) {
-    if (action === "yes" && actor) {
-      if (powerslider !== "No" && power()) 
-      {
-        //console.log("Action: " + action + "| Power: " + power() + "| Actor: " + actor?.name + "| Powerslider: " + powerslider);
+      if (powerslider === "Power") {
+        //console.log(powerslider)
+        setButtonvalue(power(powerslider));
+      } 
+      else if (powerslider === "Output") {
+        setButtonvalue(output(powerslider));
+      }
+      if (action === "yes" && actor) {
+        if ((powerslider === "Power" || powerslider === "Output") && power(powerslider)) 
+        {
+          return (
+            <div style={cssStyle}>
+              <ButtonGroup>
+              <Tooltip title={actor ? actor.name : ""}>
+                <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
+                <div style={size()}> {name()} ({buttonvalue}) </div>
+                </Button>
+                </Tooltip>
+                <Tooltip title="Set Power">
+                <Button disabled={draggable} onClick={PowerSliderOpen} color="primary" startIcon={<BoltIcon />} size="small" aria-label="select merge strategy" aria-haspopup="menu"></Button>
+                </Tooltip>
+                <Tooltip title="Actions">
+                <Button disabled={draggable} onClick={handleOpen} color="primary" size="small" aria-label="select merge strategy" aria-haspopup="menu">
+                  <MoreVertIcon />
+                </Button>
+                </Tooltip>
+              </ButtonGroup>
+              <LinearProgress variant="determinate" value={power_bar()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
+              <ButtonActionDialog open={open} onClose={handleClose} model={model} actor={actor} />
+              <PowerDialog onClose={PowerSliderClose} actor={actor} open={powerOpen} type={powerslider}/>
+            </div>
+          );
+        }
+        else if (powerslider === "No" && power(powerslider)) 
+        {
+          return (
+            <div style={cssStyle}>
+              <ButtonGroup>
+              <Tooltip title={actor ? actor.name : ""}>
+                <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
+                <div style={size()}> {name()} ({buttonvalue}) </div>
+                </Button>
+                </Tooltip>
+                <Tooltip title="Actions">
+                <Button disabled={draggable} onClick={handleOpen} color="primary" size="small" aria-label="select merge strategy" aria-haspopup="menu">
+                  <MoreVertIcon />
+                </Button>
+                </Tooltip>
+              </ButtonGroup>
+              <LinearProgress variant="determinate" value={power_bar()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
+              <ButtonActionDialog open={open} onClose={handleClose} model={model} actor={actor} />
+            </div>
+          );
+        }
+        else {
+          return (
+            <div style={cssStyle}>
+              <ButtonGroup>
+              <Tooltip title={actor ? actor.name : ""}>
+                <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
+                <div style={size()}> {name()} </div>
+                </Button>
+                </Tooltip>
+                <Tooltip title="Actions">
+                <Button disabled={draggable} onClick={handleOpen} color="primary" size="small" aria-label="select merge strategy" aria-haspopup="menu">
+                  <MoreVertIcon />
+                </Button>
+                </Tooltip>
+              </ButtonGroup>
+              <ButtonActionDialog open={open} onClose={handleClose} model={model} actor={actor} />
+            </div>
+          );
+        }
+      } 
+      // Action === "No"
+      else {
+        if ((powerslider === "Power" || powerslider === "Output") && power(powerslider))
+        {        
         return (
-          <div style={cssStyle}>
-            <ButtonGroup>
-            <Tooltip title={actor ? actor.name : ""}>
+            <div style={cssStyle}>
+              <ButtonGroup>
+              <Tooltip title={actor ? actor.name : ""}>
               <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
-              <div style={size()}> {name()} ({power()}) </div>
+              <div style={size()}> {name()} ({buttonvalue}) </div>
               </Button>
               </Tooltip>
               <Tooltip title="Set Power">
               <Button disabled={draggable} onClick={PowerSliderOpen} color="primary" startIcon={<BoltIcon />} size="small" aria-label="select merge strategy" aria-haspopup="menu"></Button>
               </Tooltip>
-              <Tooltip title="Actions">
-              <Button disabled={draggable} onClick={handleOpen} color="primary" size="small" aria-label="select merge strategy" aria-haspopup="menu">
-                <MoreVertIcon />
-              </Button>
-              </Tooltip>
-            </ButtonGroup>
-            <LinearProgress variant="determinate" value={power_bar()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
-            <ButtonActionDialog open={open} onClose={handleClose} model={model} actor={actor} />
-            <PowerDialog onClose={PowerSliderClose} actor={actor} open={powerOpen} type={powerslider}/>
-          </div>
-        );
-      }
-      else if ((powerslider === "no" || !powerslider) && power()) 
-      {
-        //console.log("Action: " + action + "| Power: " + power() + "| Actor: " + actor?.name + "| Powerslider: " + powerslider);
-        return (
-          <div style={cssStyle}>
-            <ButtonGroup>
-            <Tooltip title={actor ? actor.name : ""}>
-              <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
-              <div style={size()}> {name()} ({power()}) </div>
-              </Button>
-              </Tooltip>
-              <Tooltip title="Actions">
-              <Button disabled={draggable} onClick={handleOpen} color="primary" size="small" aria-label="select merge strategy" aria-haspopup="menu">
-                <MoreVertIcon />
-              </Button>
-              </Tooltip>
-            </ButtonGroup>
-            <LinearProgress variant="determinate" value={power_bar()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
-            <ButtonActionDialog open={open} onClose={handleClose} model={model} actor={actor} />
-          </div>
-        );
-      }
-      else {
-        //console.log("Action: " + action + "| Power: " + power() + "| Actor: " + actor?.name + "| Powerslider: " + powerslider);
-        return (
-          <div style={cssStyle}>
-            <ButtonGroup>
-            <Tooltip title={actor ? actor.name : ""}>
-              <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
-              <div style={size()}> {name()} </div>
-              </Button>
-              </Tooltip>
-              <Tooltip title="Actions">
-              <Button disabled={draggable} onClick={handleOpen} color="primary" size="small" aria-label="select merge strategy" aria-haspopup="menu">
-                <MoreVertIcon />
-              </Button>
-              </Tooltip>
-            </ButtonGroup>
-            <ButtonActionDialog open={open} onClose={handleClose} model={model} actor={actor} />
-          </div>
-        );
-      }
-    } else {
-      if (powerslider !== "No" && power())
-      {
-        //console.log("Action: " + action + "| Power: " + power() + "| Actor: " + actor?.name + "| Powerslider: " + powerslider);
-        return (
-          <div style={cssStyle}>
-            <ButtonGroup>
-            <Tooltip title={actor ? actor.name : ""}>
-            <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
-            <div style={size()}> {name()} ({power()}) </div>
-            </Button>
-            </Tooltip>
-            <Tooltip title="Set Power">
-            <Button disabled={draggable} onClick={PowerSliderOpen} color="primary" startIcon={<BoltIcon />} size="small" aria-label="select merge strategy" aria-haspopup="menu"></Button>
-            </Tooltip>
-            </ButtonGroup>
-            <LinearProgress variant="determinate" value={power_bar()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
-            <PowerDialog onClose={PowerSliderClose} actor={actor} open={powerOpen} type={powerslider}/>
-          </div>
-        );
-      }
-      else if ((powerslider === "No" || !powerslider) && power()) 
-      {
-        //console.log("Action: " + action + "| Power: " + power() + "| Actor: " + actor?.name + "| Powerslider: " + powerslider);
-        return (
-          <div style={cssStyle}>
-            <Tooltip title={actor ? actor.name : ""}>
-            <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
-            <div style={size()}> {name()} ({power()}) </div>
-            </Button>
-            </Tooltip>
-            <LinearProgress variant="determinate" value={power_bar()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
+              </ButtonGroup>
+              <LinearProgress variant="determinate" value={power_bar()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
+              <PowerDialog onClose={PowerSliderClose} actor={actor} open={powerOpen} type={powerslider}/>
             </div>
-        );
-      }
-      else{
-        //console.log("Action: " + action + "| Power: " + power() + "| Actor: " + actor?.name + "| Powerslider: " + powerslider);
-        return (
-        <div style={cssStyle}>
-          <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
-          <div style={size()}> {name()} </div>
-          </Button>
-        </div>
-      )}
-    }}
+          );
+        }
+        else if ((powerslider === "No") && power(powerslider)) 
+        {
+          return (
+            <div style={cssStyle}>
+              <Tooltip title={actor ? actor.name : ""}>
+              <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
+              <div style={size()}> {name()} ({buttonvalue}) </div>
+              </Button>
+              </Tooltip>
+              <LinearProgress variant="determinate" value={power_bar()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
+              </div>
+          );
+        }
+        else{
+          return (
+          <div style={cssStyle}>
+            <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
+            <div style={size()}> {name()} </div>
+            </Button>
+          </div>
+        )}
+      }}
     else{
-      //console.log("Action: " + action + "| Power: " + power() + "| Actor: " + actor?.name + "| Powerslider: " + powerslider);
       return (
       <div style={cssStyle}>
         <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor} style={{borderRadius: '0px'}} >
@@ -477,5 +500,5 @@ export const DashboardButton = ({ id, width, height }) => {
         <LinearProgress variant="determinate" value={progress()} sx={{ '& .MuiLinearProgress-bar': {backgroundColor: '#00FF00'}, backgroundColor: '#008800'}} />
       </div>
     )}
-  }, [model.props?.actor, model.props?.size, model.props?.action, powerslider, model.name, actor, actor?.power, id, open, powerOpen,draggable]);
+  }, [model.props?.actor, model.props?.size, model.props?.action, powerslider, actor?.maxoutput, model.name, actor, buttonvalue, actor?.output, actor?.power, id, open, powerOpen,draggable]);
 };
