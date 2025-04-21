@@ -374,7 +374,7 @@ export const DashboardButton = ({ id, width, height }) => {
     const PowerSliderOpen = () => setPowerOpen(true);
     
     if (!timedactor()) {
-      if (powerslider === "Power") {
+      if (powerslider === "Power" || (powerslider === "No")) {
         //console.log(powerslider)
         setButtonvalue(power(powerslider));
       } 
