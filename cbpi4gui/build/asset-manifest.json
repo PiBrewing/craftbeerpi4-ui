@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "./static/css/main.4be6cbd9.css",
-    "main.js": "./static/js/main.86b977a6.js",
+    "main.js": "./static/js/main.ec956172.js",
     "static/media/cbpi.png": "./static/media/cbpi.f1a4ae594af1e1df335b.png",
     "static/media/buzzer.mp3": "./static/media/buzzer.4d5932be5f2519107768.mp3",
     "static/media/Reacticon.png": "./static/media/Reacticon.62b41405c3951389251c.png",
@@ -12,6 +12,6 @@
   },
   "entrypoints": [
     "static/css/main.4be6cbd9.css",
-    "static/js/main.86b977a6.js"
+    "static/js/main.ec956172.js"
   ]
 }
