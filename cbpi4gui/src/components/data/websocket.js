@@ -13,9 +13,10 @@ class CBPiWebSocket {
         console.log(this.alert);
         this.onMessageCallback({ topic: 'connection/lost' });
         this.onMessageCallback({ topic: 'notifiaction', id: '1', title: 'Connection to Server', message: 'Cbpi server seems to be down', type: 'error', action: [] });
-        setTimeout(() => {
+        const timer = setTimeout(() => {
             this.open();
         }, 5000);
+        return () => clearTimeout(timer);
     }
 
     open() {

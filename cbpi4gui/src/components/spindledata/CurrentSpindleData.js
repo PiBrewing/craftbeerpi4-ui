@@ -235,9 +235,10 @@ const CurrentSpindleData = () => {
 
     sqlapi.createdatabse(sql_admin, (data) => {
       //console.log(data)
-      setTimeout(() => {
+      const timer = setTimeout(() => {
      navigate(0); // reload page to show new data
       }, 5000);
+      return () => clearTimeout(timer);
     });
   };
 
