@@ -14,6 +14,7 @@ import { widget_list } from "./widgets/config";
 import { Path } from "./widgets/Path";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import { useCBPi } from "../data";
 
 export const DashboardContext = createContext({});
 
@@ -34,7 +35,14 @@ export const DashboardProvider = ({ children }) => {
   const [maxdashboard, setMaxdashboard] = useState(4);
   const [initialdashboard, setInitialdashboard] = useState(0) 
   const [slowPipeAnimation, setSlowPipeAnimation] = useState( true );
+  const {state} = useCBPi();
 
+  useEffect(() => {
+    //console.log("Free Memory : " + state?.system.availablemem)
+    if (state?.system.availablemem < 150) {
+      window.location.reload();
+    }
+  }, [state.system]);
   
   useEffect(() => {
     dashboardapi.getcurrentdashboard((data) => {
@@ -470,12 +478,13 @@ export const Dashboard = ({ width, height , fixdash}) => {
   };
   
 
-//  const refresh_dashboard = () => {
-//  actions.setDraggable(!state.draggable);
-//	if (state.draggable) {
-//       window.location.reload();
-//	}
-//  };
+  const refresh_dashboard = () => {
+  actions.setDraggable(!state.draggable);
+	if (state.draggable) {
+       window.location.reload();
+	}
+  };
+
   
   // get bounding box of svg
   const useBBox = () => {

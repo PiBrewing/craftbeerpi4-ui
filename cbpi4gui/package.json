@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@date-io/date-fns": "^3.2.0",
+    "date-fns": "^2.29.2",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.16",
@@ -25,7 +26,6 @@
     "@testing-library/user-event": "^12.6.0",
     "axios": "^0.29.0",
     "classnames": "^2.3.1",
-    "date-fns": "^2.29.2",
     "file-saver": "^2.0.5",
     "moment": "^2.29.4",
     "mqtt-pattern": "^1.2.0",
