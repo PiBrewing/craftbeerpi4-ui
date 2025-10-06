@@ -35,14 +35,14 @@ export const DashboardProvider = ({ children }) => {
   const [maxdashboard, setMaxdashboard] = useState(4);
   const [initialdashboard, setInitialdashboard] = useState(0) 
   const [slowPipeAnimation, setSlowPipeAnimation] = useState( true );
-  const {state} = useCBPi();
+//  const {state} = useCBPi();
 
-  useEffect(() => {
+  //useEffect(() => {
     //console.log("Free Memory : " + state?.system.availablemem)
-    if (state?.system.availablemem < 150) {
-      window.location.reload();
-    }
-  }, [state.system]);
+  //  if (state?.system.availablemem < 150) {
+  //    window.location.reload();
+  //  }
+ // }, [state.system]);
   
   useEffect(() => {
     dashboardapi.getcurrentdashboard((data) => {

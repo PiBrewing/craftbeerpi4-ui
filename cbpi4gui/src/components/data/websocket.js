@@ -16,7 +16,7 @@ class CBPiWebSocket {
         const timer = setTimeout(() => {
             this.open();
         }, 5000);
-        //return () => clearTimeout(timer);
+        return () => clearTimeout(timer);
     }
 
     open() {
