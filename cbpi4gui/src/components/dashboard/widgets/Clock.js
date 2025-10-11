@@ -36,7 +36,7 @@ export const Clock = ({ id, width, height }) => {
 
         update_time()
     }, 1000);
-    return () => clearTimeout(interval);
+    return () => clearInterval(interval);
   });
   const css_style = { color: model?.props?.color || "#fff", fontSize: `${model?.props?.size}px` };
   return (

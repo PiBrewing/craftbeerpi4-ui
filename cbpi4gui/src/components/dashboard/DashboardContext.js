@@ -35,15 +35,16 @@ export const DashboardProvider = ({ children }) => {
   const [maxdashboard, setMaxdashboard] = useState(4);
   const [initialdashboard, setInitialdashboard] = useState(0) 
   const [slowPipeAnimation, setSlowPipeAnimation] = useState( true );
-//  const {state} = useCBPi();
+  const {state} = useCBPi();
 
-  //useEffect(() => {
-    //console.log("Free Memory : " + state?.system.availablemem)
-  //  if (state?.system.availablemem < 150) {
-  //    window.location.reload();
-  //  }
- // }, [state.system]);
-  
+  useEffect(() => {
+    console.log("Free Memory : " + state?.system.availablemem)
+    if (state?.system.availablemem < 200) {
+      console.log("Reloading page to free memory")
+      window.location.reload();
+    }
+  }, [state.system.availablemem]);
+
   useEffect(() => {
     dashboardapi.getcurrentdashboard((data) => {
       setInitialdashboard(data);
@@ -440,7 +441,7 @@ export const Dashboard = ({ width, height , fixdash}) => {
       let parentHeight = parentRef.current.offsetHeight;
       let parentWidth = parentRef.current.offsetWidth;
       actions.setWidth(parentWidth);
-      console.log('useEffect parentWidth = ' + parentWidth.toString());
+      //console.log('useEffect parentWidth = ' + parentWidth.toString());
       actions.setHeight(parentHeight);
       if (!fixdash){
       actions.load(parentWidth, parentHeight,state.initialdashboard)}
