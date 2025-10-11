@@ -143,13 +143,13 @@ const CurrentSpindleData = () => {
   }, []);
 
   // reload data every 60 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      load();
-    }, 60000);
-  
-    return () => clearInterval(interval);
-  }, []);
+  //useEffect(() => {
+  //  const interval = setInterval(() => {
+  //    load();
+  //  }, 60000);
+  //
+  //  return () => clearInterval(interval);
+  //}, []);
 
   const load = () => {
     sqlapi.getrecentdata(days , (data) => {
