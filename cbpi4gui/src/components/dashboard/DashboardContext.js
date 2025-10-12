@@ -35,15 +35,22 @@ export const DashboardProvider = ({ children }) => {
   const [maxdashboard, setMaxdashboard] = useState(4);
   const [initialdashboard, setInitialdashboard] = useState(0) 
   const [slowPipeAnimation, setSlowPipeAnimation] = useState( true );
-  const {state} = useCBPi();
+
 
   useEffect(() => {
-    console.log("Free Memory : " + state?.system.availablemem)
-    if (state?.system.availablemem < 200) {
-      console.log("Reloading page to free memory")
-      window.location.reload();
-    }
-  }, [state.system.availablemem]);
+    const interval = setInterval(() => {
+      dashboardapi.getmeminfo((data) => {
+        console.log(data.meminfo.availmem);
+        console.log(data.meminfo.minmem);
+        if (data.meminfo.availmem < data.meminfo.minmem) {
+          window.location.reload();
+        }
+        
+      });
+    }, 300000);
+    return () => { clearInterval(interval); }
+  }, []);
+
 
   useEffect(() => {
     dashboardapi.getcurrentdashboard((data) => {
