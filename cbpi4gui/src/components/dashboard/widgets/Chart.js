@@ -22,7 +22,7 @@ const Chart = ({ id }) => {
     const interval = setInterval(() => {
       load_data()
     }, (model.props?.refresh || 10) * 1000);
-    return () => clearTimeout(interval);
+    return () => clearInterval(interval);
   }, [model?.props?.sensor, model.props?.refresh, ]);
 
   const load_data = () => {

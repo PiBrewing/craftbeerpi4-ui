@@ -49,7 +49,8 @@
     "systeminformation": "^5.12.6",
     "uuid": "^8.3.2",
     "nth-check": "2.1.1",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "js-cookie": "^3.0.5"
   },
   "eslintConfig": {
     "extends": [

@@ -24,15 +24,18 @@ const FermenterRecipeEditor = () => {
   const [basicData, setBasicData] = useState({ name: "", author: "", desc: "" });
   
   useEffect(() => {
+    let isMounted = true;
     if (id) {
-      const success = (data) => {
-        setBasicData(data.basic);
-        setSteps(data.steps);
+        const success = (data) => {
+            if (isMounted) {
+                setBasicData(data.basic);
+                setSteps(data.steps);
+            }
         };
-
-      fermenterrecipeapi.load(id, success);
+        fermenterrecipeapi.load(id, success);
     }
-  }, [id]);
+    return () => { isMounted = false; }; // ✅ Abbruchbedingung
+}, [id]);
 
   const save = () => fermenterrecipeapi.save(id, { basic: basicData, steps });
   const addStep = () => setSteps([...steps, { name: "", props: {}, type: "" }]);

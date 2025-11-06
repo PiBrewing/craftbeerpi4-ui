@@ -14,7 +14,7 @@ import { widget_list } from "./widgets/config";
 import { Path } from "./widgets/Path";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { useCBPi } from "../data";
+import Cookies from 'js-cookie';
 
 export const DashboardContext = createContext({});
 
@@ -37,20 +37,6 @@ export const DashboardProvider = ({ children }) => {
   const [slowPipeAnimation, setSlowPipeAnimation] = useState( true );
 
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      dashboardapi.getmeminfo((data) => {
-        console.log(data.meminfo.availmem);
-        console.log(data.meminfo.minmem);
-        if (data.meminfo.availmem < data.meminfo.minmem) {
-          window.location.reload();
-        }
-        
-      });
-    }, 300000);
-    return () => { clearInterval(interval); }
-  }, []);
-
 
   useEffect(() => {
     dashboardapi.getcurrentdashboard((data) => {
@@ -67,6 +53,7 @@ export const DashboardProvider = ({ children }) => {
   dashboardapi.getcurrentdashboard((data) => {
     window.currentDashboard = data;
     setDashboardX(data);
+    Cookies.set('cbpi4_dashboard', data, { path: '/' });
     }); 
 
     dashboardapi.getcurrentgrid((data) => {
@@ -460,6 +447,7 @@ export const Dashboard = ({ width, height , fixdash}) => {
 
   const DashBoardChange = (event) => {
     actions.setDashboardX(event.target.value);
+    Cookies.set('cbpi4_dashboard', event.target.value, { path: '/' })
     const DashboardID=event.target.value;
     dashboardapi.setcurrentdashboard(DashboardID);
     if (parentRef.current) {
@@ -477,6 +465,34 @@ export const Dashboard = ({ width, height , fixdash}) => {
       }
 
   };
+
+
+    useEffect(() => {
+    const interval = setInterval(() => {
+      dashboardapi.getmeminfo((data) => {
+
+        console.log(data.meminfo.availmem);
+        console.log(data.meminfo.minmem);
+        let DashboardID = Cookies.get('cbpi4_dashboard');
+        console.log('DashboardID = ' + DashboardID);
+        if (data.meminfo.availmem < data.meminfo.minmem) {
+          if (parentRef.current) {
+            let parentHeight = parentRef.current.offsetHeight;
+            let parentWidth = parentRef.current.offsetWidth;
+            actions.setWidth(parentWidth);
+            console.log('event parentWidth = ' + parentWidth.toString());
+            actions.setHeight(parentHeight);
+            // clear current dashboard
+            actions.setElements({});
+            actions.setElements2([]);
+            actions.setPathes([]);
+            actions.load(parentWidth, parentHeight, DashboardID);
+          }
+        }
+      });
+    }, 300000);
+    return () => { clearInterval(interval); }
+  }, []);
 
   const GridChange = (event) => {
     actions.save(state.dashboardX);
