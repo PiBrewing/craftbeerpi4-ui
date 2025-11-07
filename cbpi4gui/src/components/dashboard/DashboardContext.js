@@ -42,6 +42,9 @@ export const DashboardProvider = ({ children }) => {
     dashboardapi.getcurrentdashboard((data) => {
       Cookies.get('cbpi4_dashboard') ? setInitialdashboard(Cookies.get('cbpi4_dashboard')) : setInitialdashboard(1);
       Cookies.get('cbpi4_dashboard') ? setDashboardX(Cookies.get('cbpi4_dashboard')) : setDashboardX(1);
+      if (!Cookies.get('cbpi4_dashboard')) {
+        Cookies.set('cbpi4_dashboard', 1, {expires:365, path: '/' });
+      }
       //setInitialdashboard(data);
     });
 
@@ -464,7 +467,7 @@ export const Dashboard = ({ width, height , fixdash}) => {
 
   const DashBoardChange = (event) => {
     actions.setDashboardX(event.target.value);
-    Cookies.set('cbpi4_dashboard', event.target.value, { path: '/' })
+    Cookies.set('cbpi4_dashboard', event.target.value, {expires:365, path: '/' })
     const DashboardID=event.target.value;
     dashboardapi.setcurrentdashboard(DashboardID);
     if (parentRef.current) {
