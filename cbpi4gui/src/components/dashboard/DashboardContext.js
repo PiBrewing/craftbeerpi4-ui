@@ -146,7 +146,6 @@ export const DashboardProvider = ({ children }) => {
     dashboardapi.widgets((data)=>{
       setWidgets(data)
     })
-    Cookies.set('cbpi4_dashboard', DashboardID, { path: '/' })
   };
 
   const remove = (id) => {
