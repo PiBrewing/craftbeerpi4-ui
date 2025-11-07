@@ -40,8 +40,15 @@ export const DashboardProvider = ({ children }) => {
 
   useEffect(() => {
     dashboardapi.getcurrentdashboard((data) => {
-      setInitialdashboard(data);
+      Cookies.get('cbpi4_dashboard') ? setInitialdashboard(Cookies.get('cbpi4_dashboard')) : setInitialdashboard(1);
+      Cookies.get('cbpi4_dashboard') ? setDashboardX(Cookies.get('cbpi4_dashboard')) : setDashboardX(1);
+      //setInitialdashboard(data);
     });
+
+    // This caused some trouble with initial loading of dashboard which is currently the reason why it is incorporated into the loop above
+    //console.log("Read Cookie cbpi4_dashboard : " + Cookies.get('cbpi4_dashboard'));
+    //Cookies.get('cbpi4_dashboard') ? setInitialdashboard(Cookies.get('cbpi4_dashboard')) : setInitialdashboard(1);
+
     dashboardapi.getcurrentgrid((data) => {
       setCurrentGrid(data);
     });
@@ -50,11 +57,21 @@ export const DashboardProvider = ({ children }) => {
     });
   }, [currentgrid]);
  
-  dashboardapi.getcurrentdashboard((data) => {
-    window.currentDashboard = data;
-    setDashboardX(data);
-    Cookies.set('cbpi4_dashboard', data, { path: '/' });
-    }); 
+//  if (Cookies.get('cbpi4_dashboard')) {
+//    window.currentDashboard = Cookies.get('cbpi4_dashboard');
+//    setDashboardX(window.currentDashboard);
+//  }
+//  else {
+//    window.currentDashboard = 1;
+//    setDashboardX(1);
+//    Cookies.set('cbpi4_dashboard', 1, { path: '/' });
+// }
+
+// dashboardapi.getcurrentdashboard((data) => {
+//    window.currentDashboard = data;
+//    setDashboardX(data);
+//    Cookies.set('cbpi4_dashboard', data, { path: '/' });
+//    }); 
 
     dashboardapi.getcurrentgrid((data) => {
       setCurrentGrid(data);
