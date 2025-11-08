@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "./static/css/main.4be6cbd9.css",
+    "main.css": "./static/css/main.0b31c147.css",
     "main.js": "./static/js/main.a479bd16.js",
     "static/media/cbpi.png": "./static/media/cbpi.f1a4ae594af1e1df335b.png",
     "static/media/buzzer.mp3": "./static/media/buzzer.4d5932be5f2519107768.mp3",
@@ -11,7 +11,7 @@
     "index.html": "./index.html"
   },
   "entrypoints": [
-    "static/css/main.4be6cbd9.css",
+    "static/css/main.0b31c147.css",
     "static/js/main.a479bd16.js"
   ]
 }
