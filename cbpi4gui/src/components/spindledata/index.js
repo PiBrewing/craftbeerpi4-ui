@@ -482,7 +482,7 @@ const yes = () => {
               title: {
                 text: "",
                 font: {
-                  family: "Advent Pro",
+                  family: "Advent Pro, sans-serif",
                   size: 12,
                   color: "#fff",
                 },
@@ -502,7 +502,7 @@ const yes = () => {
                 xanchor: "right",
                 y: 1,
                 font: {
-                  family: "sans-serif",
+                  family: "Advent Pro, sans-serif",
                   size: 10,
                   color: "#fff",
                 },

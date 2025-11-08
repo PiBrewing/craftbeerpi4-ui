@@ -25,7 +25,7 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: [
-      'Advent Pro',
+      'Advent Pro', 'monospace'
     ].join(','),
   },
   components: {
