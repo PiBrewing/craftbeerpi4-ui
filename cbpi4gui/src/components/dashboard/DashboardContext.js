@@ -35,7 +35,8 @@ export const DashboardProvider = ({ children }) => {
   const [maxdashboard, setMaxdashboard] = useState(4);
   const [initialdashboard, setInitialdashboard] = useState(0) 
   const [slowPipeAnimation, setSlowPipeAnimation] = useState( true );
-
+  const [freemem, setFreemem] = useState(0);
+  const [minmem, setMinmem] = useState(0);
 
 
   useEffect(() => {
@@ -76,6 +77,7 @@ export const DashboardProvider = ({ children }) => {
 //    Cookies.set('cbpi4_dashboard', data, { path: '/' });
 //    }); 
 
+
     dashboardapi.getcurrentgrid((data) => {
       setCurrentGrid(data);
       }); 
@@ -90,6 +92,18 @@ export const DashboardProvider = ({ children }) => {
     });
   }, []);
   
+    useEffect(() => {
+    const interval = setInterval(() => {
+      dashboardapi.getmeminfo((data) => {
+
+        setFreemem(data.meminfo.availmem);
+        setMinmem(data.meminfo.minmem);
+               }
+      );
+    }, 30000);
+    return () => { clearInterval(interval); }
+  }, []);
+
   
   useEffect(() => {
    // Execute path suppression on if deleteKeyPressed is true, whitout this test, we pass inside the code at the KeyUp event. 
@@ -353,7 +367,9 @@ export const DashboardProvider = ({ children }) => {
       dashboardX,
       initialdashboard,
       currentgrid,
-      slowPipeAnimation
+      slowPipeAnimation,
+      freemem,
+      minmem,
     },
     actions: {
       setCurrent,
@@ -488,31 +504,27 @@ export const Dashboard = ({ width, height , fixdash}) => {
 
 
     useEffect(() => {
-    const interval = setInterval(() => {
-      dashboardapi.getmeminfo((data) => {
-
-        console.log(data.meminfo.availmem);
-        console.log(data.meminfo.minmem);
         let DashboardID = Cookies.get('cbpi4_dashboard');
         console.log('DashboardID = ' + DashboardID);
-        if (data.meminfo.availmem < data.meminfo.minmem) {
+        console.log('state.freemem = ' + state.freemem);
+        console.log('state.minmem = ' + state.minmem);
+        if (state.freemem < state.minmem) {
           if (parentRef.current) {
             let parentHeight = parentRef.current.offsetHeight;
             let parentWidth = parentRef.current.offsetWidth;
             actions.setWidth(parentWidth);
-            console.log('event parentWidth = ' + parentWidth.toString());
             actions.setHeight(parentHeight);
             // clear current dashboard
             actions.setElements({});
             actions.setElements2([]);
             actions.setPathes([]);
             actions.load(parentWidth, parentHeight, DashboardID);
+            console.log('Dashboard reloaded due to low memory');
           }
         }
-      });
-    }, 300000);
-    return () => { clearInterval(interval); }
-  }, []);
+      
+  }, [state.freemem]);
+
 
   const GridChange = (event) => {
     actions.save(state.dashboardX);
