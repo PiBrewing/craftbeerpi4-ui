@@ -100,7 +100,7 @@ export const DashboardProvider = ({ children }) => {
         setMinmem(data.meminfo.minmem);
                }
       );
-    }, 30000);
+    }, 300000);
     return () => { clearInterval(interval); }
   }, []);
 
