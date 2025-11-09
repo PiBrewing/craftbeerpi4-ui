@@ -95,11 +95,14 @@ export const DashboardProvider = ({ children }) => {
     useEffect(() => {
     const interval = setInterval(() => {
       dashboardapi.getmeminfo((data) => {
-
-        setFreemem(data.meminfo.availmem);
-        setMinmem(data.meminfo.minmem);
+        console.log("Dashboard Memory Info - Available Memory: " + data.meminfo.availmem + " MB, Minimum Required Memory: " + data.meminfo.minmem + " MB");
+        //setFreemem(data.meminfo.availmem);
+        //setMinmem(data.meminfo.minmem);
+        if (data.meminfo.availmem < data.meminfo.minmem) {
+          window.location.reload(true);
+          console.log("Dashboard reloaded due to low memory");
                }
-      );
+              });
     }, 300000);
     return () => { clearInterval(interval); }
   }, []);
