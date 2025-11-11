@@ -46,12 +46,7 @@ export const DashboardProvider = ({ children }) => {
       if (!Cookies.get('cbpi4_dashboard')) {
         Cookies.set('cbpi4_dashboard', 1, {expires:365, path: '/' });
       }
-      //setInitialdashboard(data);
     });
-
-    // This caused some trouble with initial loading of dashboard which is currently the reason why it is incorporated into the loop above
-    //console.log("Read Cookie cbpi4_dashboard : " + Cookies.get('cbpi4_dashboard'));
-    //Cookies.get('cbpi4_dashboard') ? setInitialdashboard(Cookies.get('cbpi4_dashboard')) : setInitialdashboard(1);
 
     dashboardapi.getcurrentgrid((data) => {
       setCurrentGrid(data);
@@ -61,32 +56,13 @@ export const DashboardProvider = ({ children }) => {
     });
   }, [currentgrid]);
  
-//  if (Cookies.get('cbpi4_dashboard')) {
-//    window.currentDashboard = Cookies.get('cbpi4_dashboard');
-//    setDashboardX(window.currentDashboard);
-//  }
-//  else {
-//    window.currentDashboard = 1;
-//    setDashboardX(1);
-//    Cookies.set('cbpi4_dashboard', 1, { path: '/' });
-// }
-
-// dashboardapi.getcurrentdashboard((data) => {
-//    window.currentDashboard = data;
-//    setDashboardX(data);
-//    Cookies.set('cbpi4_dashboard', data, { path: '/' });
-//    }); 
-
-
     dashboardapi.getcurrentgrid((data) => {
       setCurrentGrid(data);
       }); 
 
-
-
   const deleteKeyPressed = useKeyPress(8);
 
-    useEffect(() => {
+  useEffect(() => {
     dashboardapi.dashboardnumbers((data) => {
       setMaxdashboard(data);
     });
@@ -95,12 +71,10 @@ export const DashboardProvider = ({ children }) => {
     useEffect(() => {
     const interval = setInterval(() => {
       dashboardapi.getmeminfo((data) => {
-        console.log("Dashboard Memory Info - Available Memory: " + data.meminfo.availmem + " MB, Minimum Required Memory: " + data.meminfo.minmem + " MB");
-        //setFreemem(data.meminfo.availmem);
-        //setMinmem(data.meminfo.minmem);
+      //  console.log("Dashboard Memory Info - Available Memory: " + data.meminfo.availmem + " MB, Minimum Required Memory: " + data.meminfo.minmem + " MB");
         if (data.meminfo.availmem < data.meminfo.minmem) {
           window.location.reload(true);
-          console.log("Dashboard reloaded due to low memory");
+      //    console.log("Dashboard reloaded due to low memory");
                }
               });
     }, 300000);
@@ -371,8 +345,6 @@ export const DashboardProvider = ({ children }) => {
       initialdashboard,
       currentgrid,
       slowPipeAnimation,
-      freemem,
-      minmem,
     },
     actions: {
       setCurrent,
@@ -504,30 +476,6 @@ export const Dashboard = ({ width, height , fixdash}) => {
       }
 
   };
-
-
-    useEffect(() => {
-        let DashboardID = Cookies.get('cbpi4_dashboard');
-        console.log('DashboardID = ' + DashboardID);
-        console.log('state.freemem = ' + state.freemem);
-        console.log('state.minmem = ' + state.minmem);
-        if (state.freemem < state.minmem) {
-          if (parentRef.current) {
-            let parentHeight = parentRef.current.offsetHeight;
-            let parentWidth = parentRef.current.offsetWidth;
-            actions.setWidth(parentWidth);
-            actions.setHeight(parentHeight);
-            // clear current dashboard
-            actions.setElements({});
-            actions.setElements2([]);
-            actions.setPathes([]);
-            actions.load(parentWidth, parentHeight, DashboardID);
-            console.log('Dashboard reloaded due to low memory');
-          }
-        }
-      
-  }, [state.freemem]);
-
 
   const GridChange = (event) => {
     actions.save(state.dashboardX);
