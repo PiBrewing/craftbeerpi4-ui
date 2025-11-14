@@ -1,10 +1,8 @@
 import { Container, Divider, Grid, IconButton, Typography, Table, TableContainer, TableBody,TableCell,TableHead,TableRow } from "@mui/material";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
-import { ToggleButton, Tooltip } from "@mui/material";
-import { ToggleButtonGroup } from '@mui/material';
+import { Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
-import { useSensor } from "../data";
 import DeleteDialog from "../util/DeleteDialog";
 import { useNavigate , useParams} from "react-router-dom";
 import Paper from '@mui/material/Paper';
@@ -13,7 +11,6 @@ import { sqlapi } from "../data/sqlapi";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from '@mui/material/InputLabel';
-import { letterSpacing } from "@mui/system";
 import { Button } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -77,6 +74,9 @@ export const Spindledata = () => {
   const [message, setMessage] = useState("");
   const [ridFlag, setRIDFlag] = useState(false);
   const [range_x, setRange_x] = useState([0,1]);
+  const [unit, setUnit] = useState("PLATO");
+  const [digits, setDigits] = useState('.1f');
+
 
 const load = () => {
     setLoading(true);
@@ -89,7 +89,12 @@ const load = () => {
             let range_3 = [];
 
             if (currentdiagram === '0') {
+              if (data.Units[0] === "PLATO") {
                 range_1 = [0, 20]
+              }
+              else {
+                range_1 = [1.000, 1.100]
+              }
                 range_2 = [0, 40]
                 temp.push({
                     x: data.time,
@@ -116,7 +121,12 @@ const load = () => {
             }
 
             if (currentdiagram === '1') {
+              if (data.Units[0] === "PLATO") {
                 range_1 = [0, 20]
+              }
+              else {
+                range_1 = [1.000, 1.100]
+              }
                 range_2 = [0, 40]
                 temp.push({
                     x: data.time,
@@ -254,6 +264,13 @@ const load = () => {
       setCurrentarchive(data[0].value);
       sqlapi.getarchiveheader(data[0].value, (data) => {  
         setArchiveheader(data);
+        setUnit(data.Spindle_Unit);
+        if (data.Spindle_Unit === "PLATO") {
+          setDigits('.1f');
+        } else {
+          setDigits('.3f');
+        }
+
       });
     });
   }, []);
@@ -266,8 +283,18 @@ const load = () => {
   }, []);
 
   useEffect(() => {
- //   setCurrentarchive(archive);
- //   setCurrentdiagram(diagram);
+    if (diagram === '0' || diagram === '1') {
+      sqlapi.getarchiveheader(data[0].value, (data) => {  
+        if (data.Spindle_Unit === "PLATO") {
+          setDigits('.1f');
+        } else {
+          setDigits('.3f');
+        }})
+      }
+      else {
+        setDigits('.1f');
+      }
+
   }, [archive, diagram]);  
 
   useEffect(() => {
@@ -280,6 +307,8 @@ const load = () => {
     }
     sqlapi.getarchiveheader(currentarchive, (data) => { 
       setArchiveheader(data);
+      setUnit(data.Spindle_Unit);
+
       sqlapi.getarchivevalues(data, (data) => {  
         load();
      });
@@ -398,11 +427,11 @@ const yes = () => {
                 </TableCell>
                 <TableCell align="right" className="hidden-xs">
                   <InputLabel id="demo-simple-select-helper-label">Original Gravity:</InputLabel>
-                  {archiveheader.Initial_Gravity} °P
+                  {archiveheader.Initial_Gravity} {archiveheader.Spindle_Unit === "PLATO" ? "°P" : "SG"}
                 </TableCell>
                 <TableCell align="right" className="hidden-xs">
                   <InputLabel id="demo-simple-select-helper-label">Final Gravity:</InputLabel>
-                  {archiveheader.Final_Gravity} °P
+                  {archiveheader.Final_Gravity} {archiveheader.Spindle_Unit === "PLATO" ? "°P" : "SG"}
                 </TableCell>
                 <TableCell align="right" className="hidden-xs">
                   <InputLabel id="demo-simple-select-helper-label">Attenuation:</InputLabel>
@@ -518,7 +547,7 @@ const yes = () => {
               },
               yaxis: {
                 showgrid: true,
-                tickformat: '.1f',
+                tickformat: digits,
                 tickfont: {
                   size: 12,
                   color: "#fff",
