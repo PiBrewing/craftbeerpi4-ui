@@ -15,7 +15,7 @@ import moment from "moment";
             }
         }
     else if (datatype === "datetime") {
-        return data !== undefined ? (moment.unix(parseInt(data)).format("YYYY-MM-DD HH:mm")) : (<>---</>)
+        return data !== undefined ? (moment.unix(parseInt(data)).format("YYYY-MM-DD HH:mm")).toString() : (<>---</>)
     }
     else if (datatype === "string") {
         return data !== undefined ? (<>{data}</>) : (<>---</>)
