@@ -1,6 +1,6 @@
 import {  useCBPi } from "../data";
-import Moment from 'react-moment';
-
+//import Moment from 'react-moment';
+import moment from "moment";
 
  const SensorValue = ({id, digits}) => {
     const { state } = useCBPi();
@@ -15,7 +15,7 @@ import Moment from 'react-moment';
             }
         }
     else if (datatype === "datetime") {
-        return data !== undefined ? (<Moment format="YYYY-MM-DD HH:mm" unix>{parseInt(data)}</Moment>) : (<>---</>)
+        return data !== undefined ? (moment.unix(parseInt(data)).format("YYYY-MM-DD HH:mm")) : (<>---</>)
     }
     else if (datatype === "string") {
         return data !== undefined ? (<>{data}</>) : (<>---</>)
