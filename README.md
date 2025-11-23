@@ -21,7 +21,16 @@ http://localhost:8000#
 
 ### Changelog
 
-- 14.11.25: (0.4.0) PR vertical scrollbar, .....
+- 12.11.25: (0.4.0) 
+    - Add pyproject.toml file to support pip 25.3+.
+    - Change sensor value in case of date from moment to string (might reduce memory usage).
+    - Use cookies to determine current dashboard per browser in order to prevent false dashboard saving function if user is using multiple devices.
+    - Check free memory every five minutes if dashboard is opened and reload page (without cache usage) if memory is below defined threshold. (This addresses increasing memory consumption with time). Memory leak still to be identified.
+    - Use output value as alternative (Alternative actor plugin required to ensure higher resolution) instead of power (0-100%).
+    - Preconnect to google fonts.
+    - Define alternative local fonts to speed up UI if internet connection is not available.
+    - Add scrollbar if Fermentersteps widget is not heigh enough to display all steps.
+    - Allow SG as unit for ispindle plugin.
 - 11.03.25: (0.3.18.3) Fix maxheight property variable name for steps and fermentersteps widget
 - 09.03.25: (0.3.18.2) Fix bugs #60, #61 and #62. Thanks to https://github.com/Corginyan
 - 08.03.25: (0.3.18.1) Minor tweaks for Spindle data pages
