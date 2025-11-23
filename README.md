@@ -21,7 +21,7 @@ http://localhost:8000#
 
 ### Changelog
 
-- 12.11.25: (0.4.0) 
+- 23.11.25: (0.4.0) 
     - Add pyproject.toml file to support pip 25.3+.
     - Change sensor value in case of date from moment to string (might reduce memory usage).
     - Use cookies to determine current dashboard per browser in order to prevent false dashboard saving function if user is using multiple devices.
