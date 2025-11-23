@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 const About = () => {
   const classes = useStyles();
-  let {state} = useCBPi();
+  let { state } = useCBPi();
  
   return (
     <Container maxWidth="lg" >

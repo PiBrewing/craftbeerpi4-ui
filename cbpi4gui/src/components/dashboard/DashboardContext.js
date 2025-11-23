@@ -14,6 +14,7 @@ import { widget_list } from "./widgets/config";
 import { Path } from "./widgets/Path";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import Cookies from 'js-cookie';
 
 export const DashboardContext = createContext({});
 
@@ -34,11 +35,19 @@ export const DashboardProvider = ({ children }) => {
   const [maxdashboard, setMaxdashboard] = useState(4);
   const [initialdashboard, setInitialdashboard] = useState(0) 
   const [slowPipeAnimation, setSlowPipeAnimation] = useState( true );
-  
+  const [freemem, setFreemem] = useState(0);
+  const [minmem, setMinmem] = useState(0);
+
+
   useEffect(() => {
     dashboardapi.getcurrentdashboard((data) => {
-      setInitialdashboard(data);
+      Cookies.get('cbpi4_dashboard') ? setInitialdashboard(Cookies.get('cbpi4_dashboard')) : setInitialdashboard(1);
+      Cookies.get('cbpi4_dashboard') ? setDashboardX(Cookies.get('cbpi4_dashboard')) : setDashboardX(1);
+      if (!Cookies.get('cbpi4_dashboard')) {
+        Cookies.set('cbpi4_dashboard', 1, {expires:365, path: '/' });
+      }
     });
+
     dashboardapi.getcurrentgrid((data) => {
       setCurrentGrid(data);
     });
@@ -47,25 +56,31 @@ export const DashboardProvider = ({ children }) => {
     });
   }, [currentgrid]);
  
-  dashboardapi.getcurrentdashboard((data) => {
-    window.currentDashboard = data;
-    setDashboardX(data);
-    }); 
-
     dashboardapi.getcurrentgrid((data) => {
       setCurrentGrid(data);
       }); 
 
-
-
   const deleteKeyPressed = useKeyPress(8);
 
-    useEffect(() => {
+  useEffect(() => {
     dashboardapi.dashboardnumbers((data) => {
       setMaxdashboard(data);
     });
   }, []);
   
+    useEffect(() => {
+    const interval = setInterval(() => {
+      dashboardapi.getmeminfo((data) => {
+      //  console.log("Dashboard Memory Info - Available Memory: " + data.meminfo.availmem + " MB, Minimum Required Memory: " + data.meminfo.minmem + " MB");
+        if (data.meminfo.availmem < data.meminfo.minmem) {
+          window.location.reload(true);
+      //    console.log("Dashboard reloaded due to low memory");
+               }
+              });
+    }, 300000);
+    return () => { clearInterval(interval); }
+  }, []);
+
   
   useEffect(() => {
    // Execute path suppression on if deleteKeyPressed is true, whitout this test, we pass inside the code at the KeyUp event. 
@@ -329,7 +344,7 @@ export const DashboardProvider = ({ children }) => {
       dashboardX,
       initialdashboard,
       currentgrid,
-      slowPipeAnimation	  
+      slowPipeAnimation,
     },
     actions: {
       setCurrent,
@@ -381,7 +396,8 @@ export const Dashboard = ({ width, height , fixdash}) => {
   {'value': 10, 'label': '10'},
   {'value': 25, 'label': '25'},
   {'value': 50, 'label': '50'},
-];
+  ];
+  
   const dashboardlist = [];
   for (let i=1; i <= state.maxdashboard; i++) {
     dashboardlist.push({'value': i, 'label': String(i)});
@@ -424,12 +440,13 @@ export const Dashboard = ({ width, height , fixdash}) => {
   );
   };
 
-
+  
   useEffect(() => {
     if (parentRef.current)  {
       let parentHeight = parentRef.current.offsetHeight;
       let parentWidth = parentRef.current.offsetWidth;
       actions.setWidth(parentWidth);
+      //console.log('useEffect parentWidth = ' + parentWidth.toString());
       actions.setHeight(parentHeight);
       if (!fixdash){
       actions.load(parentWidth, parentHeight,state.initialdashboard)}
@@ -441,12 +458,14 @@ export const Dashboard = ({ width, height , fixdash}) => {
 
   const DashBoardChange = (event) => {
     actions.setDashboardX(event.target.value);
+    Cookies.set('cbpi4_dashboard', event.target.value, {expires:365, path: '/' })
     const DashboardID=event.target.value;
     dashboardapi.setcurrentdashboard(DashboardID);
     if (parentRef.current) {
         let parentHeight = parentRef.current.offsetHeight;
         let parentWidth = parentRef.current.offsetWidth;
         actions.setWidth(parentWidth);
+        console.log('event parentWidth = ' + parentWidth.toString());
         actions.setHeight(parentHeight);
         // clear current dashboard
         actions.setElements({});
@@ -466,25 +485,26 @@ export const Dashboard = ({ width, height , fixdash}) => {
   };
   
 
-//  const refresh_dashboard = () => {
-//  actions.setDraggable(!state.draggable);
-//	if (state.draggable) {
-//       window.location.reload();
-//	}
-//  };
+  const refresh_dashboard = () => {
+  actions.setDraggable(!state.draggable);
+	if (state.draggable) {
+       window.location.reload();
+	}
+  };
+
   
   // get bounding box of svg
   const useBBox = () => {
       const svgRef = useRef();
       const [svgWidth, setSvgWidth] = useState(undefined);
-
+      
       const getBoundingBox = useCallback(() => {
       // if svg not mounted yet, exit
         if (!svgRef.current)
               return;
           // get bbox of content in svg
           const box = svgRef.current.getBBox();
-          //console.log(box);
+          // console.log(box);
           // set width for svg
           setSvgWidth(box.width + box.x + 20);
       }, []);
@@ -497,6 +517,7 @@ export const Dashboard = ({ width, height , fixdash}) => {
   };
     
   const [svgRef, svgWidth] = useBBox();
+  const [leftOffset, setLeftOffset] = useState(0);
   
   return (
     <>
@@ -515,7 +536,10 @@ export const Dashboard = ({ width, height , fixdash}) => {
             width,
             height,
             overflowX: 'auto',
-			overflowY: 'hidden'
+			overflowY: 'auto'     
+          }}
+          onScroll={(e) => {
+            setLeftOffset(-parentRef.current.scrollLeft);  
           }}
         >    
         {/*console.log(state.elements2)*/}   
@@ -525,33 +549,17 @@ export const Dashboard = ({ width, height , fixdash}) => {
           </svg>
           
           {!fixdash ?
-          <div style={{ position: "absolute", top: 0, right: 0 }}>
-          {state.draggable ? state.dashboardX : <SelectBox options={dashboardlist} value={state.dashboardX} onChange={DashBoardChange} title="Select Dashboard"/>} 
-            {state.draggable ? 
-            
-            <DeleteDialog
-        
-            title="Clear Dashboard"
-            message="Do you want to clear the Dashboard"
-            callback={() => {
-              actions.clear(state.dashboardX);
-            }}
-          />
-
-            : "" }
-
-          {state.draggable ? <SelectBox options={gridlist} value={state.currentgrid} onChange={GridChange} title="Select Grid"/> : "" }
-
-
+          <div style={{ position: "absolute", top: 0, right: leftOffset }}>
+            {state.draggable ? state.dashboardX : <SelectBox options={dashboardlist} value={state.dashboardX} onChange={DashBoardChange} title="Select Dashboard"/>} 
+            {state.draggable ? <DeleteDialog title="Clear Dashboard" message="Do you want to clear the Dashboard" callback={() => {actions.clear(state.dashboardX); }} /> : "" }
+            {state.draggable ? <SelectBox options={gridlist} value={state.currentgrid} onChange={GridChange} title="Select Grid"/> : "" }
             {state.draggable ? <Tooltip title="Save Dashbpard"><IconButton onClick={() => actions.save(state.dashboardX)}><SaveIcon/></IconButton></Tooltip> : "" }
-            <Tooltip title={edittooltip}><IconButton onClick={() => actions.setDraggable(!state.draggable)}>{state.draggable ? <LockOpenIcon /> : <LockIcon />}</IconButton></Tooltip>
+               <Tooltip title={edittooltip}><IconButton onClick={() => actions.setDraggable(!state.draggable)}>{state.draggable ? <LockOpenIcon /> : <LockIcon />}</IconButton></Tooltip>
           </div>
           : ""}
-          
         </div>
         {state.draggable ? <DashboardLayer /> : null}
-        
-          </div>
+      </div>
     </div>
     </>
   );

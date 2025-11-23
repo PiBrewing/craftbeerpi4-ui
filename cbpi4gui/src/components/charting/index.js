@@ -110,7 +110,7 @@ const clear_logs = () => {
               title: {
                 text: "",
                 font: {
-                  family: "Advent Pro",
+                  family: "Advent Pro, sans-serif", 
                   size: 12,
                   color: "#fff",
                 },
@@ -130,7 +130,7 @@ const clear_logs = () => {
                 xanchor: "right",
                 y: 1,
                 font: {
-                  family: "sans-serif",
+                  family: "Advent Pro, sans-serif",
                   size: 8,
                   color: "#fff",
                 },

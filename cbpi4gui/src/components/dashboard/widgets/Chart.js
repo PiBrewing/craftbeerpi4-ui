@@ -22,7 +22,7 @@ const Chart = ({ id }) => {
     const interval = setInterval(() => {
       load_data()
     }, (model.props?.refresh || 10) * 1000);
-    return () => clearTimeout(interval);
+    return () => clearInterval(interval);
   }, [model?.props?.sensor, model.props?.refresh, ]);
 
   const load_data = () => {
@@ -89,7 +89,7 @@ const Chart = ({ id }) => {
           title: {
             text: model.name,
             font: {
-              family: "Advent Pro",
+              family: "Advent Pro, sans-serif",
               size: 12,
               color: "#fff",
             },
@@ -111,7 +111,7 @@ const Chart = ({ id }) => {
             xanchor: "right",
             y: 1,
             font: {
-              family: "sans-serif",
+              family: "Advent Pro, sans-serif",
               size: 8,
               color: "#fff",
             },

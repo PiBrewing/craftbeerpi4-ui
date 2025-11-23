@@ -77,7 +77,7 @@ const DashboardLayer = () => {
         style={{
           width: 240,
           overflow: "hidden",
-          fontFamily: "JetBrains Mono",
+          fontFamily: "JetBrains Mono, monospace", 
           backgroundColor: "#2c282e",
           color: "#fff",
           borderRadius: 5,

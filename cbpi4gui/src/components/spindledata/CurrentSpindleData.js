@@ -15,8 +15,6 @@ import { withStyles, createStyles} from '@mui/styles';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
-import InfoDialog from "./InfoDialog";
-
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -235,9 +233,10 @@ const CurrentSpindleData = () => {
 
     sqlapi.createdatabse(sql_admin, (data) => {
       //console.log(data)
-      setTimeout(() => {
+      const timer = setTimeout(() => {
      navigate(0); // reload page to show new data
       }, 5000);
+      return () => clearTimeout(timer);
     });
   };
 
@@ -404,6 +403,7 @@ const CurrentSpindleData = () => {
           </TableHead>
           <TableBody>
             {spindledata.map((item) => (
+              
               <StyledTableRow key={item.value}>
                 <StyledTableCell align="left">{item.label}</StyledTableCell>
                 <StyledTableCell align="left">{item.data.unixtime}</StyledTableCell>
@@ -411,9 +411,9 @@ const CurrentSpindleData = () => {
                 <StyledTableCell align="left">{item.data.recipe}</StyledTableCell>
                 <StyledTableCell align="left">{parseFloat(item.data.angle).toFixed(1)}</StyledTableCell>
                 <StyledTableCell align="left">{parseFloat(item.data.temperature).toFixed(1)}</StyledTableCell>
-                <StyledTableCell align="left">{parseFloat(item.data.InitialGravity).toFixed(1)}</StyledTableCell>
-                <StyledTableCell align="left">{parseFloat(item.data.Servergravity).toFixed(1)}</StyledTableCell>
-                <StyledTableCell align="left">{parseFloat(item.data.Delta_Gravity).toFixed(1)}</StyledTableCell>
+                <StyledTableCell align="left">{item.unit === "PLATO" ? parseFloat(item.data.InitialGravity).toFixed(1) : parseFloat(item.data.InitialGravity).toFixed(3)}</StyledTableCell>
+                <StyledTableCell align="left">{item.unit === "PLATO" ? parseFloat(item.data.Servergravity).toFixed(1) : parseFloat(item.data.Servergravity).toFixed(3)}</StyledTableCell>
+                <StyledTableCell align="left">{item.unit === "PLATO" ? parseFloat(item.data.Delta_Gravity).toFixed(1) : parseFloat(item.data.Delta_Gravity).toFixed(3)}</StyledTableCell>
                 <StyledTableCell align="left">{parseFloat(item.data.Attenuation).toFixed(1)}</StyledTableCell>
                 <StyledTableCell align="left">{parseFloat(item.data.ABV).toFixed(1)}</StyledTableCell>
                 <StyledTableCell align="left">{parseFloat(item.data.battery).toFixed(1)}</StyledTableCell>

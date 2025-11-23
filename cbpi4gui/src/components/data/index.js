@@ -41,6 +41,7 @@ export const CBPiProvider = ({ children }) => {
   const [fermentersteps, setFermenterSteps] = useState([]);
   const [connection, setConnection] = useState(false);
   const [bf_recipes,setBF_recipes] = useState([]);
+  const [system, setSystem] = useState([]) ;
 
   const onMessage = useCallback((data) => {
     //console.log("WS", data);
@@ -89,6 +90,9 @@ export const CBPiProvider = ({ children }) => {
           setBF_recipes(() => data.data);
           //console.log(data.data)
           break;
+      case "systemupdate":
+          setSystem(() => data.data);
+          break;
       default:
         break;
     }
@@ -128,6 +132,7 @@ export const CBPiProvider = ({ children }) => {
       setConnection(true);
       setAllNotifiactions(data.notifications);
       setBF_recipes(data.bf_recipes);
+      setSystem(data.system);
       });
   }, []);
 
@@ -152,6 +157,7 @@ export const CBPiProvider = ({ children }) => {
   const delete_actor = (id, onSuccess = () => {}, onError = () => {}) => actorapi.remove(id, onSuccess, onError);
   const get_actor_by_id = (id) => actors.find((item) => item.id === id);
   const set_actor_power = useEventCallback((id, power) => actorapi.set_power(id, power), []);
+  const set_actor_output = useEventCallback((id, output) => actorapi.set_output(id, output), []);
 
   const toggle_actor = useEventCallback((id) => {
     const actor = get_actor_by_id(id);
@@ -171,7 +177,7 @@ export const CBPiProvider = ({ children }) => {
 
   const value = {
     state: { sensors, version, guiversion, codename, actors, logic, kettle, fermenter, fermenterlogic, auth, plugins, temp, sensorData, sensorDataType, sensorInRange, spindledata,
-             actorTypes, sensorTypes, config, mashProfile, fermentersteps, FermenterProfile, mashBasic, stepTypes, stepTypesFermenter, connection, allnotifications, bf_recipes },
+             actorTypes, sensorTypes, config, mashProfile, fermentersteps, FermenterProfile, mashBasic, stepTypes, stepTypesFermenter, connection, allnotifications, bf_recipes, system },
     actions: {
       delete_kettle,
       add_kettle,
@@ -190,6 +196,7 @@ export const CBPiProvider = ({ children }) => {
       toggle_actor,
       get_actor_by_id,
       set_actor_power,
+      set_actor_output,
       add_sensor,
       update_sensor,
       delete_sensor,
@@ -221,6 +228,7 @@ export const useCBPi = () => {
       sensor: state.sensors,
       sensorTypes: state.sensorTypes,
       config: state.config,
+      system: state.system,
       spindledata: state.spindledata,
       actions,
     };
