@@ -169,7 +169,7 @@ export const DashboardProvider = ({ children }) => {
   };
 
   const update_prop = (id, key, value) => {
-    
+    console.log("Update prop called : id=" + id + ", key=" + key + ", value=" + value);
     const data = [...elements2];
     const index = data.findIndex((e) => e.id === selected.id);
     data[index].props[key] = value;
