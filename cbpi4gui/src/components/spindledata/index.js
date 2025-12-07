@@ -57,8 +57,7 @@ export const Spindledata = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { archive } = useParams();
-  const { diagram } = useParams();
+  const { params } = useParams();
   const [archivelist, setArchivelist] = useState([]);
   const [currentarchive, setCurrentarchive] = useState("");
   const [diagramlist, setDiagramlist] = useState([]);
@@ -76,7 +75,6 @@ export const Spindledata = () => {
   const [range_x, setRange_x] = useState([0,1]);
   const [unit, setUnit] = useState("PLATO");
   const [digits, setDigits] = useState('.1f');
-
 
 const load = () => {
     setLoading(true);
@@ -283,7 +281,8 @@ const load = () => {
   }, []);
 
   useEffect(() => {
-    if (diagram === '0' || diagram === '1') {
+    if (params?.diagram === '0' || params?.diagram === '1') {
+      if (data.length > 0) {
       sqlapi.getarchiveheader(data[0].value, (data) => {  
         if (data.Spindle_Unit === "PLATO") {
           setDigits('.1f');
@@ -294,8 +293,8 @@ const load = () => {
       else {
         setDigits('.1f');
       }
-
-  }, [archive, diagram]);  
+    }
+  }, [params]);  
 
   useEffect(() => {
     setRIDFlag(archiveheader.RID_END);
@@ -401,7 +400,7 @@ const yes = () => {
               <TableRow>
                 <TableCell style={{minWidth:370, maxWidth:370}}>
                   <InputLabel id="demo-simple-select-helper-label">Archive:</InputLabel>
-                  <SelectBox options={archivelist} value={archive? archive : currentarchive} onChange={ArchiveChange} />
+                  <SelectBox options={archivelist} value={params?.archive ? params.archive : currentarchive} onChange={ArchiveChange} />
                 </TableCell>
                 <TableCell align="right" className="hidden-xs">
                   <InputLabel id="demo-simple-select-helper-label">Device:</InputLabel>
@@ -423,7 +422,7 @@ const yes = () => {
               <TableRow>
                 <TableCell style={{minWidth:370, maxWidth:370}}>
                   <InputLabel id="demo-simple-select-helper-label">Diagram:</InputLabel>
-                  <SelectBox options={diagramlist} value={diagram? diagram : currentdiagram} onChange={DiagramChange} />
+                  <SelectBox options={diagramlist} value={params?.diagram ? params.diagram : currentdiagram} onChange={DiagramChange} />
                 </TableCell>
                 <TableCell align="right" className="hidden-xs">
                   <InputLabel id="demo-simple-select-helper-label">Original Gravity:</InputLabel>

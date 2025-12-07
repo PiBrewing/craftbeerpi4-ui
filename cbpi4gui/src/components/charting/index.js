@@ -43,9 +43,8 @@ export const Charting = () => {
             */
         //console.log(`${key}: ${value}`);
       }
-	  setLoading(false);
-      setData(temp);
-      console.log(data)
+	    setData(temp);
+      setLoading(false);
     });
   };
 const clear_logs = () => {
