@@ -1,4 +1,5 @@
 import { Button, ButtonGroup, Divider, Grid, List, Paper, Typography } from "@mui/material";
+import { styled } from '@material-ui/core/styles';
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -7,7 +8,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import ListItemButton from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { makeStyles } from "@mui/styles";
 import CachedIcon from "@mui/icons-material/Cached";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
@@ -27,8 +27,18 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import { useNavigate } from "react-router-dom";
 import { fontWeight } from "@mui/system";
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
+const PREFIX = 'Steps';
+
+const classes = {
+  paper: `${PREFIX}-paper`
+};
+
+const Root = styled('div')((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.paper}`]: {
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       marginTop: theme.spacing(1),
       marginLeft: theme.spacing(0),
@@ -36,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: theme.spacing(1),
       padding: theme.spacing(1),
     },
-  },
+  }
 }));
 
 const StepProps = ({ config, data }) => {
@@ -159,7 +169,7 @@ function StepDetailsDialog(props) {
   const { onClose, selectedValue, open, item } = props;
   const [actions, setActions] = useState([]);
   const [type, setType] = React.useState({});
-  const classes = useStyles();
+
   const handleClose = () => {
     onClose(selectedValue);
   };
@@ -248,18 +258,16 @@ const StepItem = ({ size, item, fontWeight }) => {
     fontWeight: fontWeight || 'normal',
  };
 
-  return (
-    <>
-      <ListItemButton style={{opacity: 1}} disabled={!draggable} onClick={handleClickOpen}>
-        <ListItemIcon>
-          <State state={item.status} />
-        </ListItemIcon>
-            <ListItemText primaryTypographyProps={{ sx: primaryprops }} primary={item.name} secondaryTypographyProps={{ style: secondaryprops }} secondary={item.state_text2 ? 
-          <div>{item.state_text}<br/>{item.state_text2}</div> : item.state_text} />
-      </ListItemButton>
-      <StepDetailsDialog item={item} selectedValue={selectedValue} open={open} onClose={handleClose} />
-    </>
-  );
+  return <>
+    <ListItemButton style={{opacity: 1}} disabled={!draggable} onClick={handleClickOpen}>
+      <ListItemIcon>
+        <State state={item.status} />
+      </ListItemIcon>
+          <ListItemText primaryTypographyProps={{ sx: primaryprops }} primary={item.name} secondaryTypographyProps={{ style: secondaryprops }} secondary={item.state_text2 ? 
+        <Root>{item.state_text}<br/>{item.state_text2}</Root> : item.state_text} />
+    </ListItemButton>
+    <StepDetailsDialog item={item} selectedValue={selectedValue} open={open} onClose={handleClose} />
+  </>;
 };
 
 export const Steps = ({ id }) => {

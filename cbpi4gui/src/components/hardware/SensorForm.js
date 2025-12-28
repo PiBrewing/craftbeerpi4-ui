@@ -1,7 +1,7 @@
 import { Breadcrumbs, Container, Divider, Link, Paper, Typography } from "@mui/material";
+import { styled } from '@material-ui/core/styles';
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import { makeStyles } from "@mui/styles";
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,11 +10,28 @@ import { useCBPi } from "../data";
 import PropsEdit from "../util/PropsEdit";
 import SensorTypeSelect from "../util/SensorTypeSelect";
 
-const useStyles = makeStyles((theme) => ({
-  appBar: {
+const PREFIX = 'SensorForm';
+
+const classes = {
+  appBar: `${PREFIX}-appBar`,
+  layout: `${PREFIX}-layout`,
+  paper: `${PREFIX}-paper`,
+  stepper: `${PREFIX}-stepper`,
+  buttons: `${PREFIX}-buttons`,
+  button: `${PREFIX}-button`
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled('div')((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.appBar}`]: {
     position: "relative",
   },
-  layout: {
+
+  [`& .${classes.layout}`]: {
     width: "auto",
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
@@ -24,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
       marginRight: "auto",
     },
   },
-  paper: {
+
+  [`& .${classes.paper}`]: {
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
     padding: theme.spacing(2),
@@ -34,22 +52,25 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(3),
     },
   },
-  stepper: {
+
+  [`& .${classes.stepper}`]: {
     padding: theme.spacing(3, 0, 5),
   },
-  buttons: {
+
+  [`& .${classes.buttons}`]: {
     display: "flex",
     justifyContent: "flex-end",
   },
-  button: {
+
+  [`& .${classes.button}`]: {
     marginTop: theme.spacing(3),
     marginLeft: theme.spacing(1),
-  },
+  }
 }));
 
 const SensorForm = () => {
   const navigate = useNavigate();
-  const classes = useStyles();
+
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const { id } = useParams();
@@ -94,60 +115,60 @@ const SensorForm = () => {
   }
 
   return (
-    <>
-    <Container maxWidth="lg">
-      <Typography variant="h6" gutterBottom>
-        Sensor Config
-      </Typography>
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link
-          color="inherit"
-          onClick={() => {
-            navigate("/hardware");
-          }}
-        >
-          Sensor
-        </Link>
-        <Typography color="textPrimary">{name}</Typography>
-      </Breadcrumbs>
-
-      <Divider />
-      <Paper className={classes.paper}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <TextField variant="standard" required id="name" label="Name" fullWidth value={name} onChange={(e) => setName(e.target.value)} />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <SensorTypeSelect label="Type" value={type} onChange={onChangeType} />
-          </Grid>
-
-          <PropsEdit config={propsConfig} data={props} onChange={onChangeProps} />
-        </Grid>
-        <div className={classes.buttons}>
-          <Button
-            variant="contained"
-            color="secondary"
+    (<Root>
+      <Container maxWidth="lg">
+        <Typography variant="h6" gutterBottom>
+          Sensor Config
+        </Typography>
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link
+            color="inherit"
             onClick={() => {
               navigate("/hardware");
             }}
-            className={classes.button}
           >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              save();
-            }}
-            className={classes.button}
-          >
-            Save
-          </Button>
-        </div>
-      </Paper>
-      </Container>
-    </>
+            Sensor
+          </Link>
+          <Typography color="textPrimary">{name}</Typography>
+        </Breadcrumbs>
+
+        <Divider />
+        <Paper className={classes.paper}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <TextField variant="standard" required id="name" label="Name" fullWidth value={name} onChange={(e) => setName(e.target.value)} />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <SensorTypeSelect label="Type" value={type} onChange={onChangeType} />
+            </Grid>
+
+            <PropsEdit config={propsConfig} data={props} onChange={onChangeProps} />
+          </Grid>
+          <div className={classes.buttons}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => {
+                navigate("/hardware");
+              }}
+              className={classes.button}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                save();
+              }}
+              className={classes.button}
+            >
+              Save
+            </Button>
+          </div>
+        </Paper>
+        </Container>
+    </Root>)
   );
 };
 

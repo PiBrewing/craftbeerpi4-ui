@@ -1,5 +1,5 @@
 import { Divider, Container, Grid, Paper, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { styled } from '@material-ui/core/styles';
 import logo from "../../images/cbpi.png";
 import pythonlogo from "../../images/python-powered.png"
 import reactlogo from "../../images/Reacticon.png"
@@ -7,25 +7,39 @@ import { useCBPi } from "../data";
 //import paypal_logo from "./paypal.png";
 import Button from "@mui/material/Button";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
+const PREFIX = 'About';
+
+const classes = {
+  root: `${PREFIX}-root`,
+  paper: `${PREFIX}-paper`,
+  control: `${PREFIX}-control`
+};
+
+const StyledContainer = styled(Container)((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.root}`]: {
     flexGrow: 1,
   },
-  paper: {
+
+  [`& .${classes.paper}`]: {
     height: 140,
     width: 100,
   },
-  control: {
+
+  [`& .${classes.control}`]: {
     padding: theme.spacing(2),
-  },
+  }
 }));
 
 const About = () => {
-  const classes = useStyles();
+
   let { state } = useCBPi();
  
   return (
-    <Container maxWidth="lg" >
+    <StyledContainer maxWidth="lg" >
     <div>
       <Grid container direction="row" justifyContent="space-between" alignItems="center" style={{ marginTop: 10 }}>
         <Grid item>
@@ -105,7 +119,7 @@ const About = () => {
       
       
     </div>
-    </Container>
+    </StyledContainer>
   );
 };
 

@@ -1,5 +1,5 @@
 import { IconButton, Tooltip, Button, Grid, Typography, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Container } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { styled } from '@material-ui/core/styles';
 import React, { useEffect, useState } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -9,17 +9,31 @@ import AutorenewIcon from "@mui/icons-material/Autorenew";
 import { useCBPi } from "../data";
 
 
-const useStyles = makeStyles((theme) => ({
-  root: {
+const PREFIX = 'Upload';
+
+const classes = {
+  root: `${PREFIX}-root`,
+  paper: `${PREFIX}-paper`,
+  control: `${PREFIX}-control`
+};
+
+const StyledContainer = styled(Container)((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.root}`]: {
     flexGrow: 1,
   },
-  paper: {
+
+  [`& .${classes.paper}`]: {
     height: 140,
     width: 100,
   },
-  control: {
+
+  [`& .${classes.control}`]: {
     padding: theme.spacing(2),
-  },
+  }
 }));
 
 
@@ -51,7 +65,7 @@ const SelectBox = ({ options, value, onChange }) => {
 
 
 const Upload = () => {
-  const classes = useStyles();
+
   const hiddenFileInput = React.useRef(null);
   let { state } = useCBPi();
   const handleChange = event => {
@@ -170,7 +184,7 @@ const Upload = () => {
   };
 
   return (
-    <Container maxWidth="lg">
+    <StyledContainer maxWidth="lg">
     <div>
       <Grid container direction="row" justifyContent="space-between" alignItems="center" style={{ marginTop: 10 }}>
         <Grid item>
@@ -326,7 +340,7 @@ const Upload = () => {
 
 
     </div>
-    </Container>
+    </StyledContainer>
   );
 };
 

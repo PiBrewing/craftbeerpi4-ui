@@ -1,4 +1,4 @@
-import { makeStyles } from '@mui/styles';
+import { styled } from '@material-ui/core/styles';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -16,14 +16,21 @@ import { actorapi } from '../data/actorapi';
 import ActorSwitch from '../util/ActorSwitch';
 import DeleteDialog from '../util/DeleteDialog';
 
-const useStyles = makeStyles({
-    table: {
+const PREFIX = 'ActorTable';
+
+const classes = {
+    table: `${PREFIX}-table`
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled('div')({
+    [`& .${classes.table}`]: {
         minWidth: 650,
     },
 });
 
 const ActorTable = () => {
-    const classes = useStyles();
+
     const navigate = useNavigate();
     const { state, actions } = useContext(CBPiContext);
 
@@ -34,7 +41,7 @@ const ActorTable = () => {
         actions.delete_actor(id)
     }
     return (
-        <>
+        (<Root>
             <TableContainer component={Paper}>
                 <Table className={classes.table} dense={true} table size="small" aria-label="simple table">
                     <TableHead>
@@ -68,7 +75,7 @@ const ActorTable = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </>
+        </Root>)
     );
 }
 

@@ -1,5 +1,5 @@
 import { Container, IconButton, InputBase, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { styled } from '@material-ui/core/styles';
 import Grid from "@mui/material/Grid";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -18,25 +18,40 @@ import StepTypeSelect from "../util/StepTypeSelect";
 import { useNavigate, useParams } from "react-router-dom";
 import { pluginapi } from "../data/pluginapi";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
+const PREFIX = 'Settings';
+
+const classes = {
+  root: `${PREFIX}-root`,
+  paper: `${PREFIX}-paper`,
+  input: `${PREFIX}-input`
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled('div')((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.root}`]: {
     flexGrow: 1,
   },
-  paper: {
+
+  [`& .${classes.paper}`]: {
     padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary,
   },
-  input: {
+
+  [`& .${classes.input}`]: {
     marginLeft: theme.spacing(1),
     flex: 1,
-  },
+  }
 }));
 
 const SelectBox = ({ options, value, onChange }) => {
   if (options){
   return (
-    <>
+    (<Root>
       <Select variant="standard" labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={onChange}>
         {options.map((item) => (
           <MenuItem key={item.value} value={item.value}>
@@ -44,7 +59,7 @@ const SelectBox = ({ options, value, onChange }) => {
           </MenuItem>
         ))}
       </Select>
-    </>
+    </Root>)
   );
         };
 };
@@ -79,7 +94,7 @@ const Settings = () => {
   const { config: state } = useCBPi();
   const [config, setConfig] = useState({});
   const [filter, setFilter] = useState("");
-  const classes = useStyles();
+
   const navigate = useNavigate();
   const { source } = useParams();
   const [sources, setSources] = useState([]);

@@ -1,7 +1,7 @@
 import { Breadcrumbs, Container, Divider, Link, Paper, Typography, Table, TableContainer, TableBody,TableCell,TableHead,TableRow, Tooltip} from "@mui/material";
+import { styled } from '@material-ui/core/styles';
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import { makeStyles } from "@mui/styles";
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,11 +10,28 @@ import { sqlapi } from "../data/sqlapi";
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
 
-const useStyles = makeStyles((theme) => ({
-  appBar: {
+const PREFIX = 'SpindleCalForm';
+
+const classes = {
+  appBar: `${PREFIX}-appBar`,
+  layout: `${PREFIX}-layout`,
+  paper: `${PREFIX}-paper`,
+  stepper: `${PREFIX}-stepper`,
+  buttons: `${PREFIX}-buttons`,
+  button: `${PREFIX}-button`
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled('div')((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.appBar}`]: {
     position: "relative",
   },
-  layout: {
+
+  [`& .${classes.layout}`]: {
     width: "auto",
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
@@ -24,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
       marginRight: "auto",
     },
   },
-  paper: {
+
+  [`& .${classes.paper}`]: {
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
     padding: theme.spacing(2),
@@ -34,23 +52,26 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(3),
     },
   },
-  stepper: {
+
+  [`& .${classes.stepper}`]: {
     padding: theme.spacing(3, 0, 5),
   },
-  buttons: {
+
+  [`& .${classes.buttons}`]: {
     display: "flex",
     justifyContent: "flex-end",
   },
-  button: {
+
+  [`& .${classes.button}`]: {
     marginTop: theme.spacing(3),
     marginLeft: theme.spacing(1),
-  },
+  }
 }));
 
 const SelectBox = ({ options, value, onChange }) => {
   let emptyoptions = []
   return options ? (
-    <>
+    (<Root>
       <Select style={{minWidth:370, maxWidth:370}} variant="standard" labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={onChange}>
         {options.map((item) => (
           <MenuItem key={item.value} value={item.value}>
@@ -58,7 +79,7 @@ const SelectBox = ({ options, value, onChange }) => {
           </MenuItem>
         ))}
       </Select>
-    </>
+    </Root>)
   ) :
    (
     <>
@@ -75,7 +96,7 @@ const SelectBox = ({ options, value, onChange }) => {
 
 const SpindleCalForm = () => {
   const navigate = useNavigate();
-  const classes = useStyles();
+
 
   const { id } = useParams();
   const [calibration, setCalibration] = useState([]);

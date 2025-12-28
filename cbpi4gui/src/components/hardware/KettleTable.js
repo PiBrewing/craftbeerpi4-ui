@@ -1,4 +1,4 @@
-import { makeStyles } from '@mui/styles';
+import { styled } from '@material-ui/core/styles';
 import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -15,14 +15,21 @@ import ActorValue from '../util/ActorValue';
 import DeleteDialog from '../util/DeleteDialog';
 import SensorValue from '../util/SensorValue';
 
-const useStyles = makeStyles({
-    table: {
+const PREFIX = 'KettleTable';
+
+const classes = {
+    table: `${PREFIX}-table`
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled('div')({
+    [`& .${classes.table}`]: {
         minWidth: 650,
     },
 });
 
 const KettleTable = () => {
-    const classes = useStyles();
+
     const navigate = useNavigate();
     const { state, actions } = useCBPi()
 
@@ -30,7 +37,7 @@ const KettleTable = () => {
         actions.delete_kettle(id)
     }
     return (
-        <>
+        (<Root>
             <TableContainer >
                 <Table className={classes.table} dense table size="small" aria-label="simple table">
                     <TableHead>
@@ -68,7 +75,7 @@ const KettleTable = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </>
+        </Root>)
     );
 }
 

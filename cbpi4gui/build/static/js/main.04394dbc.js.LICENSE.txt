@@ -163,6 +163,12 @@
  * @license MIT
  */
 
+/** @license Material-UI v5.0.0-beta.5
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 /** @license React v16.13.1
  * react-is.production.min.js
  *

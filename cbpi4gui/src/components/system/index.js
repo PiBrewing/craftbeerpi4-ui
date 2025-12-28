@@ -1,5 +1,5 @@
 import { Container, IconButton, Grid, Typography, Divider, Paper, Table, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { styled } from '@material-ui/core/styles';
 import React, { useEffect, useState } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -12,17 +12,31 @@ import RestoreIcon from '@mui/icons-material/Restore';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ObsoleteDeleteDialog from "../util/ObsoleteDeleteDialog";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
+const PREFIX = 'CBPiSystem';
+
+const classes = {
+  root: `${PREFIX}-root`,
+  paper: `${PREFIX}-paper`,
+  control: `${PREFIX}-control`
+};
+
+const StyledContainer = styled(Container)((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.root}`]: {
     flexGrow: 1,
   },
-  paper: {
+
+  [`& .${classes.paper}`]: {
     height: 140,
     width: 100,
   },
-  control: {
+
+  [`& .${classes.control}`]: {
     padding: theme.spacing(2),
-  },
+  }
 }));
 
 const SelectBox = ({ options, value, onChange }) => {
@@ -41,7 +55,7 @@ const SelectBox = ({ options, value, onChange }) => {
 
 
 const CBPiSystem = () => {
-  const classes = useStyles();
+
 
   const hiddenFileInput = React.useRef(null);
   const handleChange = event => {
@@ -101,7 +115,7 @@ const CBPiSystem = () => {
   };
 
   return (
-    <Container maxWidth="lg">
+    <StyledContainer maxWidth="lg">
     <div>
       <Grid container direction="row" justifyContent="space-between" alignItems="center" style={{ marginTop: 10 }}>
         <Grid item>
@@ -373,7 +387,7 @@ const CBPiSystem = () => {
       </TableContainer>
 
     </div>
-    </Container>
+    </StyledContainer>
   );
 };
 
