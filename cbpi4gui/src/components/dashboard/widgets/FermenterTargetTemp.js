@@ -8,7 +8,7 @@ const FermenterTargetTemp = ({ id }) => {
     
     const model = useModel(id)
     const fermenter = useFermenter(model.props?.fermenter)
-    const css_style = { color: model?.props?.color || "#fff", fontSize: `${model?.props?.size}px` };
+    const css_style = { color: model?.props?.color || "#fff", fontSize: `${model?.props?.size}px`, fontWeight: model?.props?.fontweight || 'normal' };
 
 
     if(!fermenter) {
@@ -23,7 +23,7 @@ const FermenterTargetTemp = ({ id }) => {
     
     const model = useModel(id)
     const fermenter = useFermenter(model.props?.fermenter)
-    const css_style = { color: model?.props?.color || "#fff", fontSize: `${model?.props?.size}px` };
+    const css_style = { color: model?.props?.color || "#fff", fontSize: `${model?.props?.size}px`, fontWeight: model?.props?.fontweight || 'normal' };
 
 
     if(!fermenter) {

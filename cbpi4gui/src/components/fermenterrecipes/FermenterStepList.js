@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Container, Grid, Hidden, IconButton, TextField, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Container, Grid, IconButton, TextField, Typography } from "@mui/material";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -96,9 +96,7 @@ const FermenterStepLine = ({ item, items, setItems, onSelectType, handleInput, h
           <Grid item xs={12} lg={2}>
             <FermenterStepTypeSelect value={item.type} onChange={(e) => onSelectType(index, e.target.value)} />
           </Grid>
-          <Hidden lgDown>
-            <Grid item xs={12} lg={8}/>
-          </Hidden>
+            <Grid item sx={{ display: { xs: '12', md: 'block' } }}/>
           <PropsEdit config={propsConfig} data={item?.props || {}} onChange={onChangeProps} />
         </Grid>
       </AccordionDetails>

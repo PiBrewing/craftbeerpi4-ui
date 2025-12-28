@@ -8,7 +8,7 @@ export const TargetTemp = ({ id }) => {
     
     const model = useModel(id)
     const kettle = useKettle(model.props?.kettle)
-    const css_style = { color: model?.props?.color || "#fff", fontSize: `${model?.props?.size}px` };
+    const css_style = { color: model?.props?.color || "#fff", fontSize: `${model?.props?.size}px` , fontWeight: model?.props?.fontweight || 'normal' };
 
 
     if(!kettle) {

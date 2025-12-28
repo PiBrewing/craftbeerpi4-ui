@@ -25,6 +25,7 @@ import SensorName from "../../util/SensorName";
 import { DashboardContext, useDraggable, useModel } from "../DashboardContext";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import { useNavigate } from "react-router-dom";
+import { fontWeight } from "@mui/system";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -219,7 +220,7 @@ const State = ({ state }) => {
   }
 };
 
-const StepItem = ({ size, item }) => {
+const StepItem = ({ size, item, fontWeight }) => {
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState("emails");
   const draggable = useDraggable();
@@ -238,11 +239,13 @@ const StepItem = ({ size, item }) => {
 
   const primaryprops = {
     fontSize: (size -3 )+"pt",
-    "&:hover": {opacity: 0.7}
+    "&:hover": {opacity: 0.7},
+    fontWeight: fontWeight || 'normal',
  };
   const secondaryprops = {
     fontSize: size+"pt",
-    "&:hover": {opacity: 0.7}
+    "&:hover": {opacity: 0.7},
+    fontWeight: fontWeight || 'normal',
  };
 
   return (
@@ -273,7 +276,7 @@ export const Steps = ({ id }) => {
     setProfile(state.mashProfile);
   }, [state.mashProfile]);
 
-  let inputStyle = { color: "#fff", width: `${model?.props?.width}px`, fontSize: `${model?.props?.namesize}pt`, backgroundColor: "#2c282e", padding: 5, borderRadius: 5 };
+  let inputStyle = { color: "#fff", width: `${model?.props?.width}px`, fontSize: `${model?.props?.namesize}pt`, fontWeight: model?.props?.fontweight || 'normal', backgroundColor: "#2c282e", padding: 5, borderRadius: 5 };
 
   if( draggable) {
     return <div className="box" style={{...inputStyle, display:"flex", justifyContent: "center", alignItems: "center"}}>
@@ -305,7 +308,7 @@ export const Steps = ({ id }) => {
         <MashControl disabled={state2.draggable} />
         <List component="nav" aria-label="main mailbox folders" style={{maxHeight: `${model?.props?.maxheight}px`, overflow: "auto"}}>
           {profile.map((row, index) => (
-            <StepItem size={model.props.stepsize} item={row} key={index} />
+            <StepItem size={model.props.stepsize} fontWeight={model?.props?.fontweight || 'normal'}  item={row} key={index} />
           ))}
         </List>
       </div>

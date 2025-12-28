@@ -271,7 +271,7 @@ export const DashboardButton = ({ id, width, height }) => {
   const [buttonvalue,setButtonvalue] = useState("N/V");
   
   return useMemo(() => {
-    let cssStyle = { width: model.width + "px", height: model.height + "px" };
+    let cssStyle = { width: model.width + "px", height: model.height + "px", fontWeight: model.props?.fontweight || 'normal' };
     let btnColor = actor?.state ? "primary" : "primary";
     let btnVariant = actor?.state ? "contained" : "outlined";
     let timedIconOff = (actor?.props.delay_type === "switch-off delay") ? true : false;
@@ -359,10 +359,10 @@ export const DashboardButton = ({ id, width, height }) => {
 
     const size = () => {
       if (model.props?.size) {
-        let css={ fontSize: model.props.size+"px"};
+        let css={ fontSize: model.props.size+"px", fontWeight: model.props.fontweight || 'normal'};
         return css;
       } else {
-        let css={ fontSize: "12px" };
+        let css={ fontSize: "12px", fontWeight: 'normal' };
         return css;
       }
     };

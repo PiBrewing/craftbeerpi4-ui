@@ -52,6 +52,7 @@ export const widget_list = [
     component: Text,
     props: [
       { name: "size", default: "10", type: "number", unit: "pt" },
+      { name: "fontweight", options: ["normal","bold"], default: "normal", type: "select" },
       { name: "color", default: "#fff", type: "text" },
     ],
   },
@@ -64,6 +65,7 @@ export const widget_list = [
       { name: "kettle", default: "1", type: "kettle" },
       { name: "unit", default: "°", type: "text" },
       { name: "size", default: "12", type: "number" },
+      { name: "fontweight", options: ["normal","bold"], default: "normal", type: "select" },
       { name: "color", default: "#fff", type: "text" },
     ],
   },
@@ -76,6 +78,7 @@ export const widget_list = [
       { name: "sensor", default: "", type: "sensor" },
       { name: "unit", default: "°", type: "text" },
       { name: "size", default: "12", type: "number", unit: "pt" },
+      { name: "fontweight", options: ["normal","bold"], default: "normal", type: "select" },
       { name: "color", default: "#fff", type: "text" },
       { name: "colorrange", default: "#f00", type: "text" },
       { name: "digits", options: ["N/A","0","1", "2","3","4"], default: "N/A", type: "select" },
@@ -89,6 +92,7 @@ export const widget_list = [
     icon: ToggleOffIcon,
     props: [{ name: "actor", default: "", type: "actor" },
     { name: "size", default: "12", type: "number", unit: "pt" },
+    { name: "fontweight", options: ["normal","bold"], default: "normal", type: "select" },
     { name: "action", options: ["yes", "no"], default: "No", type: "select" },
     { name: "powerslider", options: ["Power","Output", "No"], default: "No", type: "select" }
   ],
@@ -109,7 +113,8 @@ export const widget_list = [
     props: [{ name: "width", default: "200", type: "number", unit: "px" },
             { name: "maxheight", default: "600", type: "number", unit: "px" },
             { name: "stepsize", default: "14", type: "number", unit: "pt" },
-            { name: "namesize", default: "14", type: "number", unit: "pt" }],
+            { name: "namesize", default: "14", type: "number", unit: "pt" },
+            { name: "fontweight", options: ["normal","bold"], default: "normal", type: "select" },],
   },
   {
     name: "SVG",
@@ -145,6 +150,7 @@ export const widget_list = [
     icon: QueryBuilderIcon,
     props: [
       { name: "size", default: "10", type: "number", unit: "pt" },
+      { name: "fontweight", options: ["normal","bold"], default: "normal", type: "select" },
       { name: "format", options: ["24","12"], default: "24", type: "select"},
       { name: "showDate", options: ["yes", "no"], default: "no", type: "select" },
       { name: "color", default: "#fff", type: "text" },
@@ -211,6 +217,7 @@ export const widget_list = [
       { name: "fermenter", default: "1", type: "fermenter" },
       { name: "unit", default: "°", type: "text" },
       { name: "size", default: "12", type: "number" },
+      { name: "fontweight", options: ["normal","bold"], default: "normal", type: "select" },
       { name: "color", default: "#fff", type: "text" },
     ],
   },
@@ -223,6 +230,7 @@ export const widget_list = [
       { name: "fermenter", default: "1", type: "fermenter" },
       { name: "unit", default: "kPa", type: "text" },
       { name: "size", default: "12", type: "number" },
+      { name: "fontweight", options: ["normal","bold"], default: "normal", type: "select" },
       { name: "color", default: "#fff", type: "text" },
     ],
   },
@@ -247,7 +255,8 @@ export const widget_list = [
             { name: "width", default: "200", type: "number", unit: "px" },
             { name: "maxheight", default: "600", type: "number", unit: "px" },
             { name: "stepsize", default: "14", type: "number", unit: "pt" },
-            { name: "namesize", default: "14", type: "number", unit: "pt" }],
+            { name: "namesize", default: "14", type: "number", unit: "pt" },
+            { name: "fontweight", options: ["normal","bold"], default: "normal", type: "select" },  ],
   }
   
 ];

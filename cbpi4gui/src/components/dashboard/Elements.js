@@ -1,6 +1,6 @@
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import React, { useContext, useState } from "react";
+import { useContext, useState, useRef} from "react";
 import Draggable from "react-draggable";
 import "../../App.css";
 import "../../led.css";
@@ -22,7 +22,8 @@ export const DashboardContainer = ({ name, id, index, type, gridxy=5 }) => {
 
   const Widget = type;
 
-  
+  const nodeRef = useRef(null);
+
   const handleDrag = (e, ui) => {
     setX(x + ui.deltaX);
     setY(y + ui.deltaY);
@@ -59,8 +60,8 @@ export const DashboardContainer = ({ name, id, index, type, gridxy=5 }) => {
   };
 
   return (
-    <Draggable disabled={!draggable} onStop={stopDrag} onDrag={handleDrag} grid={[gridxy, gridxy]} defaultPosition={{ x, y }}>
-      <div onPointerDown={select} style={inputStyle}>
+    <Draggable nodeRef={nodeRef} disabled={!draggable} onStop={stopDrag} onDrag={handleDrag} grid={[gridxy, gridxy]} defaultPosition={{ x, y }}>
+      <div ref={nodeRef} onPointerDown={select} style={inputStyle}>
         { typeof type === 'string' ? <div><img className="no-drag" width={model.props?.height} height={model.props?.width}  src={type} alt="Element"/></div> :
         <Widget id={id} width={model.props?.width} height={model.props?.height} />}
         {render_icons()}
