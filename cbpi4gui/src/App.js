@@ -194,10 +194,11 @@ const CraftBeerPiApp = () => {
     <>
       <MainMenu />
       <main className={classes.content}>
-        <Root className={classes.appBarSpacer}/>
+        <Root className={classes.appBarSpacer}>
         <Container  maxWidth={false} className={classes.container} style={{ top: appBarHeight }}>
           <Outlet />
         </Container> 
+        </Root>
         </main>
     </>
   );
