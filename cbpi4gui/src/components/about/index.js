@@ -6,9 +6,9 @@ import reactlogo from "../../images/Reacticon.png"
 import { useCBPi } from "../data";
 //import paypal_logo from "./paypal.png";
 import Button from "@mui/material/Button";
-import { display } from "@mui/system";
 
 const PREFIX = 'About';
+const React_Version = require("react").version;
 
 const classes = {
   root: `${PREFIX}-root`,
@@ -81,7 +81,7 @@ const About = () => {
               alignItems: "center",
               }}
               >
-            The User Interface is based on React components: https://reactjs.org/ -<img width={30} src={reactlogo} alt="ReactLogo"/>
+            The User Interface is based on React (version {React_Version}) components: https://reactjs.org/ -<img width={30} src={reactlogo} alt="ReactLogo"/>
             </div>
             <br/>
             <p>Cheers,</p>

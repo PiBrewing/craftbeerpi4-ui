@@ -51,7 +51,7 @@ export const widget_list = [
     icon: TextFieldsIcon,
     component: Text,
     props: [
-      { name: "size", default: "10", type: "number", unit: "pt" },
+      { name: "size", default: "12", type: "number", unit: "pt" },
       { name: "fontweight", options: ["normal","bold"], default: "normal", type: "select" },
       { name: "color", default: "#fff", type: "text" },
     ],

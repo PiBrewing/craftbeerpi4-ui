@@ -1,8 +1,8 @@
-import { Collapse, ListItemIcon, Paper, Tooltip } from "@mui/material";
+import { ListItemIcon, Paper, Tooltip } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import AppsIcon from "@mui/icons-material/Apps";
+//import AppsIcon from "@mui/icons-material/Apps";
 import React, { useContext } from "react";
 import "../../App.css";
 import { CBPiPipeIcon } from "../util/icons/CBPiSensorIcon";
@@ -62,22 +62,22 @@ const DashboardSidebarListItem = ({ item }) => {
 
 const DashboardWidgetList = () => {
   const { actions, state } = useContext(DashboardContext);
-  const [open, setOpen] = React.useState(true);
+  //const [open, setOpen] = React.useState(true);
 
-  const handleClick = () => {
-    setOpen(!open);
-  };
+ // const handleClick = () => {
+ //   setOpen(!open);
+ // };
 
   return (
     <StyledPaper >
       <List component="nav" disableGutters={true} dense aria-label="">
-        <ListItem disablePadding key="path" button onClick={handleClick} innerDivStyle={{ paddingLeft: 10 }} selected={open}>
+        {/*<ListItem disablePadding key="path" button onClick={handleClick} innerDivStyle={{ paddingLeft: 10 }} selected={open}>
           <ListItemIcon className={classes.icon}>
             <AppsIcon />
           </ListItemIcon>
-        </ListItem>
+        </ListItem>*/}
 
-        <Collapse in={open} timeout="auto" unmountOnExit>
+        {/*<Collapse in={open} timeout="auto" unmountOnExit>*/ }
           <List component="div" dense disablePadding>
             {state.widget_list.map((item) => (
               <DashboardSidebarListItem key={item.name} item={item} />
@@ -94,11 +94,11 @@ const DashboardWidgetList = () => {
             </ListItem>
            </Tooltip> 
           </List>
-        </Collapse>
+        {/*</Collapse>*/}
       </List>
       
     </StyledPaper>
   );
 };
 
-export default DashboardWidgetList;
+export default DashboardWidgetList;
