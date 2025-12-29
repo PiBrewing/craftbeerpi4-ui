@@ -145,4 +145,4 @@ const FermenterRecipes = () => {
   );
 };
 
-export default FermenterRecipes;
+export default FermenterRecipes;

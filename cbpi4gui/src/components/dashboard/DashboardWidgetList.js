@@ -101,4 +101,4 @@ const DashboardWidgetList = () => {
   );
 };
 
-export default DashboardWidgetList;
+export default DashboardWidgetList;

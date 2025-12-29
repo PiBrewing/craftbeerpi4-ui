@@ -74,9 +74,9 @@ const Root = styled('div')((
   }
 }));
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableCell = styled(TableCell)(() => ({
   "& .MuiTableCell-head": {
-    color: theme.palette.common.white,
+    color: "white",
     fontSize: 12,
     fontWeight: "bold",
   },
@@ -344,106 +344,107 @@ const CurrentSpindleData = () => {
     )
   }
   else {
-  return <>
-    <Typography variant="h6" gutterBottom>
-      Current Spindle Data
-    </Typography>
-    
-    <Divider />
-    <Paper elevation={12}>
-      <Grid spacing={3} >
-        <Grid item xs={12} md={10}>
-          <TableContainer component={Paper}>
-          <Table>
-            <TableRow>
-              <TableCell>
-              <InputLabel id="demo-simple-select-helper-label">Select Spindle for Recipe Start:</InputLabel>
-              <SelectBox label="Type" options={spindledata} value={currentspindle} onChange={onChangeSpindle} />
-              </TableCell>
-              <TableCell>
-              {!calibrated ?  <Tooltip title="Spindle not calibrated" arrow>
-                              <IconButton aria-label="delete" size="small" onClick={() => { navigate("/calibrate") }} >
-                              <WarningAmberIcon color="error" />
-                              </IconButton>
-                              </Tooltip> : 
-                              <Tooltip title="Calibrated" arrow><CheckIcon color="primary" /></Tooltip>}
-              </TableCell>
-
-              <TableCell>
-              <TextField label="Days" onKeyPress={(event) => {if (!/[0-9]/.test(event.key)) {event.preventDefault();}}} value={days} onChange={onChangeDays}   />
-              </TableCell>
-              <TableCell >
-                <InputLabel id="demo-simple-select-helper-label">Set Recipe Start:</InputLabel>
-                <SetRecipeDialog title="Set New Recipe for " spindle={spindledata.find((item) => item.value === currentspindle)} message="Do you want to Start a new recipe for this spindle?" callback={save} id={currentspindle} /> 
-              </TableCell>
-              <TableCell>
-              <InputLabel id="demo-simple-select-helper-label">Refresh data:</InputLabel>
-              <Tooltip  title="Refresh">
-              <IconButton onClick={load}>
-              <AutorenewIcon/>
-              </IconButton>
-              </Tooltip>
-              </TableCell>
-              <TableCell>
-              <InputLabel id="demo-simple-select-helper-label">Show archive data:</InputLabel>
-              <Tooltip  title="Show archive data">
-              <IconButton aria-label="delete" onClick={() => { navigate("/data") }} >
-              <QueryStatsIcon />
-              </IconButton>
-              </Tooltip>
-              </TableCell>
-            </TableRow>
-          </Table>
-          </TableContainer>
-        </Grid>
-
-      <TableContainer>
-      <Table aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell align="left">Device</StyledTableCell>
-            <StyledTableCell align="left">Date/Time</StyledTableCell>
-            <StyledTableCell align="left">Batch ID</StyledTableCell>
-            <StyledTableCell align="left">Recipe Name</StyledTableCell>
-            <StyledTableCell align="left">Angle</StyledTableCell>
-            <StyledTableCell align="left">Temperature</StyledTableCell>
-            <StyledTableCell align="left">Initial Gravity</StyledTableCell>
-            <StyledTableCell align="left">Current Gravity</StyledTableCell>
-            <StyledTableCell align="left">Delta (last 12 hours)</StyledTableCell>
-            <StyledTableCell align="left">Attenuation</StyledTableCell>
-            <StyledTableCell align="left">Alcohol (ABV)</StyledTableCell>
-            <StyledTableCell align="left">Battery</StyledTableCell>
-            <StyledTableCell align="left">RSSI</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {spindledata.map((item) => (
-            
-            <StyledTableRow key={item.value}>
-              <StyledTableCell align="left">{item.label}</StyledTableCell>
-              <StyledTableCell align="left">{item.data.unixtime}</StyledTableCell>
-              <StyledTableCell align="left">{item.data.BatchID}</StyledTableCell>
-              <StyledTableCell align="left">{item.data.recipe}</StyledTableCell>
-              <StyledTableCell align="left">{parseFloat(item.data.angle).toFixed(1)}</StyledTableCell>
-              <StyledTableCell align="left">{parseFloat(item.data.temperature).toFixed(1)}</StyledTableCell>
-              <StyledTableCell align="left">{item.unit === "PLATO" ? parseFloat(item.data.InitialGravity).toFixed(1) : parseFloat(item.data.InitialGravity).toFixed(3)}</StyledTableCell>
-              <StyledTableCell align="left">{item.unit === "PLATO" ? parseFloat(item.data.Servergravity).toFixed(1) : parseFloat(item.data.Servergravity).toFixed(3)}</StyledTableCell>
-              <StyledTableCell align="left">{item.unit === "PLATO" ? parseFloat(item.data.Delta_Gravity).toFixed(1) : parseFloat(item.data.Delta_Gravity).toFixed(3)}</StyledTableCell>
-              <StyledTableCell align="left">{parseFloat(item.data.Attenuation).toFixed(1)}</StyledTableCell>
-              <StyledTableCell align="left">{parseFloat(item.data.ABV).toFixed(1)}</StyledTableCell>
-              <StyledTableCell align="left">{parseFloat(item.data.battery).toFixed(1)}</StyledTableCell>
-              <StyledTableCell align="left">{item.data.rssi}</StyledTableCell>
-            </StyledTableRow>
-          ))}
-              
-        </TableBody>
-      </Table>
-      </TableContainer>
-      </Grid>
-      
+  return (
+  <>
+      <Typography variant="h6" gutterBottom>
+        Current Spindle Data
+      </Typography>
       <Divider />
-    </Paper>
-  </>;
+      <Paper elevation={12}>
+        <Grid spacing={3} >
+          <Grid item xs={12} md={10}>
+            <TableContainer component={Paper}>
+            <Table>
+              <TableRow>
+                <TableCell>
+                <InputLabel id="demo-simple-select-helper-label">Select Spindle for Recipe Start:</InputLabel>
+                <SelectBox label="Type" options={spindledata} value={currentspindle} onChange={onChangeSpindle} />
+                </TableCell>
+                <TableCell>
+                {!calibrated ?  <Tooltip title="Spindle not calibrated" arrow>
+                                <IconButton aria-label="delete" size="small" onClick={() => { navigate("/calibrate") }} >
+                                <WarningAmberIcon color="error" />
+                                </IconButton>
+                                </Tooltip> : 
+                                <Tooltip title="Calibrated" arrow><CheckIcon color="primary" /></Tooltip>}
+                </TableCell>
+
+                <TableCell>
+                <TextField label="Days" onKeyUp ={(event) => {if (!/[0-9]/.test(event.key)) {event.preventDefault();}}} value={days} onChange={onChangeDays}   />
+                </TableCell>
+                <TableCell >
+                  <InputLabel id="demo-simple-select-helper-label">Set Recipe Start:</InputLabel>
+                  <SetRecipeDialog title="Set New Recipe for " spindle={spindledata.find((item) => item.value === currentspindle)} message="Do you want to Start a new recipe for this spindle?" callback={save} id={currentspindle} /> 
+                </TableCell>
+                <TableCell>
+                <InputLabel id="demo-simple-select-helper-label">Refresh data:</InputLabel>
+                <Tooltip  title="Refresh">
+                <IconButton onClick={load}>
+                <AutorenewIcon/>
+                </IconButton>
+                </Tooltip>
+                </TableCell>
+                <TableCell>
+                <InputLabel id="demo-simple-select-helper-label">Show archive data:</InputLabel>
+                <Tooltip  title="Show archive data">
+                <IconButton aria-label="delete" onClick={() => { navigate("/data") }} >
+                <QueryStatsIcon />
+                </IconButton>
+                </Tooltip>
+                </TableCell>
+              </TableRow>
+            </Table>
+            </TableContainer>
+          </Grid>
+
+        <TableContainer>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="left">Device</StyledTableCell>
+              <StyledTableCell align="left">Date/Time</StyledTableCell>
+              <StyledTableCell align="left">Batch ID</StyledTableCell>
+              <StyledTableCell align="left">Recipe Name</StyledTableCell>
+              <StyledTableCell align="left">Angle</StyledTableCell>
+              <StyledTableCell align="left">Temperature</StyledTableCell>
+              <StyledTableCell align="left">Initial Gravity</StyledTableCell>
+              <StyledTableCell align="left">Current Gravity</StyledTableCell>
+              <StyledTableCell align="left">Delta (last 12 hours)</StyledTableCell>
+              <StyledTableCell align="left">Attenuation</StyledTableCell>
+              <StyledTableCell align="left">Alcohol (ABV)</StyledTableCell>
+              <StyledTableCell align="left">Battery</StyledTableCell>
+              <StyledTableCell align="left">RSSI</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {spindledata.map((item) => (
+              
+              <StyledTableRow key={item.value}>
+                <StyledTableCell align="left">{item.label}</StyledTableCell>
+                <StyledTableCell align="left">{item.data.unixtime}</StyledTableCell>
+                <StyledTableCell align="left">{item.data.BatchID}</StyledTableCell>
+                <StyledTableCell align="left">{item.data.recipe}</StyledTableCell>
+                <StyledTableCell align="left">{parseFloat(item.data.angle).toFixed(1)}</StyledTableCell>
+                <StyledTableCell align="left">{parseFloat(item.data.temperature).toFixed(1)}</StyledTableCell>
+                <StyledTableCell align="left">{item.unit === "PLATO" ? parseFloat(item.data.InitialGravity).toFixed(1) : parseFloat(item.data.InitialGravity).toFixed(3)}</StyledTableCell>
+                <StyledTableCell align="left">{item.unit === "PLATO" ? parseFloat(item.data.Servergravity).toFixed(1) : parseFloat(item.data.Servergravity).toFixed(3)}</StyledTableCell>
+                <StyledTableCell align="left">{item.unit === "PLATO" ? parseFloat(item.data.Delta_Gravity).toFixed(1) : parseFloat(item.data.Delta_Gravity).toFixed(3)}</StyledTableCell>
+                <StyledTableCell align="left">{parseFloat(item.data.Attenuation).toFixed(1)}</StyledTableCell>
+                <StyledTableCell align="left">{parseFloat(item.data.ABV).toFixed(1)}</StyledTableCell>
+                <StyledTableCell align="left">{parseFloat(item.data.battery).toFixed(1)}</StyledTableCell>
+                <StyledTableCell align="left">{item.data.rssi}</StyledTableCell>
+              </StyledTableRow>
+            ))}
+                
+          </TableBody>
+        </Table>
+        </TableContainer>
+        </Grid>
+        
+        <Divider />
+      </Paper>
+    </>
+  );
 };
 
 };
