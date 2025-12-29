@@ -75,7 +75,6 @@ const MashProfile = () => {
   if (!state.mashBasic.name) {
     return (
       <Container maxWidth="lg">
-      <Grid container spacing={3}>
         <Grid item xs={12} style={{display: "flex", justifyContent:"center"}}>
 
           <Button
@@ -89,7 +88,6 @@ const MashProfile = () => {
           </Button>
 
         </Grid>
-      </Grid>
       </Container>
     );
   }
@@ -127,7 +125,7 @@ const MashProfile = () => {
 
         <Divider style={{ marginBottom: 10, marginTop: 10 }} />
 
-        <Grid container spacing={3}>
+        {/*<Grid container spacing={3}>*/}
           <Grid item sm={12}>
             <Paper className={classes.paper}>
               <Header title="Profile">
@@ -188,7 +186,7 @@ const MashProfile = () => {
               </TableContainer>
             </Paper>
           </Grid>
-        </Grid>
+        {/*</Grid>*/}
         </Container>
     </Root>)
   );

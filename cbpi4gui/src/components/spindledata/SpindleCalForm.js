@@ -60,6 +60,7 @@ const Root = styled('div')((
   [`& .${classes.buttons}`]: {
     display: "flex",
     justifyContent: "flex-end",
+    marginTop: theme.spacing(3),
   },
 
   [`& .${classes.button}`]: {
@@ -253,7 +254,8 @@ const SpindleCalForm = () => {
         </Table>
 
         </Grid>
-        <div className={classes.buttons}>
+        <Grid spacing={2} item xs={12}>
+        <div className={classes.buttons} marginTop={2}>
           <Button
             variant="contained"
             color="secondary"
@@ -275,6 +277,7 @@ const SpindleCalForm = () => {
             Save
           </Button>
         </div>
+        </Grid>
       </Paper>
       </Container>
     </>

@@ -202,7 +202,6 @@ const Upload = () => {
             <p>You can upload recipes from BeerXML, MMuM-JSON, Brewfather or the Kleiner Brauhelfer V2 database .</p>
           </Paper>
         </Grid>
-        
         <Grid item spacing={2} xs={12}>
           <Paper style={{ padding: 10 }}>
             <Button variant="contained" component="label">

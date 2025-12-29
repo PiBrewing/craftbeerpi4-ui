@@ -6,6 +6,7 @@ import reactlogo from "../../images/Reacticon.png"
 import { useCBPi } from "../data";
 //import paypal_logo from "./paypal.png";
 import Button from "@mui/material/Button";
+import { display } from "@mui/system";
 
 const PREFIX = 'About';
 
@@ -26,7 +27,7 @@ const StyledContainer = styled(Container)((
 
   [`& .${classes.paper}`]: {
     height: 140,
-    width: 100,
+    width: 100, 
   },
 
   [`& .${classes.control}`]: {
@@ -51,7 +52,7 @@ const About = () => {
       </Grid>
       <Divider style={{ marginBottom: 10, marginTop: 10 }} />
 
-      <Grid container spacing={2} className={classes.root}>
+      {/*<Grid container spacing={2} className={classes.root}>*/}
         <Grid item spacing={2} xs={12}>
           <Paper style={{ padding: 10 }}>
             This is CraftBeerPi Brewing Controller 4 ( Serverversion: {state.version} - Codename: {state.codename} || GUIversion: {state.guiversion} )
@@ -87,9 +88,9 @@ const About = () => {
             <p> Manuel Fritsch / Alexander Vollkopf</p>
             <img width={30} src={logo} alt="Logo" /> CraftBeerPi
           </Paper>
-        </Grid>
-        <Grid item spacing={2} xs={12}>
-          <Paper style={{ padding: 10 }}>
+          
+          <Divider style={{ marginBottom: 10, marginTop: 10 }} />
+          <Paper maxWidth="lg" style={{ padding: 10 }}>
             <h3>License</h3>
             <p>GNU General Public License 3</p>
           </Paper>
@@ -115,12 +116,11 @@ const About = () => {
       </form>
           </Paper>
             </Grid>*/}       
-      </Grid>
-      
+      {/*</Grid>*/}
       
     </div>
     </StyledContainer>
   );
 };
 
-export default About;
+export default About;

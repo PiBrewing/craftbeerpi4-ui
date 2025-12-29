@@ -14,6 +14,7 @@ import SetRecipeDialog from "./SetRecipeDialog";
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
+import { grey } from "@mui/material/colors";
 
 const PREFIX = 'CurrentSpindleData';
 
@@ -74,7 +75,7 @@ const Root = styled('div')((
   }
 }));
 
-const StyledTableCell = styled(TableCell)(() => ({
+/*const StyledTableCell = styled(TableCell)(() => ({
   "& .MuiTableCell-head": {
     color: "white",
     fontSize: 12,
@@ -91,7 +92,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
         backgroundColor: theme.palette.action.hover,
       },
     },
-  }));
+  }));*/
 
 const SelectBox = ({ options, value, onChange }) => {
   let emptyoptions = []
@@ -119,7 +120,7 @@ const SelectBox = ({ options, value, onChange }) => {
   );
 };
 
-const CurrentSpindleData = () => {
+const CurrentSpindleData = ({ theme }) => {
   const navigate = useNavigate();
 
 
@@ -168,7 +169,7 @@ const CurrentSpindleData = () => {
   const load = () => {
     sqlapi.getrecentdata(days , (data) => {
       setSpindledata(data);
-      //console.log(data)
+      console.log(days)
       setCurrentspindle(data[0].value);
       setCalibrated(data[0].data.Calibrated)
       setConst0(data[0].data.Const0);
@@ -401,39 +402,42 @@ const CurrentSpindleData = () => {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <StyledTableCell align="left">Device</StyledTableCell>
-              <StyledTableCell align="left">Date/Time</StyledTableCell>
-              <StyledTableCell align="left">Batch ID</StyledTableCell>
-              <StyledTableCell align="left">Recipe Name</StyledTableCell>
-              <StyledTableCell align="left">Angle</StyledTableCell>
-              <StyledTableCell align="left">Temperature</StyledTableCell>
-              <StyledTableCell align="left">Initial Gravity</StyledTableCell>
-              <StyledTableCell align="left">Current Gravity</StyledTableCell>
-              <StyledTableCell align="left">Delta (last 12 hours)</StyledTableCell>
-              <StyledTableCell align="left">Attenuation</StyledTableCell>
-              <StyledTableCell align="left">Alcohol (ABV)</StyledTableCell>
-              <StyledTableCell align="left">Battery</StyledTableCell>
-              <StyledTableCell align="left">RSSI</StyledTableCell>
+              <TableCell  align="left">Device</TableCell>
+              <TableCell align="left">Date/Time</TableCell>
+              <TableCell align="left">Batch ID</TableCell>
+              <TableCell align="left">Recipe Name</TableCell>
+              <TableCell align="left">Angle</TableCell>
+              <TableCell align="left">Temperature</TableCell>
+              <TableCell align="left">Initial Gravity</TableCell>
+              <TableCell align="left">Current Gravity</TableCell>
+              <TableCell align="left">Delta (last 12 hours)</TableCell>
+              <TableCell align="left">Attenuation</TableCell>
+              <TableCell align="left">Alcohol (ABV)</TableCell>
+              <TableCell align="left">Battery</TableCell>
+              <TableCell align="left">RSSI</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody sx={{'& tr:nth-of-type(2n+1)': {
+        backgroundColor: grey[800],
+        }}}>
+            
             {spindledata.map((item) => (
               
-              <StyledTableRow key={item.value}>
-                <StyledTableCell align="left">{item.label}</StyledTableCell>
-                <StyledTableCell align="left">{item.data.unixtime}</StyledTableCell>
-                <StyledTableCell align="left">{item.data.BatchID}</StyledTableCell>
-                <StyledTableCell align="left">{item.data.recipe}</StyledTableCell>
-                <StyledTableCell align="left">{parseFloat(item.data.angle).toFixed(1)}</StyledTableCell>
-                <StyledTableCell align="left">{parseFloat(item.data.temperature).toFixed(1)}</StyledTableCell>
-                <StyledTableCell align="left">{item.unit === "PLATO" ? parseFloat(item.data.InitialGravity).toFixed(1) : parseFloat(item.data.InitialGravity).toFixed(3)}</StyledTableCell>
-                <StyledTableCell align="left">{item.unit === "PLATO" ? parseFloat(item.data.Servergravity).toFixed(1) : parseFloat(item.data.Servergravity).toFixed(3)}</StyledTableCell>
-                <StyledTableCell align="left">{item.unit === "PLATO" ? parseFloat(item.data.Delta_Gravity).toFixed(1) : parseFloat(item.data.Delta_Gravity).toFixed(3)}</StyledTableCell>
-                <StyledTableCell align="left">{parseFloat(item.data.Attenuation).toFixed(1)}</StyledTableCell>
-                <StyledTableCell align="left">{parseFloat(item.data.ABV).toFixed(1)}</StyledTableCell>
-                <StyledTableCell align="left">{parseFloat(item.data.battery).toFixed(1)}</StyledTableCell>
-                <StyledTableCell align="left">{item.data.rssi}</StyledTableCell>
-              </StyledTableRow>
+              <TableRow key={item.value}>
+                <TableCell align="left">{item.label}</TableCell>
+                <TableCell align="left">{item.data.unixtime}</TableCell>
+                <TableCell align="left">{item.data.BatchID}</TableCell>
+                <TableCell align="left">{item.data.recipe}</TableCell>
+                <TableCell align="left">{parseFloat(item.data.angle).toFixed(1)}</TableCell>
+                <TableCell align="left">{parseFloat(item.data.temperature).toFixed(1)}</TableCell>
+                <TableCell align="left">{item.unit === "PLATO" ? parseFloat(item.data.InitialGravity).toFixed(1) : parseFloat(item.data.InitialGravity).toFixed(3)}</TableCell>
+                <TableCell align="left">{item.unit === "PLATO" ? parseFloat(item.data.Servergravity).toFixed(1) : parseFloat(item.data.Servergravity).toFixed(3)}</TableCell>
+                <TableCell align="left">{item.unit === "PLATO" ? parseFloat(item.data.Delta_Gravity).toFixed(1) : parseFloat(item.data.Delta_Gravity).toFixed(3)}</TableCell>
+                <TableCell align="left">{parseFloat(item.data.Attenuation).toFixed(1)}</TableCell>
+                <TableCell align="left">{parseFloat(item.data.ABV).toFixed(1)}</TableCell>
+                <TableCell align="left">{parseFloat(item.data.battery).toFixed(1)}</TableCell>
+                <TableCell align="left">{item.data.rssi}</TableCell>
+              </TableRow>
             ))}
                 
           </TableBody>

@@ -72,7 +72,7 @@ const clear_logs = () => {
         </Grid>
       </Grid>
       <Divider style={{ marginBottom: 10, marginTop: 10 }} />
-      <Grid container spacing={3}>
+      {/*<Grid container spacing={3}>*/}
         <Grid item xs="12">
           <ToggleButtonGroup color="primary" value={formats} onChange={handleFormat} aria-label="text formatting">
             {sensors.map((item, index) => (
@@ -152,7 +152,7 @@ const clear_logs = () => {
             }}
           />
         </Grid>
-      </Grid>
+      {/*</Grid>*/}
       </Container>
     </>
   );

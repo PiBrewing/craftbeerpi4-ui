@@ -49,8 +49,8 @@ export default function Hardware() {
         </Grid>
 
         <Divider style={{ marginBottom: 10, marginTop: 10 }} />
-        <Grid container spacing={3}>
-          <Grid item sm={12}>
+        {/*<Grid container spacing={3}>*/}
+          <Grid item sm={12} style={{ marginBottom: 20 }}>
             <Paper className={classes.paper}>
               <Header title="Kettle">
                 <IconButton
@@ -65,7 +65,7 @@ export default function Hardware() {
               <KettleTable />
             </Paper>
           </Grid>
-          <Grid item sm={12}>
+          <Grid item sm={12} style={{ marginBottom: 20 }}>
             <Paper className={classes.paper}>
               <Header title="Fermenter">
                 <IconButton
@@ -80,7 +80,7 @@ export default function Hardware() {
               <FermenterTable />
             </Paper>
           </Grid>
-          <Grid item sm={12}>
+          <Grid item sm={12} style={{ marginBottom: 20 }}>
             <Paper className={classes.paper}>
               <Header title="Sensor">
                 
@@ -97,7 +97,7 @@ export default function Hardware() {
               <SensorTable />
             </Paper>
           </Grid>
-          <Grid item sm={12}>
+          <Grid item sm={12} style={{ marginBottom: 20 }}>
             <Paper className={classes.paper}>
               <Header title="Actor">
               <IconButton
@@ -112,8 +112,9 @@ export default function Hardware() {
               <ActorTable />
             </Paper>
           </Grid>
-        </Grid>
+        {/*</Grid>*/}
         </Container>
-    </Root>)
+      </Root>
+)
   );
 }

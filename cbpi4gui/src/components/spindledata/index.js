@@ -399,7 +399,7 @@ const yes = () => {
       </Tooltip>
 
       <Divider style={{ marginBottom: 10, marginTop: 10 }} />
-      <Grid container spacing={3}>
+      {/*<Grid container spacing={3}>*/}
         <Grid item xs="12">
         <TableContainer component={Paper}>
           <Table className={classes.table} dense={true} table size="medium" aria-label="simple table">
@@ -588,7 +588,7 @@ const yes = () => {
 
           />
         </Grid>
-      </Grid>
+      {/*</Grid>*/}
       </Container>
     </>
   );

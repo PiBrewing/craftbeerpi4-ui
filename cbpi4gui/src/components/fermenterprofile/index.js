@@ -171,7 +171,7 @@ const FermenterProfile = () => {
 
       <Divider style={{ marginBottom: 10, marginTop: 10 }} />
 
-      <Grid container spacing={3}>
+      {/*<Grid container spacing={3}>*/}
         <Grid item sm={12}>
           <Paper className={classes.paper}>
             <Header title="Profile">
@@ -232,10 +232,10 @@ const FermenterProfile = () => {
             </TableContainer>
           </Paper>
         </Grid>
-      </Grid>
+      {/*</Grid>*/}
       </Container>
     </>
   );
 };
 };
-export default FermenterProfile;
+export default FermenterProfile;
