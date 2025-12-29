@@ -1,4 +1,3 @@
-import { makeStyles } from "@mui/styles";
 import Alert from "@mui/material/Alert";
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 
@@ -48,21 +47,9 @@ export const ActionDialog = ({ item }) => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    position: "absolute",
-    bottom: 10,
-    right: 30,
-    "& > * + *": {
-      marginTop: theme.spacing(1),
-    },
-  },
-}));
-
 export const AlertContext = createContext({});
 
 export const AlertProvider = ({ children }) => {
-  const classes = useStyles();
   const [alerts, setAlerts] = useState([]);
   const audio = new Audio(buzzer);
 
@@ -110,12 +97,12 @@ export const AlertProvider = ({ children }) => {
     <AlertContext.Provider value={value}>
       {children}
 
-      <div className={classes.root}>
+      <div>
         {alerts.map((a) => {
           if (a?.action?.length > 0) {
             return <ActionDialog key={a.id} item={a} />;
           } else { 
-            return <Alert severity={a.type || "info"} key={a.id}>{a.title} - <Typography>{a.message} </Typography></Alert>;
+            return <Alert style={{position: "absolute", bottom: 10, right: 30}} severity={a.type || "info"} key={a.id}>{a.title} - <Typography>{a.message} </Typography></Alert>;
           }
         })}
       </div>
