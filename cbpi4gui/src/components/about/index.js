@@ -1,5 +1,5 @@
 import { Divider, Container, Grid, Paper, Typography } from "@mui/material";
-import { styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 import logo from "../../images/cbpi.png";
 import pythonlogo from "../../images/python-powered.png"
 import reactlogo from "../../images/Reacticon.png"

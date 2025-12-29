@@ -1,5 +1,5 @@
 import { Container, Divider, Grid, IconButton, Typography, Table, TableContainer, TableBody,TableCell,TableHead,TableRow } from "@mui/material";
-import { styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import { Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";

@@ -1,5 +1,5 @@
 import { Button, ButtonGroup, Divider, Grid, List, Paper, Typography } from "@mui/material";
-import { styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";

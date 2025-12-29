@@ -1,5 +1,5 @@
 import { Container, Breadcrumbs, Divider, Link, Paper, Typography } from "@mui/material";
-import { styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";

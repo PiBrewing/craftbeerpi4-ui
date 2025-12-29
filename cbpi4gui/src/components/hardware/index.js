@@ -1,5 +1,5 @@
 import { Container, Divider, IconButton, Paper } from "@mui/material";
-import { styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";

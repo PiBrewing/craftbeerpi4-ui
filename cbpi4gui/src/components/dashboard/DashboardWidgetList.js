@@ -1,5 +1,5 @@
 import { Collapse, ListItemIcon, Paper, Tooltip } from "@mui/material";
-import { styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import AppsIcon from "@mui/icons-material/Apps";

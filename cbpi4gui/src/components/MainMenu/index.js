@@ -1,5 +1,5 @@
 import AppBar from "@mui/material/AppBar";
-import { styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 import Badge from "@mui/material/Badge";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";

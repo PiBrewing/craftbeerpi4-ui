@@ -1,5 +1,5 @@
 import { Container, GlobalStyles } from "@mui/material";
-import { styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 import CssBaseline from "@mui/material/CssBaseline";
 import React, {useRef, useLayoutEffect, useState} from "react";
 import { HashRouter as Router, Routes, Route, Outlet } from "react-router-dom";

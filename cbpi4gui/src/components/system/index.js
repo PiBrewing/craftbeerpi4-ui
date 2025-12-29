@@ -1,5 +1,5 @@
 import { Container, IconButton, Grid, Typography, Divider, Paper, Table, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 import React, { useEffect, useState } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
