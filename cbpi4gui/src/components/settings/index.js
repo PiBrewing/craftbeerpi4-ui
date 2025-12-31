@@ -1,4 +1,4 @@
-import { Container, IconButton, InputBase, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
+import { Container, Divider, IconButton, InputBase, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import Grid from "@mui/material/Grid";
 import MenuItem from "@mui/material/MenuItem";
@@ -224,6 +224,7 @@ const Settings = () => {
           
         </Grid>
       </Grid>
+      <Divider style={{ marginTop: 10, marginBottom: 10 }} />
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>

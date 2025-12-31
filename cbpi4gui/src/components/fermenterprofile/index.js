@@ -132,7 +132,7 @@ const FermenterProfile = () => {
   }
  {
   return (
-    <>
+    <Root>
     <Container maxWidth="lg">
       <Grid container direction="row" justifyContent="space-between" alignItems="center" style={{ marginTop: 10 }}>
         <Grid item>
@@ -234,7 +234,7 @@ const FermenterProfile = () => {
         </Grid>
       {/*</Grid>*/}
       </Container>
-    </>
+    </Root>
   );
 };
 };

@@ -1,4 +1,4 @@
-import { Breadcrumbs, Container, Divider, Paper,InputBase, IconButton, Link, List, ListItemButton, ListItemSecondaryAction, ListItemText, ListItemIcon, Tooltip } from "@mui/material";
+import { Breadcrumbs, Container, Divider, Paper,InputBase, IconButton, Link, List, ListItemButton, ListItemText, ListItemIcon, Tooltip } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -135,7 +135,6 @@ const FermenterRecipes = () => {
                 <CBPiBeerIcon/>
               </ListItemIcon>
               <ListItemText primary={item.name || "No Name"} secondary={item.desc} />
-              <ListItemSecondaryAction>x</ListItemSecondaryAction>
             </ListItemButton>
             </Tooltip>
           ))}
@@ -145,4 +144,4 @@ const FermenterRecipes = () => {
   );
 };
 
-export default FermenterRecipes;
+export default FermenterRecipes;

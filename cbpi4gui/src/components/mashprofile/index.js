@@ -74,6 +74,7 @@ const MashProfile = () => {
 
   if (!state.mashBasic.name) {
     return (
+      <Root>
       <Container maxWidth="lg">
         <Grid item xs={12} style={{display: "flex", justifyContent:"center"}}>
 
@@ -89,6 +90,7 @@ const MashProfile = () => {
 
         </Grid>
       </Container>
+      </Root>
     );
   }
 

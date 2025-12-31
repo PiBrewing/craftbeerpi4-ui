@@ -48,7 +48,6 @@ const FermenterStepLine = ({ item, items, setItems, onSelectType, handleInput, h
   };
 
   return (
-    <Container maxWidth="lg">
     <Accordion>
       <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
         <Grid container direction="row" justifyContent="space-between" alignItems="center">
@@ -101,7 +100,6 @@ const FermenterStepLine = ({ item, items, setItems, onSelectType, handleInput, h
         </Grid>
       </AccordionDetails>
     </Accordion>
-    </Container>
   );
 };
 

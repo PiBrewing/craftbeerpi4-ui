@@ -1,6 +1,0 @@
-
-
-const MastStepEditor = () => {
-
-    return <>EDITOR</>
-}
