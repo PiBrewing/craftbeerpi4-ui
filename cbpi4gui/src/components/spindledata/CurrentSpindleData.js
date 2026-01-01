@@ -72,18 +72,19 @@ const Root = styled('div')((
   [`& .${classes.button}`]: {
     marginTop: theme.spacing(3),
     marginLeft: theme.spacing(1),
-  }
-}));
+  },
 
-/*const StyledTableCell = styled(TableCell)(() => ({
+    [`& .${classes.styledtablecell}`]: {
   "& .MuiTableCell-head": {
-    color: "white",
+    color: "black",
     fontSize: 12,
     fontWeight: "bold",
   },
   "& .MuiTableCell-body": {
     fontSize: 10,
   },
+  }
+
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -92,7 +93,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
         backgroundColor: theme.palette.action.hover,
       },
     },
-  }));*/
+  }));
 
 const SelectBox = ({ options, value, onChange }) => {
   let emptyoptions = []
@@ -346,7 +347,7 @@ const CurrentSpindleData = ({ theme }) => {
   }
   else {
   return (
-  <>
+  <Root>
       <Typography variant="h6" gutterBottom>
         Current Spindle Data
       </Typography>
@@ -399,7 +400,7 @@ const CurrentSpindleData = ({ theme }) => {
           </Grid>
 
         <TableContainer>
-        <Table aria-label="simple table">
+        <Table className={classes.styledtablecell} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell  align="left">Device</TableCell>
@@ -447,7 +448,7 @@ const CurrentSpindleData = ({ theme }) => {
         
         <Divider />
       </Paper>
-    </>
+    </Root>
   );
 };
 
