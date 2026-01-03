@@ -168,7 +168,7 @@ const Plugins = () => {
 
       <Grid container spacing={3} style={{ marginTop: 10 }}>
         {plugininfo.map((item) => (
-          <Grid item sm={4}>
+          <Grid className={classes.root} item sm={4}>
             <CBPiCard item={item} />
           </Grid>
         ))}
