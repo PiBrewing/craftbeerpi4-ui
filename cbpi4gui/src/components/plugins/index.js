@@ -41,18 +41,23 @@ const StyledContainer = styled(Container)((
   [`& .${classes.input}`]: {
     marginLeft: theme.spacing(1),
     flex: 1,
-  }
-}));
-
-const styles = {
-  media: {
+  },
+  [`& .${classes.media}`]: {
     height: '30px',
     width: '50px',
     paddingTop: '15%', // 16:9,
     marginTop:'1px',
     marginLeft:'1px'
   }
+}));
+
+const styles = {
+  media: {
+    height: '50px',
+    width: '50px',
+  }
 };
+
 
 const CBPiCard = ({item}) => {
 
@@ -61,15 +66,14 @@ const CBPiCard = ({item}) => {
     homepage = false;
   }
     return (
-   
     <Card className={classes.root}>
       <CardActionArea>
         <CardMedia
+          style={styles.media}
           className={classes.media}
           image={logo}
           title="Logo"
-          style={styles.media}
-        />
+          />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h3">
             {item?.Name} ({item?.Version})
@@ -125,7 +129,7 @@ const Plugins = () => {
   
 
   return (
-    <StyledContainer maxWidth="lg" >
+    <StyledContainer className={classes.root} maxWidth="lg" >
       <Grid
         container
         direction="row"
