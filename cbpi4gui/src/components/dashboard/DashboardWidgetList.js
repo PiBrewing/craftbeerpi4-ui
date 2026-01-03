@@ -1,24 +1,37 @@
-import { Collapse, ListItemIcon, Paper, Tooltip } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { ListItemIcon, Paper, Tooltip } from "@mui/material";
+import { styled } from '@mui/material/styles';
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import AppsIcon from "@mui/icons-material/Apps";
+//import AppsIcon from "@mui/icons-material/Apps";
 import React, { useContext } from "react";
 import "../../App.css";
 import { CBPiPipeIcon } from "../util/icons/CBPiSensorIcon";
 import { DashboardContext } from "./DashboardContext";
-const useStyles = makeStyles((theme) => ({
-  active: {
+const PREFIX = 'DashboardWidgetList';
+
+const classes = {
+  active: `${PREFIX}-active`,
+  icon: `${PREFIX}-icon`,
+  largeIcon: `${PREFIX}-largeIcon`
+};
+
+const StyledPaper = styled(Paper)((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.active}`]: {
     backgroundColor: "red",
   },
-  icon: {
+
+  [`& .${classes.icon}`]: {
     minWidth: "30px",
   },
-  largeIcon: {
+
+  [`& .${classes.largeIcon}`]: {
     width: 60,
     height: 60,
-  },
-
+  }
 }));
 
 const Icon = ({ icon }) => {
@@ -30,7 +43,7 @@ const DashboardSidebarListItem = ({ item }) => {
   const { state, actions } = useContext(DashboardContext);
   const selected = state.selected === item.id;
 
-  const classes = useStyles();
+
   return (
     <Tooltip title={item.name} placement="right">
     <ListItem
@@ -49,22 +62,22 @@ const DashboardSidebarListItem = ({ item }) => {
 
 const DashboardWidgetList = () => {
   const { actions, state } = useContext(DashboardContext);
-  const [open, setOpen] = React.useState(true);
-  const classes = useStyles();
-  const handleClick = () => {
-    setOpen(!open);
-  };
+  //const [open, setOpen] = React.useState(true);
+
+ // const handleClick = () => {
+ //   setOpen(!open);
+ // };
 
   return (
-    <Paper >
+    <StyledPaper >
       <List component="nav" disableGutters={true} dense aria-label="">
-        <ListItem disablePadding key="path" button onClick={handleClick} innerDivStyle={{ paddingLeft: 10 }} selected={open}>
+        {/*<ListItem disablePadding key="path" button onClick={handleClick} innerDivStyle={{ paddingLeft: 10 }} selected={open}>
           <ListItemIcon className={classes.icon}>
             <AppsIcon />
           </ListItemIcon>
-        </ListItem>
+        </ListItem>*/}
 
-        <Collapse in={open} timeout="auto" unmountOnExit>
+        {/*<Collapse in={open} timeout="auto" unmountOnExit>*/ }
           <List component="div" dense disablePadding>
             {state.widget_list.map((item) => (
               <DashboardSidebarListItem key={item.name} item={item} />
@@ -81,10 +94,10 @@ const DashboardWidgetList = () => {
             </ListItem>
            </Tooltip> 
           </List>
-        </Collapse>
+        {/*</Collapse>*/}
       </List>
       
-    </Paper>
+    </StyledPaper>
   );
 };
 

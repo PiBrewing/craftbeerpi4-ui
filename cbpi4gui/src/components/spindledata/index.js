@@ -1,4 +1,5 @@
 import { Container, Divider, Grid, IconButton, Typography, Table, TableContainer, TableBody,TableCell,TableHead,TableRow } from "@mui/material";
+import { styled } from '@mui/material/styles';
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import { Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -6,7 +7,6 @@ import Plot from "react-plotly.js";
 import DeleteDialog from "../util/DeleteDialog";
 import { useNavigate , useParams} from "react-router-dom";
 import Paper from '@mui/material/Paper';
-import { makeStyles } from '@mui/styles';
 import { sqlapi } from "../data/sqlapi";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -20,8 +20,15 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CalculateIcon from '@mui/icons-material/Calculate';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 
-const useStyles = makeStyles({
-  table: {
+const PREFIX = 'Spindledata';
+
+const classes = {
+  table: `${PREFIX}-table`
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled('div')({
+  [`& .${classes.table}`]: {
       minWidth: 650,
   },
 });
@@ -29,7 +36,7 @@ const useStyles = makeStyles({
 const SelectBox = ({ options, value, onChange }) => {
   let emptyoptions = []
   return options ? (
-    <>
+    (<Root>
       <Select style={{minWidth:370, maxWidth:370}} variant="standard" labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={onChange}>
         {options.map((item) => (
           <MenuItem key={item.value} value={item.value}>
@@ -37,7 +44,7 @@ const SelectBox = ({ options, value, onChange }) => {
           </MenuItem>
         ))}
       </Select>
-    </>
+    </Root>)
   ) :
    (
     <>
@@ -67,7 +74,7 @@ export const Spindledata = () => {
   const [range_y2, setRange_y2] = useState([]);
   const [range_y3, setRange_y3] = useState([]);
   const [rid, setRID] = useState("");
-  const classes = useStyles();
+
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
@@ -392,7 +399,7 @@ const yes = () => {
       </Tooltip>
 
       <Divider style={{ marginBottom: 10, marginTop: 10 }} />
-      <Grid container spacing={3}>
+      {/*<Grid container spacing={3}>*/}
         <Grid item xs="12">
         <TableContainer component={Paper}>
           <Table className={classes.table} dense={true} table size="medium" aria-label="simple table">
@@ -581,7 +588,7 @@ const yes = () => {
 
           />
         </Grid>
-      </Grid>
+      {/*</Grid>*/}
       </Container>
     </>
   );

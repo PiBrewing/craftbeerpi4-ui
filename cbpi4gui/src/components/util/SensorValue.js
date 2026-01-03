@@ -1,5 +1,4 @@
 import {  useCBPi } from "../data";
-//import Moment from 'react-moment';
 import moment from "moment";
 
  const SensorValue = ({id, digits}) => {
