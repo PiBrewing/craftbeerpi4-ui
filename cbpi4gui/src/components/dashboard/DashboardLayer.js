@@ -13,7 +13,7 @@ import SensorSelect from "../util/SensorSelect";
 import WidgetSelect from "../util/WidgetSelect";
 import { DashboardContext, useModel } from "./DashboardContext";
 import { widget_list } from "./widgets/config";
-import { Container, Draggable } from "react-smooth-dnd";
+import { Container, Draggable } from "@deepanmano/react-smooth-dnd";
 import { arrayMove } from "../util/arraymove";
 import { ListItemButton } from "@mui/material";
 

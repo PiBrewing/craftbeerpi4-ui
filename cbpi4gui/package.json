@@ -37,7 +37,7 @@
     "react-router-dom": "^7.11.0",
     "react-scripts": "^5.0.1",
     "react-select": "^5.10.2",
-    "react-smooth-dnd": "^0.11.1",
+    "@deepanmano/react-smooth-dnd": "^0.14.0",
     "uuid": "^13.0.0",
     "web-vitals": "^5.1.0"
   },
