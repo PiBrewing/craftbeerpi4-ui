@@ -1,8 +1,8 @@
 import AppBar from "@mui/material/AppBar";
+import { styled } from '@mui/material/styles';
 import Badge from "@mui/material/Badge";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import { makeStyles } from "@mui/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -13,32 +13,62 @@ import Menu from "../util/Menu";
 import logo from "../../images/cbpi_no_border.png";
 import NotificationsDeleteDialog from "../util/NotificationsDeleteDialog";
 
-const drawerWidth = 240;
+const PREFIX = 'MainMenu';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
+const classes = {
+  root: `${PREFIX}-root`,
+  toolbar: `${PREFIX}-toolbar`,
+  toolbarIcon: `${PREFIX}-toolbarIcon`,
+  appBar: `${PREFIX}-appBar`,
+  appBarShift: `${PREFIX}-appBarShift`,
+  menuButton: `${PREFIX}-menuButton`,
+  menuButtonHidden: `${PREFIX}-menuButtonHidden`,
+  title: `${PREFIX}-title`,
+  drawerPaper: `${PREFIX}-drawerPaper`,
+  drawerPaperClose: `${PREFIX}-drawerPaperClose`,
+  appBarSpacer: `${PREFIX}-appBarSpacer`,
+  content: `${PREFIX}-content`,
+  container: `${PREFIX}-container`,
+  paper: `${PREFIX}-paper`,
+  fixedHeight: `${PREFIX}-fixedHeight`,
+  dashoard: `${PREFIX}-dashoard`,
+  snack: `${PREFIX}-snack`
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled('div')((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.root}`]: {
     display: "flex",
   },
-  toolbar: {
+
+  [`& .${classes.toolbar}`]: {
     paddingRight: 24, // keep right padding when drawer closed
   },
-  toolbarIcon: {
+
+  [`& .${classes.toolbarIcon}`]: {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
     padding: "0 8px",
     ...theme.mixins.toolbar,
   },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
+
+  [`& .${classes.appBar}`]: {
+    zIndex: theme.zIndex.drawer - 1,
     background: "#00FF00",
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
 
+
     }),
   },
-  appBarShift: {
+
+  [`& .${classes.appBarShift}`]: {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(["width", "margin"], {
@@ -46,16 +76,20 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
-  menuButton: {
+
+  [`& .${classes.menuButton}`]: {
     marginRight: 36,
   },
-  menuButtonHidden: {
+
+  [`& .${classes.menuButtonHidden}`]: {
     display: "none",
   },
-  title: {
+
+  [`& .${classes.title}`]: {
     flexGrow: 1,
   },
-  drawerPaper: {
+
+  [`& .${classes.drawerPaper}`]: {
     position: "relative",
     whiteSpace: "nowrap",
     width: drawerWidth,
@@ -64,7 +98,8 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
-  drawerPaperClose: {
+
+  [`& .${classes.drawerPaperClose}`]: {
     overflowX: "hidden",
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
@@ -75,14 +110,17 @@ const useStyles = makeStyles((theme) => ({
       width: theme.spacing(9),
     },
   },
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
+
+  [`& .${classes.appBarSpacer}`]: theme.mixins.toolbar,
+
+  [`& .${classes.content}`]: {
     flexGrow: 1,
 
     height: "100vh",
 //    overflow: "auto",
   },
-  container: {
+
+  [`& .${classes.container}`]: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(4),
     position: "absolute",
@@ -90,30 +128,36 @@ const useStyles = makeStyles((theme) => ({
 	bottom: 0,
 	overflowY: "auto",
   },
-  paper: {
+
+  [`& .${classes.paper}`]: {
     padding: theme.spacing(2),
     display: "flex",
     overflow: "auto",
     flexDirection: "column",
   },
-  fixedHeight: {
+
+  [`& .${classes.fixedHeight}`]: {
     height: 240,
   },
-  dashoard: {
+
+  [`& .${classes.dashoard}`]: {
     data: theme.mixins.toolbar,
   },
-  snack: {
+
+  [`& .${classes.snack}`]: {
     position: "absolute",
     bottom: 10,
     right: 30,
     "& > * + *": {
       marginTop: theme.spacing(1),
     },
-  },
+  }
 }));
 
+const drawerWidth = 240;
+
 const MainMenu = () => {
-  const classes = useStyles();
+
   const navBarRef = useRef();
   const [open, setOpen] = useState(false);
   const [brewery,setBrewery] = useState("CraftBeerPi 4.0");
@@ -139,32 +183,30 @@ const MainMenu = () => {
   }, []);
  
 return (
-      <>
-      <div>
-            <AppBar enableColorOnDark ref={navBarRef}  position="absolute" className={classes.appBar}>
-              <Toolbar className={classes.toolbar}>
-                <IconButton edge="start" color="inherit" aria-label="open drawer" onClick={handleDrawerOpen} className={classes.menuButton}>
-                  <MenuIcon />
-                </IconButton>
-                <div className={classes.title} style={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
-                  <img width={30} src={logo} style={{ marginRight: 10 }} alt="CBPi Logo"/>
-                  <Typography component="h1" variant="h4" color="inherit" noWrap>
-                    {brewery}
-                  </Typography>
-                </div>
-                    <NotificationsDeleteDialog/>
-              </Toolbar>
-            </AppBar>
-            <Drawer open={open} onClose={() => setOpen(false)}>
-              <Menu onClose={() => setOpen(false)} />
-            </Drawer>
-            
-            <div className={classes.appBarSpacer} />         
-            </div>
-      </>
-    );
+  <Root className={classes.root}>
+          <AppBar enableColorOnDark ref={navBarRef}  position="absolute" className={classes.appBar}>
+            <Toolbar className={classes.toolbar}>
+              <IconButton edge="start" color="inherit" aria-label="open drawer" onClick={handleDrawerOpen} className={classes.menuButton}>
+                <MenuIcon />
+              </IconButton>
+              <div className={classes.title} style={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
+                <img width={30} src={logo} style={{ marginRight: 10 }} alt="CBPi Logo"/>
+                <Typography component="h1" variant="h4" color="inherit" noWrap>
+                  {brewery}
+                </Typography>
+              </div>
+                  <NotificationsDeleteDialog/>
+            </Toolbar>
+          </AppBar>
+          <Drawer className={classes.drawerPaper} open={open} onClose={() => setOpen(false)}>
+            <Menu onClose={() => setOpen(false)} />
+          </Drawer>
+          
+          <div className={classes.appBarSpacer} />         
+  </Root>
+);
     };
-  
+
 
 export default MainMenu;
 

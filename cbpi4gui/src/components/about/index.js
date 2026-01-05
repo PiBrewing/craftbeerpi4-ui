@@ -1,5 +1,5 @@
 import { Divider, Container, Grid, Paper, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { styled } from '@mui/material/styles';
 import logo from "../../images/cbpi.png";
 import pythonlogo from "../../images/python-powered.png"
 import reactlogo from "../../images/Reacticon.png"
@@ -7,25 +7,40 @@ import { useCBPi } from "../data";
 //import paypal_logo from "./paypal.png";
 import Button from "@mui/material/Button";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
+const PREFIX = 'About';
+const React_Version = require("react").version;
+
+const classes = {
+  root: `${PREFIX}-root`,
+  paper: `${PREFIX}-paper`,
+  control: `${PREFIX}-control`
+};
+
+const StyledContainer = styled(Container)((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.root}`]: {
     flexGrow: 1,
   },
-  paper: {
+
+  [`& .${classes.paper}`]: {
     height: 140,
-    width: 100,
+    width: 100, 
   },
-  control: {
+
+  [`& .${classes.control}`]: {
     padding: theme.spacing(2),
-  },
+  }
 }));
 
 const About = () => {
-  const classes = useStyles();
+
   let { state } = useCBPi();
  
   return (
-    <Container maxWidth="lg" >
+    <StyledContainer maxWidth="lg" >
     <div>
       <Grid container direction="row" justifyContent="space-between" alignItems="center" style={{ marginTop: 10 }}>
         <Grid item>
@@ -37,7 +52,7 @@ const About = () => {
       </Grid>
       <Divider style={{ marginBottom: 10, marginTop: 10 }} />
 
-      <Grid container spacing={2} className={classes.root}>
+      {/*<Grid container spacing={2} className={classes.root}>*/}
         <Grid item spacing={2} xs={12}>
           <Paper style={{ padding: 10 }}>
             This is CraftBeerPi Brewing Controller 4 ( Serverversion: {state.version} - Codename: {state.codename} || GUIversion: {state.guiversion} )
@@ -66,16 +81,16 @@ const About = () => {
               alignItems: "center",
               }}
               >
-            The User Interface is based on React components: https://reactjs.org/ -<img width={30} src={reactlogo} alt="ReactLogo"/>
+            The User Interface is based on React (version {React_Version}) components: https://reactjs.org/ -<img width={30} src={reactlogo} alt="ReactLogo"/>
             </div>
             <br/>
             <p>Cheers,</p>
             <p> Manuel Fritsch / Alexander Vollkopf</p>
             <img width={30} src={logo} alt="Logo" /> CraftBeerPi
           </Paper>
-        </Grid>
-        <Grid item spacing={2} xs={12}>
-          <Paper style={{ padding: 10 }}>
+          
+          <Divider style={{ marginBottom: 10, marginTop: 10 }} />
+          <Paper maxWidth="lg" style={{ padding: 10 }}>
             <h3>License</h3>
             <p>GNU General Public License 3</p>
           </Paper>
@@ -101,11 +116,10 @@ const About = () => {
       </form>
           </Paper>
             </Grid>*/}       
-      </Grid>
-      
+      {/*</Grid>*/}
       
     </div>
-    </Container>
+    </StyledContainer>
   );
 };
 

@@ -1,4 +1,5 @@
 import { Container, Divider, Grid, IconButton, Typography, Table, TableContainer, TableBody,TableCell,TableHead,TableRow } from "@mui/material";
+import { styled } from '@mui/material/styles';
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import { Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -6,7 +7,6 @@ import Plot from "react-plotly.js";
 import DeleteDialog from "../util/DeleteDialog";
 import { useNavigate , useParams} from "react-router-dom";
 import Paper from '@mui/material/Paper';
-import { makeStyles } from '@mui/styles';
 import { sqlapi } from "../data/sqlapi";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -20,8 +20,15 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CalculateIcon from '@mui/icons-material/Calculate';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 
-const useStyles = makeStyles({
-  table: {
+const PREFIX = 'Spindledata';
+
+const classes = {
+  table: `${PREFIX}-table`
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled('div')({
+  [`& .${classes.table}`]: {
       minWidth: 650,
   },
 });
@@ -29,7 +36,7 @@ const useStyles = makeStyles({
 const SelectBox = ({ options, value, onChange }) => {
   let emptyoptions = []
   return options ? (
-    <>
+    (<Root>
       <Select style={{minWidth:370, maxWidth:370}} variant="standard" labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={onChange}>
         {options.map((item) => (
           <MenuItem key={item.value} value={item.value}>
@@ -37,7 +44,7 @@ const SelectBox = ({ options, value, onChange }) => {
           </MenuItem>
         ))}
       </Select>
-    </>
+    </Root>)
   ) :
    (
     <>
@@ -57,8 +64,7 @@ export const Spindledata = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { archive } = useParams();
-  const { diagram } = useParams();
+  const { params } = useParams();
   const [archivelist, setArchivelist] = useState([]);
   const [currentarchive, setCurrentarchive] = useState("");
   const [diagramlist, setDiagramlist] = useState([]);
@@ -68,7 +74,7 @@ export const Spindledata = () => {
   const [range_y2, setRange_y2] = useState([]);
   const [range_y3, setRange_y3] = useState([]);
   const [rid, setRID] = useState("");
-  const classes = useStyles();
+
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
@@ -76,7 +82,6 @@ export const Spindledata = () => {
   const [range_x, setRange_x] = useState([0,1]);
   const [unit, setUnit] = useState("PLATO");
   const [digits, setDigits] = useState('.1f');
-
 
 const load = () => {
     setLoading(true);
@@ -283,7 +288,8 @@ const load = () => {
   }, []);
 
   useEffect(() => {
-    if (diagram === '0' || diagram === '1') {
+    if (params?.diagram === '0' || params?.diagram === '1') {
+      if (data.length > 0) {
       sqlapi.getarchiveheader(data[0].value, (data) => {  
         if (data.Spindle_Unit === "PLATO") {
           setDigits('.1f');
@@ -294,8 +300,8 @@ const load = () => {
       else {
         setDigits('.1f');
       }
-
-  }, [archive, diagram]);  
+    }
+  }, [params]);  
 
   useEffect(() => {
     setRIDFlag(archiveheader.RID_END);
@@ -393,7 +399,7 @@ const yes = () => {
       </Tooltip>
 
       <Divider style={{ marginBottom: 10, marginTop: 10 }} />
-      <Grid container spacing={3}>
+      {/*<Grid container spacing={3}>*/}
         <Grid item xs="12">
         <TableContainer component={Paper}>
           <Table className={classes.table} dense={true} table size="medium" aria-label="simple table">
@@ -401,7 +407,7 @@ const yes = () => {
               <TableRow>
                 <TableCell style={{minWidth:370, maxWidth:370}}>
                   <InputLabel id="demo-simple-select-helper-label">Archive:</InputLabel>
-                  <SelectBox options={archivelist} value={archive? archive : currentarchive} onChange={ArchiveChange} />
+                  <SelectBox options={archivelist} value={params?.archive ? params.archive : currentarchive} onChange={ArchiveChange} />
                 </TableCell>
                 <TableCell align="right" className="hidden-xs">
                   <InputLabel id="demo-simple-select-helper-label">Device:</InputLabel>
@@ -423,7 +429,7 @@ const yes = () => {
               <TableRow>
                 <TableCell style={{minWidth:370, maxWidth:370}}>
                   <InputLabel id="demo-simple-select-helper-label">Diagram:</InputLabel>
-                  <SelectBox options={diagramlist} value={diagram? diagram : currentdiagram} onChange={DiagramChange} />
+                  <SelectBox options={diagramlist} value={params?.diagram ? params.diagram : currentdiagram} onChange={DiagramChange} />
                 </TableCell>
                 <TableCell align="right" className="hidden-xs">
                   <InputLabel id="demo-simple-select-helper-label">Original Gravity:</InputLabel>
@@ -582,7 +588,7 @@ const yes = () => {
 
           />
         </Grid>
-      </Grid>
+      {/*</Grid>*/}
       </Container>
     </>
   );

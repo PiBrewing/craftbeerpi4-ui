@@ -19,7 +19,7 @@ import "../../../rotate.css";
       else {
         setName(model?.props.WidgetOff)
       }       
-    }, [actor?.state]);
+    }, [actor?.state,model?.props.WidgetOn,model?.props.WidgetOff]);
 
     if(name) {
       return <img src={`/dashboard/static/${name}.svg`}  width={width} height={height} className="no-drag"  alt="SVG NOT FOUND" class={rotate}/>

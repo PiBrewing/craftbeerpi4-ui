@@ -38,7 +38,7 @@ export const Clock = ({ id, width, height }) => {
     }, 1000);
     return () => clearInterval(interval);
   });
-  const css_style = { color: model?.props?.color || "#fff", fontSize: `${model?.props?.size}px` };
+  const css_style = { color: model?.props?.color || "#fff", fontSize: `${model?.props?.size}px`, fontWeight: model?.props?.fontweight || 'normal' };
   return (
     <div style={css_style}>
       {model?.props?.showDate === "yes" ? `${date} ` : ""}

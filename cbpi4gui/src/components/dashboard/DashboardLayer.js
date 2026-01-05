@@ -13,7 +13,7 @@ import SensorSelect from "../util/SensorSelect";
 import WidgetSelect from "../util/WidgetSelect";
 import { DashboardContext, useModel } from "./DashboardContext";
 import { widget_list } from "./widgets/config";
-import { Container, Draggable } from "react-smooth-dnd";
+import { Container, Draggable } from "@deepanmano/react-smooth-dnd";
 import { arrayMove } from "../util/arraymove";
 import { ListItemButton } from "@mui/material";
 
@@ -164,9 +164,17 @@ const PathSettings = () => {
   const [checkedRight, setCheckedRight] = React.useState([]);
 
   useEffect(() => {
+    let isMounted = true; // Flag to check if component is mounted
+
     const item = state.pathes.find((e) => e.id === selected_id);
-    setChecked((current) => item?.condition?.left || []);
-    setCheckedRight((current) => item?.condition?.right || []);
+    if (isMounted) {
+      setChecked((current) => item?.condition?.left || []);
+      setCheckedRight((current) => item?.condition?.right || []);
+    }
+
+    return () => {
+      isMounted = false; // Cleanup function to set flag to false
+    };
   }, [selected_id]);
 
   const handleToggle = (value, direction = "left") => () => {
@@ -228,7 +236,17 @@ const PathSettings = () => {
     };
 
   useEffect(() => {
-    setSelectedType(() => state.selected?.type);
+    let isMounted = true;
+
+    setSelectedType(() => {
+      if (isMounted) {
+        return state.selected?.type;
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
   }, [state.selected]);
 
   if (selectedType !== "P") {

@@ -40,20 +40,35 @@ export const DashboardProvider = ({ children }) => {
 
 
   useEffect(() => {
+    let isMounted = true; // Flag to check if component is mounted
+
     dashboardapi.getcurrentdashboard((data) => {
-      Cookies.get('cbpi4_dashboard') ? setInitialdashboard(Cookies.get('cbpi4_dashboard')) : setInitialdashboard(1);
-      Cookies.get('cbpi4_dashboard') ? setDashboardX(Cookies.get('cbpi4_dashboard')) : setDashboardX(1);
-      if (!Cookies.get('cbpi4_dashboard')) {
-        Cookies.set('cbpi4_dashboard', 1, {expires:365, path: '/' });
+      if (isMounted) {
+        Cookies.get('cbpi4_dashboard') ? setInitialdashboard(Cookies.get('cbpi4_dashboard')) : setInitialdashboard(1);
+        Cookies.get('cbpi4_dashboard') ? setDashboardX(Cookies.get('cbpi4_dashboard')) : setDashboardX(1);
+        if (!Cookies.get('cbpi4_dashboard')) {
+          Cookies.set('cbpi4_dashboard', 1, {expires:365, path: '/' });
+        }
       }
     });
 
+    return () => {
+      isMounted = false; // Cleanup function to set flag to false
+    };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
     dashboardapi.getcurrentgrid((data) => {
-      setCurrentGrid(data);
+      if (isMounted) {
+        setCurrentGrid(data);
+      }
     });
-    dashboardapi.getpipeanimation((data) => {
-      setSlowPipeAnimation( (data === 'Yes') ? true : false);
-    });
+
+    return () => {
+      isMounted = false;
+    };
   }, [currentgrid]);
  
     dashboardapi.getcurrentgrid((data) => {
@@ -63,22 +78,34 @@ export const DashboardProvider = ({ children }) => {
   const deleteKeyPressed = useKeyPress(8);
 
   useEffect(() => {
+    let isMounted = true;
+
     dashboardapi.dashboardnumbers((data) => {
-      setMaxdashboard(data);
+      if (isMounted) {
+        setMaxdashboard(data);
+      }
     });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
   
     useEffect(() => {
+    let isMounted = true;
+
     const interval = setInterval(() => {
       dashboardapi.getmeminfo((data) => {
-      //  console.log("Dashboard Memory Info - Available Memory: " + data.meminfo.availmem + " MB, Minimum Required Memory: " + data.meminfo.minmem + " MB");
-        if (data.meminfo.availmem < data.meminfo.minmem) {
+        if (isMounted && data.meminfo.availmem < data.meminfo.minmem) {
           window.location.reload(true);
-      //    console.log("Dashboard reloaded due to low memory");
-               }
-              });
+        }
+      });
     }, 300000);
-    return () => { clearInterval(interval); }
+
+    return () => {
+      clearInterval(interval);
+      isMounted = false;
+    };
   }, []);
 
   
@@ -169,7 +196,7 @@ export const DashboardProvider = ({ children }) => {
   };
 
   const update_prop = (id, key, value) => {
-    
+    console.log("Update prop called : id=" + id + ", key=" + key + ", value=" + value);
     const data = [...elements2];
     const index = data.findIndex((e) => e.id === selected.id);
     data[index].props[key] = value;

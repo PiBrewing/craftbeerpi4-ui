@@ -1,5 +1,5 @@
 import { Button, Container, Divider, IconButton, Tooltip } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { styled } from '@mui/material/styles';
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -16,25 +16,38 @@ import { default as React, useEffect, useState } from "react";
 import { useNavigate , useParams} from "react-router-dom";
 
 import { useCBPi } from "../data";
-import { fermenterapi } from "../data/fermenterapi"; 
-import FermenterDeleteDialog from "../util/FermenterDeleteDialog";  
+import { fermenterapi } from "../data/fermenterapi";
+import FermenterDeleteDialog from "../util/FermenterDeleteDialog";
 import Header from "../util/Header";
-import FermenterControl from "../util/FermenterControl"; 
+import FermenterControl from "../util/FermenterControl";
 import StepStateChip from "../util/StepStateChip"; // Eventuell Anpassen. Sollte aber so passen
 import SortButton from "./FermenterSortButton";
 import FermenterSelect from "../util/FermenterSelect";
 import FermenterSaveDialog from "../util/FermenterSaveDialog";
 
-const useStyles = makeStyles((theme) => ({
-  table: {},
-  paper: {
+const PREFIX = 'FermenterProfile';
+
+const classes = {
+  table: `${PREFIX}-table`,
+  paper: `${PREFIX}-paper`
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled('div')((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.table}`]: {},
+
+  [`& .${classes.paper}`]: {
     padding: theme.spacing(2),
     color: theme.palette.text.secondary,
-  },
+  }
 }));
 
 const FermenterProfile = () => {
-  const classes = useStyles();
+
   const { state } = useCBPi();
   const navigate = useNavigate();
   const [data, setData] = useState([]);
@@ -83,43 +96,43 @@ const FermenterProfile = () => {
 
   if (!fermenterid) { // Mashbasic finden und anpassen (vermutlich //data/index.js)
     return (
-      <>
-      <Container maxWidth="lg">
-      <Grid container direction="row" justifyContent="space-between" alignItems="center" style={{ marginTop: 10 }}>
-        <Grid item>
-          <Typography variant="h5" gutterBottom>
-            {"                              "}
-          </Typography>
-        </Grid>
-        <Grid item>
-          <Typography variant="h5" gutterBottom>
-            Select Fermenter : {" "}
-          </Typography> 
-          <FermenterSelect value={fermenterid} onChange={onChange} label="" />
-        </Grid>
+      (<Root>
+        <Container maxWidth="lg">
+        <Grid container direction="row" justifyContent="space-between" alignItems="center" style={{ marginTop: 10 }}>
+          <Grid item>
+            <Typography variant="h5" gutterBottom>
+              {"                              "}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography variant="h5" gutterBottom>
+              Select Fermenter : {" "}
+            </Typography> 
+            <FermenterSelect value={fermenterid} onChange={onChange} label="" />
+          </Grid>
 
-        <Grid>
-          <Tooltip title="Open Recipebook">
-        <IconButton
-            variant="contained"
-            onClick={() => {
-              navigate("/fermenterrecipes");
-            }}
-          >
-            <MenuBookIcon />
-          </IconButton>
-          </Tooltip>
+          <Grid>
+            <Tooltip title="Open Recipebook">
+          <IconButton
+              variant="contained"
+              onClick={() => {
+                navigate("/fermenterrecipes");
+              }}
+            >
+              <MenuBookIcon />
+            </IconButton>
+            </Tooltip>
 
-        </Grid>
+          </Grid>
 
-        </Grid>
-        </Container>
-        </>
+          </Grid>
+          </Container>
+      </Root>)
     );
   }
  {
   return (
-    <>
+    <Root>
     <Container maxWidth="lg">
       <Grid container direction="row" justifyContent="space-between" alignItems="center" style={{ marginTop: 10 }}>
         <Grid item>
@@ -158,7 +171,7 @@ const FermenterProfile = () => {
 
       <Divider style={{ marginBottom: 10, marginTop: 10 }} />
 
-      <Grid container spacing={3}>
+      {/*<Grid container spacing={3}>*/}
         <Grid item sm={12}>
           <Paper className={classes.paper}>
             <Header title="Profile">
@@ -219,9 +232,9 @@ const FermenterProfile = () => {
             </TableContainer>
           </Paper>
         </Grid>
-      </Grid>
+      {/*</Grid>*/}
       </Container>
-    </>
+    </Root>
   );
 };
 };

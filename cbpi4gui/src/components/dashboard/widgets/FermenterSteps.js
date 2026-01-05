@@ -1,4 +1,5 @@
 import { Button, ButtonGroup, Divider, Grid, List, Paper, Typography, Tooltip } from "@mui/material";
+import { styled } from '@mui/material/styles';
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -7,7 +8,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import ListItemButton from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { makeStyles } from "@mui/styles";
 import CachedIcon from "@mui/icons-material/Cached";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
@@ -25,8 +25,18 @@ import SensorName from "../../util/SensorName";
 import { DashboardContext, useDraggable, useModel } from "../DashboardContext";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import { useNavigate } from "react-router-dom";
-const useStyles = makeStyles((theme) => ({
-  paper: {
+const PREFIX = 'FermenterSteps';
+
+const classes = {
+  paper: `${PREFIX}-paper`
+};
+
+const Root = styled('div')((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.paper}`]: {
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       marginTop: theme.spacing(1),
       marginLeft: theme.spacing(0),
@@ -34,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: theme.spacing(1),
       padding: theme.spacing(1),
     },
-  },
+  }
 }));
 
 const StepProps = ({ config, data }) => {
@@ -157,7 +167,7 @@ function StepDetailsDialog(props) {
   const { onClose, selectedValue, open, item } = props;
   const [actions, setActions] = useState([]);
   const [type, setType] = React.useState({});
-  const classes = useStyles();
+
   const handleClose = () => {
     onClose(selectedValue);
   };
@@ -216,7 +226,7 @@ const State = ({ state }) => {
   }
 };
 
-const StepItem = ({ size, item }) => {
+const StepItem = ({ size, item, fontWeight }) => {
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState("emails");
   const draggable = useDraggable();
@@ -235,11 +245,13 @@ const StepItem = ({ size, item }) => {
 
   const primaryprops = {
     fontSize: (size -3 )+"pt",
-    "&:hover": {opacity: 0.7}
+    "&:hover": {opacity: 0.7},
+    fontWeight: fontWeight || 'normal',
  };
   const secondaryprops = {
     fontSize: size+"pt",
-    "&:hover": {opacity: 0.7}
+    "&:hover": {opacity: 0.7},
+    fontWeight: fontWeight || 'normal',
  };
 
   return (
@@ -291,12 +303,14 @@ export const FermenterSteps = ({ id }) => {
     };
   }, [state.fermentersteps, fermenterid]);
 
-  let inputStyle = { color: "#fff", width: `${model?.props?.width}px`,fontSize: `${model?.props?.namesize}pt`, backgroundColor: "#2c282e", padding: 5, borderRadius: 5 };
+  let inputStyle = { color: "#fff", width: `${model?.props?.width}px`,fontSize: `${model?.props?.namesize}pt`, fontWeight: `${model?.props?.fontweight}` || 'normal', backgroundColor: "#2c282e", padding: 5, borderRadius: 5 };
 
   if( draggable) {
-    return <div className="box" style={{...inputStyle, display:"flex", justifyContent: "center", alignItems: "center"}}>
-      <Typography variant="h6">Fermenter Steps</Typography>
-    </div>
+    return (
+      <Root className="box" style={{...inputStyle, display:"flex", justifyContent: "center", alignItems: "center"}}>
+        <Typography variant="h6">Fermenter Steps</Typography>
+      </Root>
+    );
   }
 
   if (!brewname) {
@@ -327,7 +341,7 @@ export const FermenterSteps = ({ id }) => {
         <FermenterControl fermenterid={fermenterid} disabled={state2.draggable} />
         <List component="nav" aria-label="main mailbox folders" style={{maxHeight: `${model?.props?.maxheight}px`, overflow: "auto"}}>
           {profile.map((row, index) => (
-            <StepItem size={model.props.stepsize} item={row} key={index} />
+            <StepItem size={model.props.stepsize} fontWeight={model?.props?.fontweight || 'normal'} item={row} key={index} />
           ))}
         </List>
       </div>
@@ -335,4 +349,4 @@ export const FermenterSteps = ({ id }) => {
   );
 };
 
-export default FermenterSteps;
+export default FermenterSteps;

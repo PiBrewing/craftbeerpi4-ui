@@ -109,10 +109,10 @@ export const SensorData = ({ id }) => {
 
     const { state } = useCBPi();
     const inrange = state?.sensorInRange[sensor_id];
-    let css_style = { color: model?.props?.color || "#fff", fontSize: `${model?.props?.size}px` };
+    let css_style = { color: model?.props?.color || "#fff", fontSize: `${model?.props?.size}px`, fontWeight: model?.props?.fontweight || 'normal' };
 
     if (inrange === false){
-      css_style = { color: model?.props?.colorrange || "#f00", fontSize: `${model?.props?.size}px` };
+      css_style = { color: model?.props?.colorrange || "#f00", fontSize: `${model?.props?.size}px`, fontWeight: model?.props?.fontweight || 'normal' };
     }
 
     if (!action || action === "no") {

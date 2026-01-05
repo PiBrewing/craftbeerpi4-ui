@@ -1,4 +1,5 @@
 import { Breadcrumbs, Container, Divider } from "@mui/material";
+import { styled } from '@mui/material/styles';
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
@@ -9,53 +10,70 @@ import logo from '../../images/python-powered.png';
 //import IconButton from "@mui/material/IconButton";
 //import InputBase from "@mui/material/InputBase";
 //import Paper from "@mui/material/Paper";
-import { makeStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
 //import SearchIcon from "@mui/icons-material/Search";
 import React, { useEffect, useState } from "react";
 import { pluginapi } from "../data/pluginapi";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
+const PREFIX = 'Plugins';
+
+const classes = {
+  root: `${PREFIX}-root`,
+  paper: `${PREFIX}-paper`,
+  input: `${PREFIX}-input`
+};
+
+const StyledContainer = styled(Container)((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.root}`]: {
     flexGrow: 1,
   },
-  paper: {
+
+  [`& .${classes.paper}`]: {
     padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary,
   },
-  input: {
+
+  [`& .${classes.input}`]: {
     marginLeft: theme.spacing(1),
     flex: 1,
   },
-}));
-
-const styles = {
-  media: {
+  [`& .${classes.media}`]: {
     height: '30px',
     width: '50px',
     paddingTop: '15%', // 16:9,
     marginTop:'1px',
     marginLeft:'1px'
   }
+}));
+
+const styles = {
+  media: {
+    height: '50px',
+    width: '50px',
+  }
 };
 
+
 const CBPiCard = ({item}) => {
-  const classes = useStyles();
+
   let homepage = true;
   if (item["Home-page"] === "UNKNOWN" ) {
     homepage = false;
   }
     return (
-   
     <Card className={classes.root}>
       <CardActionArea>
         <CardMedia
+          style={styles.media}
           className={classes.media}
           image={logo}
           title="Logo"
-          style={styles.media}
-        />
+          />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h3">
             {item?.Name} ({item?.Version})
@@ -91,7 +109,7 @@ const CBPiCard = ({item}) => {
 };
 
 const Plugins = () => {
-  //const classes = useStyles();
+
   //const { state } = useContext(CBPiContext);
 
   const [plugininfo, setPluginInfo] = useState([]);
@@ -111,7 +129,7 @@ const Plugins = () => {
   
 
   return (
-    <Container maxWidth="lg" >
+    <StyledContainer className={classes.root} maxWidth="lg" >
       <Grid
         container
         direction="row"
@@ -150,12 +168,12 @@ const Plugins = () => {
 
       <Grid container spacing={3} style={{ marginTop: 10 }}>
         {plugininfo.map((item) => (
-          <Grid item sm={4}>
+          <Grid className={classes.root} item sm={4}>
             <CBPiCard item={item} />
           </Grid>
         ))}
       </Grid>
-      </Container>
+      </StyledContainer>
   );
 };
 

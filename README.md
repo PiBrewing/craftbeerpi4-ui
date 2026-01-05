@@ -21,6 +21,13 @@ http://localhost:8000#
 
 ### Changelog
 
+- 06.01.25: (0.5.0)
+    - Fix: Change svg display when different svg is selected in draggable mode.
+    - Maintenance: Usage of React 19.2.3 and Materialui 7.3.6 incl. code adaption.
+    - Maintenance: Add checks for mounted elements/Hooks in Dashboard to prevent potential memory leaks.
+    - Maintenance: Remove unused packages in package.json.
+    - Maintenance: use alternative react-smooth-dnd package for compatibility reasons.
+    - Feature: Add bold font option to several dashboard widgets.
 - 23.11.25: (0.4.0) 
     - Add pyproject.toml file to support pip 25.3+.
     - Change sensor value in case of date from moment to string (might reduce memory usage).

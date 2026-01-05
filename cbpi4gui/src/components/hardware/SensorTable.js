@@ -1,4 +1,4 @@
-import { makeStyles } from "@mui/styles";
+import { styled } from '@mui/material/styles';
 import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -16,14 +16,21 @@ import { sensorapi } from "../data/sensorapi";
 import DeleteDialog from "../util/DeleteDialog";
 import SensorValue from "../util/SensorValue";
 
-const useStyles = makeStyles({
-  table: {
+const PREFIX = 'SensorTable';
+
+const classes = {
+  table: `${PREFIX}-table`
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled('div')({
+  [`& .${classes.table}`]: {
     minWidth: 650,
   },
 });
 
 const SensorTable = () => {
-  const classes = useStyles();
+
   const navigate = useNavigate();
   const { state, actions } = useContext(CBPiContext);
 
@@ -38,7 +45,7 @@ const SensorTable = () => {
   
 
   return (
-    <>
+    (<Root>
       <TableContainer component={Paper}>
         <Table className={classes.table} dense table size="small" aria-label="simple table">
           <TableHead>
@@ -96,7 +103,7 @@ const SensorTable = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </>
+    </Root>)
   );
 };
 
