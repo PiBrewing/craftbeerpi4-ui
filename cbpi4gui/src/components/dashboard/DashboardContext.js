@@ -92,11 +92,10 @@ export const DashboardProvider = ({ children }) => {
   }, []);
   
     useEffect(() => {
-    let isMounted = true;
-
     const interval = setInterval(() => {
       dashboardapi.getmeminfo((data) => {
-        if (isMounted && data.meminfo.availmem < data.meminfo.minmem) {
+          console.log("Dashboard Memory Info - Available Memory: " + data.meminfo.availmem + " MB, Minimum Required Memory: " + data.meminfo.minmem + " MB");
+        if (data.meminfo.availmem < data.meminfo.minmem) {
           window.location.reload(true);
         }
       });
@@ -104,7 +103,6 @@ export const DashboardProvider = ({ children }) => {
 
     return () => {
       clearInterval(interval);
-      isMounted = false;
     };
   }, []);
 
