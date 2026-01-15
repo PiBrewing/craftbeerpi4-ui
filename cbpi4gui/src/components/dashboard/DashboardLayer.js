@@ -164,17 +164,11 @@ const PathSettings = () => {
   const [checkedRight, setCheckedRight] = React.useState([]);
 
   useEffect(() => {
-    let isMounted = true; // Flag to check if component is mounted
 
     const item = state.pathes.find((e) => e.id === selected_id);
-    if (isMounted) {
       setChecked((current) => item?.condition?.left || []);
       setCheckedRight((current) => item?.condition?.right || []);
-    }
 
-    return () => {
-      isMounted = false; // Cleanup function to set flag to false
-    };
   }, [selected_id]);
 
   const handleToggle = (value, direction = "left") => () => {
