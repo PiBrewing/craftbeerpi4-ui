@@ -94,7 +94,7 @@ export const DashboardProvider = ({ children }) => {
     useEffect(() => {
     const interval = setInterval(() => {
       dashboardapi.getmeminfo((data) => {
-          console.log("Dashboard Memory Info - Available Memory: " + data.meminfo.availmem + " MB, Minimum Required Memory: " + data.meminfo.minmem + " MB");
+          // console.log("Dashboard Memory Info - Available Memory: " + data.meminfo.availmem + " MB, Minimum Required Memory: " + data.meminfo.minmem + " MB");
         if (data.meminfo.availmem < data.meminfo.minmem) {
           window.location.reload(true);
         }

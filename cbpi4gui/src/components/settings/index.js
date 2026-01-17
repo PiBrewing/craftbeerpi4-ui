@@ -147,7 +147,7 @@ const Settings = () => {
     data = Object.keys(data)
       .filter((key) => key.toLowerCase().includes(filter.toLowerCase()))
       .reduce((obj, key) => {
-        console.log(data[key].source)
+        //console.log(data[key].source)
         if (data[key].source !== "hidden"){
         obj[key] = data[key];
         }
