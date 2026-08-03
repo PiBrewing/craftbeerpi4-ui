@@ -5,10 +5,11 @@
   "proxy": "http://localhost:8000",
   "homepage": "./",
   "scripts": {
-    "start": "react-app-rewired --max-old-space-size=8192 start",
-    "build": "react-app-rewired --expose-gc --max-old-space-size=8192 build",
-    "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest"
   },
   "dependencies": {
     "@deepanmano/react-smooth-dnd": "^0.14.0",
@@ -36,16 +37,9 @@
     "react-inlinesvg": "^4.2.0",
     "react-plotly.js": "^2.6.0",
     "react-router-dom": "^7.11.0",
-    "react-scripts": "^5.0.1",
     "react-select": "^5.10.2",
     "uuid": "^13.0.0",
     "web-vitals": "^5.1.0"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "browserslist": {
     "production": [
@@ -60,15 +54,9 @@
     ]
   },
   "devDependencies": {
-    "assert": "^2.1.0",
-    "buffer": "^6.0.3",
-    "crypto-browserify": "^3.12.1",
-    "https-browserify": "^1.0.0",
-    "os-browserify": "^0.3.0",
-    "process": "^0.11.10",
-    "react-app-rewired": "^2.2.1",
-    "stream-browserify": "^3.0.0",
-    "stream-http": "^3.2.0",
-    "url": "^0.11.4"
+    "@vitejs/plugin-react": "^6.0.5",
+    "vite": "^8.2.0",
+    "vite-plugin-node-polyfills": "^0.28.0",
+    "vite-plugin-svgr": "^5.2.0"
   }
 }
