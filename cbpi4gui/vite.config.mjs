@@ -73,4 +73,13 @@ export default defineConfig({
     port: 4173,
     proxy: devProxy(),
   },
+
+  test: {
+    environment: "jsdom",
+    globals: true,
+    setupFiles: "./src/setupTests.js",
+    // Components reach for the API on mount, so tests stub axios rather than
+    // hitting a backend. Without this, a failed restore leaks between files.
+    restoreMocks: true,
+  },
 });

@@ -448,17 +448,7 @@ export const Dashboard = ({ width, height , fixdash}) => {
           <MenuItem key={item.value} value={item.value}>
             {item.label}
           </MenuItem>
-        ))},
-        theme={(theme) => ({
-    ...theme,
-    borderRadius: 0,
-    colors: {
-    ...theme.colors,
-      text: 'black',
-      primary25: 'black',
-      primary: 'black',
-    },
-  })}
+        ))}
       </Select>
       </Tooltip>
     </>
