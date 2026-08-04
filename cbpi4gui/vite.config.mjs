@@ -24,11 +24,15 @@ const API_PREFIXES = [
   "/upload",
 ];
 
+// Keys are matched as regexes so a prefix only matches at a path boundary.
+// A bare "/log" string key also swallows /logo192.png, which is a real static
+// asset referenced by index.html -- it would be proxied to the backend and come
+// back as a 500. Static files must win over API prefixes.
 const devProxy = () => ({
-  "/ws": { target: "ws://localhost:8000", ws: true },
+  "^/ws$": { target: "ws://localhost:8000", ws: true },
   ...Object.fromEntries(
     API_PREFIXES.map((p) => [
-      p,
+      `^${p}(/|$)`,
       { target: "http://localhost:8000", changeOrigin: true },
     ])
   ),
