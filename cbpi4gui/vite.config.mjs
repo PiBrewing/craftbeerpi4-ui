@@ -58,7 +58,7 @@ export default defineConfig({
 
   build: {
     outDir: "build",
-    // Matches GENERATE_SOURCEMAP=false from the CRA .env.
+    // The CRA build shipped without sourcemaps (GENERATE_SOURCEMAP=false).
     sourcemap: false,
     // MANIFEST.in globs build/static/**, and CRA emitted there. Keep it.
     assetsDir: "static",

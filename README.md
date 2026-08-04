@@ -5,11 +5,26 @@ http://localhost:8000#
 
 ## Build Web App
 
-```npm start``` for testing the web app
+The web app is built with [Vite](https://vite.dev/). Requires **Node 20.19+ or
+22.12+**. Run `npm install` once first.
+
+```npm run dev``` for testing the web app
 
 - Server needs to be started on the same host and UI is accessible via http://localhost:3000
+- API requests and the websocket are proxied through to the server on port 8000
 
 ```npm run build``` to build the webapp
+
+- Output goes to `cbpi4gui/build`, which is the folder the plugin packages and serves
+
+```npm run preview``` to serve the built app on http://localhost:4173
+
+- Useful for checking the production bundle against a running server before packaging
+
+```npm test``` to run the tests (```npm run test:watch``` to keep them running)
+
+Note that installing the plugin does **not** require Node. The `build` folder is
+shipped prebuilt inside the package, so end users only need Python.
 
 ## Install Plugin for Development
 
