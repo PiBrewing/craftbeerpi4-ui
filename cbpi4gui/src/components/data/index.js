@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import CBPiWebSocket from "./websocket";
+import CBPiEventPoller from "./eventpoller";
 import { actorapi } from "./actorapi";
 import { useEventCallback } from "@mui/material";
 import { useAlert } from "../alert/AlertProvider";
@@ -103,10 +103,7 @@ export const CBPiProvider = ({ children }) => {
   }, [notification]);
 
   useEffect(() => {
-    const ws = new CBPiWebSocket(onMessage, alert);
-    ws.connect();
-
-    axios.get("/system/").then((res) => {
+    const loadSystem = () => axios.get("/system/").then((res) => {
       const data = res.data;
       console.log(data)
       setKettle(data.kettle.data);
@@ -134,6 +131,11 @@ export const CBPiProvider = ({ children }) => {
       setBF_recipes(data.bf_recipes);
       setSystem(data.system);
       });
+
+    // the first answer of the poller is a reset: it triggers the initial load
+    const poller = new CBPiEventPoller(onMessage, loadSystem);
+    poller.connect();
+    return () => poller.close();
   }, []);
 
   // Step API
