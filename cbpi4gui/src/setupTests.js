@@ -4,22 +4,6 @@
 import "@testing-library/jest-dom";
 import { vi } from "vitest";
 
-// The app opens a websocket as soon as CBPiProvider mounts. jsdom has no
-// WebSocket, and tests must never reach a real backend, so stub it with an
-// inert socket that never fires events.
-class MockWebSocket {
-  static OPEN = 1;
-  constructor(url) {
-    this.url = url;
-    this.readyState = MockWebSocket.OPEN;
-  }
-  send() {}
-  close() {}
-  addEventListener() {}
-  removeEventListener() {}
-}
-vi.stubGlobal("WebSocket", MockWebSocket);
-
 // MUI's useMediaQuery and responsive helpers call matchMedia, which jsdom
 // does not implement.
 vi.stubGlobal(

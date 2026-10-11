@@ -11,7 +11,7 @@ The web app is built with [Vite](https://vite.dev/). Requires **Node 20.19+ or
 ```npm run dev``` for testing the web app
 
 - Server needs to be started on the same host and UI is accessible via http://localhost:3000
-- API requests and the websocket are proxied through to the server on port 8000
+- API requests and the `/events` long-poll are proxied through to the server on port 8000
 
 ```npm run build``` to build the webapp
 

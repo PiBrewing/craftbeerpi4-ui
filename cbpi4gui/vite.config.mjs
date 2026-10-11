@@ -10,6 +10,7 @@ const API_PREFIXES = [
   "/actor",
   "/config",
   "/dashboard",
+  "/events",
   "/fermenter",
   "/fermenterrecipe",
   "/kettle",
@@ -24,19 +25,18 @@ const API_PREFIXES = [
   "/upload",
 ];
 
-// Keys are matched as regexes so a prefix only matches at a path boundary.
+// Keys are matched as regexes so a prefix only matches at a path boundary,
+// and against the full URL, query string included (GET /events?since=...).
 // A bare "/log" string key also swallows /logo192.png, which is a real static
 // asset referenced by index.html -- it would be proxied to the backend and come
 // back as a 500. Static files must win over API prefixes.
-const devProxy = () => ({
-  "^/ws$": { target: "ws://localhost:8000", ws: true },
-  ...Object.fromEntries(
+const devProxy = () =>
+  Object.fromEntries(
     API_PREFIXES.map((p) => [
-      `^${p}(/|$)`,
+      `^${p}(/|\\?|$)`,
       { target: "http://localhost:8000", changeOrigin: true },
     ])
-  ),
-});
+  );
 
 // The UI is served under the /cbpi_ui subpath by the CraftBeerPi python server,
 // so every asset URL has to stay relative. Pairs with the HashRouter in App.js.
@@ -53,9 +53,6 @@ export default defineConfig({
   // The 119 files containing JSX were renamed to .jsx during the migration, which
   // is the idiomatic layout. Imports are extensionless, so resolution is unchanged.
 
-  // Keeps the existing REACT_APP_* vars in .env working without renaming them.
-  envPrefix: ["REACT_APP_", "VITE_"],
-
   build: {
     outDir: "build",
     // The CRA build shipped without sourcemaps (GENERATE_SOURCEMAP=false).
@@ -64,8 +61,7 @@ export default defineConfig({
     assetsDir: "static",
   },
 
-  // cbpi serves the websocket from the same aiohttp app as the API, on the same
-  // port -- not the 8080 the old .env assumed.
+  // cbpi serves /events from the same aiohttp app as the API, on the same port.
   server: {
     port: 3000,
     proxy: devProxy(),

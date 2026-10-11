@@ -35,7 +35,9 @@ const API_PATHS = [
   "/kettle/",
   "/config/BREWERY_NAME/",
   "/system/",
-  "/ws",
+  "/events",
+  "/events?epoch=abc&since=3&timeout=25",
+  "/actor?x=1",
 ];
 
 const matches = (proxy, path) =>

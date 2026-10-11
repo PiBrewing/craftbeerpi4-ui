@@ -38,8 +38,13 @@ export async function mockAxios(overrides = {}) {
     return entry?.value ?? "";
   };
 
+  // The event poller long-polls GET /events as soon as CBPiProvider mounts.
+  // Hold that request open forever: an inert poller, like a server with
+  // nothing to push.
   vi.spyOn(axios, "get").mockImplementation((url) =>
-    Promise.resolve({ data: resolve(url), status: 200 })
+    url === "/events"
+      ? new Promise(() => {})
+      : Promise.resolve({ data: resolve(url), status: 200 })
   );
   vi.spyOn(axios, "post").mockImplementation((url) => {
     const value = configValue(url);
