@@ -6,7 +6,8 @@ http://localhost:8000#
 ## Build Web App
 
 The web app is built with [Vite](https://vite.dev/). Requires **Node 20.19+ or
-22.12+**. Run `npm install` once first.
+22.12+**. Run `npm ci` once first: it installs exactly what
+`package-lock.json` pins.
 
 ```npm run dev``` for testing the web app
 

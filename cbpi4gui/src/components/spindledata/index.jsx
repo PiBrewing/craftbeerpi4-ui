@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import { Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
-import Plot from "react-plotly.js";
+import Plot from "../util/Plot";
 import DeleteDialog from "../util/DeleteDialog";
 import { useNavigate , useParams} from "react-router-dom";
 import Paper from '@mui/material/Paper';

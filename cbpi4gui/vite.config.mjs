@@ -1,6 +1,5 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
-import { nodePolyfills } from "vite-plugin-node-polyfills";
 import svgr from "vite-plugin-svgr";
 
 // The python server mounts each controller as an aiohttp subapp under its own
@@ -44,7 +43,7 @@ export default defineConfig({
   base: "./",
   // svgr covers the one CRA-ism left in the source: the `import { ReactComponent
   // as X } from "./x.svg"` in components/util/PrivateRoute.js.
-  plugins: [react(), svgr({ include: "**/*.svg" }), nodePolyfills()],
+  plugins: [react(), svgr({ include: "**/*.svg" })],
 
   // Note on JSX: this project used to keep JSX inside .js files (CRA allowed it).
   // Vite 8 transforms with oxc, whose native build-time pass infers the parse
@@ -59,6 +58,11 @@ export default defineConfig({
     sourcemap: false,
     // MANIFEST.in globs build/static/**, and CRA emitted there. Keep it.
     assetsDir: "static",
+    // plotly-basic is one prebuilt 1 MB file that cannot be split further, and is
+    // loaded only with the first chart. The app chunk sits at ~1.3 MB (380 kB
+    // gzip), served from the brewery's own LAN; splitting it by route is a
+    // separate change.
+    chunkSizeWarningLimit: 1400,
   },
 
   // cbpi serves /events from the same aiohttp app as the API, on the same port.
