@@ -67,15 +67,19 @@ class CBPiEventPoller {
         });
         const data = res.data;
         this.connection_ok();
-        this.failures = 0;
+        data.events.forEach((event) => this.onMessageCallback(event));
         if (data.reset) {
-            // first poll, server restart or too far behind: reload everything
-            this.onReset();
+            // first poll, server restart or too far behind: the events above are
+            // the latest state messages. Reload everything on top of them, and only
+            // then poll again: what changed meanwhile comes after the reload instead
+            // of being overwritten by it. If the reload fails, epoch and seq stay
+            // as they were, so the next poll is a reset again.
+            await this.onReset();
             axios.get("/actor/ws_update");
         }
+        this.failures = 0;
         this.epoch = data.epoch;
         this.seq = data.seq;
-        data.events.forEach((event) => this.onMessageCallback(event));
     }
 
     async loop() {
