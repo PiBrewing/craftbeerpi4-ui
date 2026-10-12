@@ -37,6 +37,9 @@ shipped prebuilt inside the package, so end users only need Python.
 
 ### Changelog
 
+- 12.10.26: (0.6.0)
+    - To be added
+
 - 06.01.25: (0.5.0)
     - Fix: Change svg display when different svg is selected in draggable mode.
     - Maintenance: Usage of React 19.2.3 and Materialui 7.3.6 incl. code adaption.
