@@ -6,9 +6,9 @@ import reactlogo from "../../images/Reacticon.png"
 import { useCBPi } from "../data";
 //import paypal_logo from "./paypal.png";
 import Button from "@mui/material/Button";
+import { version as React_Version } from "react";
 
 const PREFIX = 'About';
-const React_Version = require("react").version;
 
 const classes = {
   root: `${PREFIX}-root`,

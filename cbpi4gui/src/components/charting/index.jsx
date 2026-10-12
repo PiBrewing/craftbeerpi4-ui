@@ -3,7 +3,7 @@ import AutorenewIcon from "@mui/icons-material/Autorenew";
 import { ToggleButton, Tooltip } from "@mui/material";
 import { ToggleButtonGroup } from '@mui/material';
 import { useState } from "react";
-import Plot from "react-plotly.js";
+import Plot from "../util/Plot";
 import { useSensor } from "../data";
 import { logapi } from "../data/logapi";
 import DeleteDialog from "../util/DeleteDialog";

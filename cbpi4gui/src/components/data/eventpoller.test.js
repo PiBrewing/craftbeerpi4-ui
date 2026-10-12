@@ -1,9 +1,11 @@
 import axios from "axios";
 import CBPiEventPoller from "./eventpoller";
 
-jest.mock("axios", () => ({
-  get: jest.fn(),
-  interceptors: { response: { use: jest.fn(), eject: jest.fn() } },
+vi.mock("axios", () => ({
+  default: {
+    get: vi.fn(),
+    interceptors: { response: { use: vi.fn(), eject: vi.fn() } },
+  },
 }));
 
 const answer = (data) => Promise.resolve({ data });
@@ -54,7 +56,7 @@ test("a failed reload keeps the position, so the next poll resets again", async 
 
 test("normal answers apply their events and move on", async () => {
   const events = [];
-  const onReset = jest.fn();
+  const onReset = vi.fn();
   const poller = new CBPiEventPoller((event) => events.push(event), onReset);
   poller.epoch = "e1";
   poller.seq = 7;

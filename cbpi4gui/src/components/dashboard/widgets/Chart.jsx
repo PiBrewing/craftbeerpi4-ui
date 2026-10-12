@@ -1,7 +1,7 @@
 import { ClickAwayListener, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Paper, Popper } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useEffect, useRef, useState } from "react";
-import Plot from "react-plotly.js";
+import Plot from "../../util/Plot";
 import { logapi } from "../../data/logapi";
 import { useDraggable, useModel } from "../DashboardContext";
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';

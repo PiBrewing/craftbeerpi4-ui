@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from "classnames";
 import { useModel } from "../DashboardContext";
 import { useEffect, useState } from "react";
 import { useActor } from "../../data";
@@ -22,7 +23,7 @@ import "../../../rotate.css";
     }, [actor?.state,model?.props.WidgetOn,model?.props.WidgetOff]);
 
     if(name) {
-      return <img src={`/dashboard/static/${name}.svg`}  width={width} height={height} className="no-drag"  alt="SVG NOT FOUND" class={rotate}/>
+      return <img src={`/dashboard/static/${name}.svg`}  width={width} height={height} className={classNames("no-drag", rotate)} alt="SVG NOT FOUND"/>
     }
     else{
       return <div>MISSING CONFIG</div>

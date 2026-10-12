@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "../../data";
 import classNames from 'classnames';
 import { DashboardContext } from "../DashboardContext";
+import { evalBoolExpression } from "../../util/boolexpr";
 
 export const Path = ({ id, coordinates, condition = {left: [], right: [], leftExpression:null, rightExpression:null, stroke:10, corner:"round", opacity: "yes", color: "#4A4A4A" }, max_x = 400, max_y = 600, gridxy = 5}) => {
   const { state, actions } = useContext(DashboardContext);
@@ -101,10 +102,9 @@ export const Path = ({ id, coordinates, condition = {left: [], right: [], leftEx
         }
       }
       // Evaluation of the expression
-      // TODO : in order to be safer, plane to use something else than eval (in the craftbeerpi context, i'm not sur it can cause any security problem : TO BE CONFIRMED)
       try
       {
-        bStateAction = eval(boolExpressionRight);
+        bStateAction = evalBoolExpression(boolExpressionRight);
         //console.log("right, Eval de : " + boolExpressionRight + "  Result = " + bStateAction.toString());
         if(bStateAction.toString() === "true" || bStateAction.toString() === "false"){   
           //console.log("On anime a right ..." + bStateAction);     
@@ -138,10 +138,9 @@ export const Path = ({ id, coordinates, condition = {left: [], right: [], leftEx
          }
        }
        // Evaluation of the expression
-       // TODO : in order to be safer, plane to use something else than eval (in the craftbeerpi context, i'm not sur it can cause any security problem : TO BE CONFIRMED)
-       try 
+        try 
        {
-         bStateAction = eval(boolExpressionLeft);
+         bStateAction = evalBoolExpression(boolExpressionLeft);
          //console.log("Left, Eval de : " + boolExpressionLeft + "  Result = " + bStateAction.toString());
          if(bStateAction.toString() === "true" || bStateAction.toString() === "false"){      
            //console.log("On anime a left ..." + bStateAction);
