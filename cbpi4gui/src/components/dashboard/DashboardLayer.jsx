@@ -104,6 +104,10 @@ const PropsEditor = ({ data }) => {
   }
   const type_spec = widget_list.find((item) => item.type === data.type);
 
+  if (!type_spec || !type_spec.props) {
+    console.warn(`Widget type "${data.type}" not found or has no props`);
+    return "";
+  }
 
   const handlechange = (e, key) => {
     actions.update_prop(selected_id, key, e.target.value);
