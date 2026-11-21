@@ -50,7 +50,7 @@ const Root = styled('div')((
 }));
 
 const StepProps = ({ config, data }) => {
-  if (!config) {
+  if (!config || !data) {
     return <></>;
   }
 
@@ -155,6 +155,10 @@ const StepActionButton = ({ item, action }) => {
 };
 
 const StepActionList = ({ type, item }) => {
+  if (!type || !type.actions) {
+    return <Typography color="error">No actions available for this step type</Typography>;
+  }
+  
   return (
     <ButtonGroup fullWidth orientation="vertical">
       {type.actions.map((action) => (
@@ -176,11 +180,25 @@ function StepDetailsDialog(props) {
 
   useEffect(() => {
     const t = state.stepTypes.find((e) => e.name === item.type);
-    setType(t, {});
+    setType(t || {});
     setActions(t?.actions || []);
-  }, [state.stepTypes]);
+  }, [state.stepTypes, item.type]);
 
-  if(type){
+  if (!type || !type.name) {
+    return (
+      <Dialog fullWidth onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+        <DialogContent>
+          <Typography color="error">Step type "{item?.type}" not found in configuration</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} variant="contained" color="secondary" autoFocus>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  }
+
   return (
     <Dialog fullWidth onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
       <DialogContent>
@@ -210,7 +228,6 @@ function StepDetailsDialog(props) {
       </DialogActions>
     </Dialog>
   );
-  }
 }
 
 const State = ({ state }) => {
@@ -297,7 +314,7 @@ export const Steps = ({ id }) => {
     </div>
   }
 
-  if (!state.mashBasic.name) {
+  if (!state.mashBasic || !state.mashBasic.name) {
     return (
       <div className="box" style={{...inputStyle, display:"flex", justifyContent: "center", alignItems: "center"}}>
         <Button

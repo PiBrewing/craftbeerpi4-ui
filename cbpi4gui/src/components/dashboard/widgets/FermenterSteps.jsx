@@ -48,7 +48,7 @@ const Root = styled('div')((
 }));
 
 const StepProps = ({ config, data }) => {
-  if (!config) {
+  if (!config || !data) {
     return <></>;
   }
 
@@ -153,6 +153,10 @@ const StepActionButton = ({ item, action }) => {
 };
 
 const StepActionList = ({ type, item }) => {
+  if (!type || !type.actions) {
+    return <Typography color="error">No actions available for this step type</Typography>;
+  }
+  
   return (
     <ButtonGroup fullWidth orientation="vertical">
       {type.actions.map((action) => (
@@ -174,9 +178,24 @@ function StepDetailsDialog(props) {
 
   useEffect(() => {
     const t = state.stepTypesFermenter.find((e) => e.name === item.type);
-    setType(t, {});
+    setType(t || {});
     setActions(t?.actions || []);
-  }, [state.stepTypesFermenter]);
+  }, [state.stepTypesFermenter, item.type]);
+
+  if (!type || !type.name) {
+    return (
+      <Dialog fullWidth onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+        <DialogContent>
+          <Typography color="error">Step type "{item?.type}" not found in configuration</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} variant="contained" color="secondary" autoFocus>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  }
 
   return (
     <Dialog fullWidth onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
@@ -299,10 +318,16 @@ export const FermenterSteps = ({ id }) => {
     if (fermenterid && (fermenterid !==1)) {
       if (state.fermentersteps) {
         try {
-          const step= state.fermentersteps.find(step => step.id === fermenterid).steps;
-          setProfile(step)}
-        catch{
-          console.log("no steps")
+          const fermenterstep = state.fermentersteps.find(step => step.id === fermenterid);
+          if (fermenterstep && fermenterstep.steps) {
+            setProfile(fermenterstep.steps);
+          } else {
+            setProfile([]);
+          }
+        }
+        catch(error){
+          console.log("no steps", error);
+          setProfile([]);
         }
         };
 
