@@ -109,6 +109,11 @@ const PropsEditor = ({ data }) => {
     return "";
   }
 
+  if (!data.props) {
+    console.warn(`Widget "${data.id}" has no props object`);
+    return "";
+  }
+
   const handlechange = (e, key) => {
     actions.update_prop(selected_id, key, e.target.value);
   };

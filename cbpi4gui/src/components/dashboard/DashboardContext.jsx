@@ -171,6 +171,10 @@ export const DashboardProvider = ({ children }) => {
     
     const data = [...elements2];
     const index = data.findIndex((e) => e.id === selected.id);
+    if (index === -1) {
+      console.warn(`Element with id "${selected.id}" not found in elements2`);
+      return;
+    }
     data.splice(index, 1);
     setElements2(data);
     setSelected(null);
@@ -180,6 +184,10 @@ export const DashboardProvider = ({ children }) => {
     
     const data = [...elements2];
     const index = data.findIndex((e) => e.id === selected.id);
+    if (index === -1) {
+      console.warn(`Element with id "${selected.id}" not found in elements2`);
+      return;
+    }
     data[index][key] = value;
     setElements2(data);
 
@@ -188,6 +196,10 @@ export const DashboardProvider = ({ children }) => {
   const update_coordinates = (id, x, y  ) => {
     const data = [...elements2];
     const index = data.findIndex((e) => e.id === selected.id);
+    if (index === -1) {
+      console.warn(`Element with id "${selected.id}" not found in elements2`);
+      return;
+    }
     data[index].x = x
     data[index].y = y
     setElements2(data);
@@ -197,6 +209,17 @@ export const DashboardProvider = ({ children }) => {
     console.log("Update prop called : id=" + id + ", key=" + key + ", value=" + value);
     const data = [...elements2];
     const index = data.findIndex((e) => e.id === selected.id);
+    
+    if (index === -1) {
+      console.warn(`Element with id "${selected.id}" not found in elements2`);
+      return;
+    }
+    
+    if (!data[index].props) {
+      console.warn(`Element with id "${selected.id}" has no props object`);
+      return;
+    }
+    
     data[index].props[key] = value;
     
     setElements2(data);
