@@ -42,14 +42,14 @@ const ButtonActionPropsDialog = ({ action = {}, config, open, onClose, onSubmit 
 
 const SensorActionDialog = ({ open, onClose, model, sensor }) => {
   const type = useSensorType(sensor.type);
-  const { sensor: sensorid } = model.props;
+  const { sensor: sensorid } = model?.props || {};
 
   try{
   return (
     <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open}>
-      <DialogTitle id="simple-dialog-title">{model.name}</DialogTitle>
+      <DialogTitle id="simple-dialog-title">{model?.name}</DialogTitle>
       <List>
-        {type.actions.map((action, index) => (
+        {type?.actions?.map((action, index) => (
           <ActionButton sensorid={sensorid} action={action} key={index} />
         ))}
         <ListItemButton color="secondary">
@@ -96,13 +96,18 @@ const ActionButton = ({ action, sensorid }) => {
 
 export const SensorData = ({ id }) => {
     const model = useModel(id);
+    
+    if (!model || !model.props) {
+      return <div>Missing Config</div>;
+    }
+
     const draggable = useDraggable();
     const [open, setOpen] = useState(false);
     const sensor_id = model?.props?.sensor;
     const sensor_digits = model?.props?.digits;
     //const action = model?.props?.action;
-    const sensor = useSensor(model.props?.sensor);
-    const { sensor: sensorid, action } = model.props;
+    const sensor = useSensor(model?.props?.sensor);
+    const { sensor: sensorid, action } = model?.props || {};
 
     const handleClose = () => setOpen(false);
     const handleOpen = () => setOpen(true);

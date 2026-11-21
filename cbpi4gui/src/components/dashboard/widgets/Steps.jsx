@@ -274,6 +274,11 @@ export const Steps = ({ id }) => {
   const { state: state2 } = useContext(DashboardContext);
 
   const model = useModel(id);
+  
+  if (!model || !model.props) {
+    return <div>Missing Config</div>;
+  }
+
   const { state } = useCBPi();
   const [profile, setProfile] = useState([]);
   const navigate = useNavigate();
@@ -316,7 +321,7 @@ export const Steps = ({ id }) => {
         <MashControl disabled={state2.draggable} />
         <List component="nav" aria-label="main mailbox folders" style={{maxHeight: `${model?.props?.maxheight}px`, overflow: "auto"}}>
           {profile.map((row, index) => (
-            <StepItem size={model.props.stepsize} fontWeight={model?.props?.fontweight || 'normal'}  item={row} key={index} />
+            <StepItem size={model?.props?.stepsize} fontWeight={model?.props?.fontweight || 'normal'}  item={row} key={index} />
           ))}
         </List>
       </div>

@@ -3,6 +3,11 @@ import { useModel } from "../DashboardContext";
 
 export const Clock = ({ id, width, height }) => {
   const model = useModel(id);
+  
+  if (!model || !model.props) {
+    return <div>Missing Config</div>;
+  }
+
   const [time, setTime] = useState("");
   const [date, setDate] = useState("");
 
@@ -13,7 +18,7 @@ export const Clock = ({ id, width, height }) => {
     minutes = (minutes < 10 ? "0" : "") + minutes;
     let seconds = currentTime.getSeconds();
     seconds = (seconds < 10 ? "0" : "") + seconds;
-    if (model.props.format === "12") {
+    if (model?.props?.format === "12") {
       let ampm = hours >= 12 ? 'pm' : 'am';
       hours = hours % 12;
       hours = hours ? hours : 12; // the hour '0' should be '12'

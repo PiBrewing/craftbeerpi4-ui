@@ -230,6 +230,10 @@ export const DashboardProvider = ({ children }) => {
   const update_path_condition_exp = (id, direction, data) => {
 
     const index = pathes.findIndex((e) => e.id === id);
+    if (index === -1) {
+      console.warn(`Path with id "${id}" not found in pathes`);
+      return;
+    }
     const temp_pathes = [...pathes];
 
     if(!temp_pathes[index].condition){ 
@@ -254,6 +258,10 @@ export const DashboardProvider = ({ children }) => {
 
   const update_path_condition = (id, dataLeft, dataRight, direction) => {
     const index = pathes.findIndex((e) => e.id === id);
+    if (index === -1) {
+      console.warn(`Path with id "${id}" not found in pathes`);
+      return;
+    }
     const temp_pathes = [...pathes];
     //console.log("data temp_pathes : ")
     //console.log(temp_pathes)
@@ -271,6 +279,10 @@ export const DashboardProvider = ({ children }) => {
 
   const update_path = (id, data) => {
     const index = pathes.findIndex((e) => e.id === id);
+    if (index === -1) {
+      console.warn(`Path with id "${id}" not found in pathes`);
+      return;
+    }
     const temp_pathes = [...pathes];
     temp_pathes[index].coordinates = data;
 
@@ -280,6 +292,10 @@ export const DashboardProvider = ({ children }) => {
 
   const update_path_width = (id, width) => {
     const index = pathes.findIndex((e) => e.id === id);
+    if (index === -1) {
+      console.warn(`Path with id "${id}" not found in pathes`);
+      return;
+    }
     const temp_pathes = [...pathes];
     temp_pathes[index].condition.stroke = width;
     //console.log("data temp_pathes : ")
@@ -289,6 +305,10 @@ export const DashboardProvider = ({ children }) => {
 
   const update_path_corner = (id, corner) => {
     const index = pathes.findIndex((e) => e.id === id);
+    if (index === -1) {
+      console.warn(`Path with id "${id}" not found in pathes`);
+      return;
+    }
     const temp_pathes = [...pathes];
     temp_pathes[index].condition.corner = corner;
     //console.log("data temp_pathes : ")
@@ -298,6 +318,10 @@ export const DashboardProvider = ({ children }) => {
 
   const update_path_opacity = (id, opacity) => {
     const index = pathes.findIndex((e) => e.id === id);
+    if (index === -1) {
+      console.warn(`Path with id "${id}" not found in pathes`);
+      return;
+    }
     const temp_pathes = [...pathes];
     temp_pathes[index].condition.opacity = opacity;
     //console.log("data temp_pathes : ")
@@ -307,6 +331,10 @@ export const DashboardProvider = ({ children }) => {
 
   const update_path_color = (id, color) => {
     const index = pathes.findIndex((e) => e.id === id);
+    if (index === -1) {
+      console.warn(`Path with id "${id}" not found in pathes`);
+      return;
+    }
     const temp_pathes = [...pathes];
     temp_pathes[index].condition.color = color;
     //console.log("data temp_pathes : ")

@@ -4,13 +4,18 @@ import { useDraggable, useModel } from "../DashboardContext";
 
 export const Calculator = ({ id }) => {
   const model = useModel(id);
-  const [height, setHeight] = useState(model.props.height || 40);
+  
+  if (!model || !model.props) {
+    return <div>Missing Config</div>;
+  }
+
+  const [height, setHeight] = useState(model?.props?.height || 40);
   const [fromTop, setFromTop] = useState(0);
-  const [diameter, setDiameter] = useState(model.props.diameter || 40);
+  const [diameter, setDiameter] = useState(model?.props?.diameter || 40);
   const draggable = useDraggable();
   useEffect(() => {
-    setDiameter(model.props.diameter);
-  }, [model.props.diameter]);
+    setDiameter(model?.props?.diameter);
+  }, [model?.props?.diameter]);
 
   if (draggable) {
     return (
@@ -20,7 +25,7 @@ export const Calculator = ({ id }) => {
     );
   }
   const radius = diameter / 2;
-  if (model.props.type === "fromtop") {
+  if (model?.props?.type === "fromtop") {
     const value = parseFloat((Math.PI * radius * radius * (height - fromTop)) / 1000.0).toFixed(2);
     return (
       <div className="box" style={{ width: 120, padding: 5 }}>

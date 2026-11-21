@@ -243,10 +243,10 @@ const ActionButton = ({ action, actorid }) => {
 
 const ButtonActionDialog = ({ open, onClose, model, actor }) => {
   const type = useActorType(actor.type);
-  const { actor: actorid } = model.props;
+  const { actor: actorid } = model?.props || {};
   return type? (
     <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open}>
-      <DialogTitle id="simple-dialog-title">{model.name}</DialogTitle>
+      <DialogTitle id="simple-dialog-title">{model?.name}</DialogTitle>
       <List>
         {type?.actions.map((action, index) => (
           <ActionButton actorid={actorid} action={action} key={index} />
@@ -262,9 +262,14 @@ const ButtonActionDialog = ({ open, onClose, model, actor }) => {
 export const DashboardButton = ({ id, width, height }) => {
   const cbpi = useCBPi();
   const model = useModel(id);
+  
+  if (!model || !model.props) {
+    return <div>Missing Config</div>;
+  }
+
   const draggable = useDraggable();
-  const actor = useActor(model.props?.actor);
-  const { actor: actorid, action, powerslider} = model.props;
+  const actor = useActor(model?.props?.actor);
+  const { actor: actorid, action, powerslider} = model?.props || {};
   const [open, setOpen] = useState(false);
   const [boom, setBoom] = useState(false);
   const [powerOpen, setPowerOpen] = useState(false);
@@ -358,8 +363,8 @@ export const DashboardButton = ({ id, width, height }) => {
     };
 
     const size = () => {
-      if (model.props?.size) {
-        let css={ fontSize: model.props.size+"px", fontWeight: model.props.fontweight || 'normal'};
+      if (model?.props?.size) {
+        let css={ fontSize: model?.props?.size+"px", fontWeight: model?.props?.fontweight || 'normal'};
         return css;
       } else {
         let css={ fontSize: "12px", fontWeight: 'normal' };

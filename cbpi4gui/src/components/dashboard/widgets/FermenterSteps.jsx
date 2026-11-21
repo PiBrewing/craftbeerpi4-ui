@@ -275,19 +275,25 @@ export const FermenterSteps = ({ id }) => {
   const [profile, setProfile] = useState([]);
   const navigate = useNavigate();
   const draggable = useDraggable()
-  const [fermenterid, setFermenterID] = useState(model.props?.fermenter);
+  const [fermenterid, setFermenterID] = useState(model?.props?.fermenter);
   const [brewname, setBrewName] = useState("");
   const fermenter = state.fermenter.find(e => e.id === fermenterid)
 
+  if (!model || !model.props) {
+    return (
+      <div className="box" style={{ color: "#fff", padding: 10, borderRadius: 5, backgroundColor: "#2c282e" }}>
+        <Typography variant="h6">Error: Widget not properly initialized</Typography>
+      </div>
+    );
+  }
 
- 
   useEffect(() => {
     
-    const value = state.fermenter.find((item) => item.id === model.props.fermenter);
-    setFermenterID(model.props.fermenter);
+    const value = state.fermenter.find((item) => item.id === model?.props?.fermenter);
+    setFermenterID(model?.props?.fermenter);
     if (value){
     setBrewName(value.brewname)};
-  }, [model.props.fermenter, state.fermenter]);
+  }, [model?.props?.fermenter, state.fermenter]);
 
   useEffect(() => {
     if (fermenterid && (fermenterid !==1)) {
@@ -341,7 +347,7 @@ export const FermenterSteps = ({ id }) => {
         <FermenterControl fermenterid={fermenterid} disabled={state2.draggable} />
         <List component="nav" aria-label="main mailbox folders" style={{maxHeight: `${model?.props?.maxheight}px`, overflow: "auto"}}>
           {profile.map((row, index) => (
-            <StepItem size={model.props.stepsize} fontWeight={model?.props?.fontweight || 'normal'} item={row} key={index} />
+            <StepItem size={model?.props?.stepsize} fontWeight={model?.props?.fontweight || 'normal'} item={row} key={index} />
           ))}
         </List>
       </div>
