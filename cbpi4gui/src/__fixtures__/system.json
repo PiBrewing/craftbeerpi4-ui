@@ -1,0 +1,1611 @@
+{
+    "actor": {
+        "data": [
+            {
+                "id": "KdAVErA9Dh3fNgisNsSQit",
+                "name": "Mash Heater",
+                "type": "DummyActor",
+                "props": {},
+                "state": false,
+                "power": 100,
+                "output": 100,
+                "maxoutput": 100,
+                "timer": 0
+            },
+            {
+                "id": "49KJMpbfUZA3Nhjb2WW4S8",
+                "name": "Pump",
+                "type": "DummyActor",
+                "props": {},
+                "state": false,
+                "power": 100,
+                "output": 100,
+                "maxoutput": 100,
+                "timer": 0
+            }
+        ],
+        "types": {
+            "DummyActor": {
+                "name": "DummyActor",
+                "properties": [],
+                "actions": [
+                    {
+                        "method": "helloWorld",
+                        "label": "SAY HELLO",
+                        "parameters": []
+                    }
+                ]
+            },
+            "GPIOActor": {
+                "name": "GPIOActor",
+                "properties": [
+                    {
+                        "label": "GPIO",
+                        "type": "select",
+                        "configurable": true,
+                        "options": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15,
+                            16,
+                            17,
+                            18,
+                            19,
+                            20,
+                            21,
+                            22,
+                            23,
+                            24,
+                            25,
+                            26,
+                            27
+                        ],
+                        "description": ""
+                    },
+                    {
+                        "label": "Inverted",
+                        "type": "select",
+                        "configurable": true,
+                        "options": [
+                            "Yes",
+                            "No"
+                        ],
+                        "description": "No: Active on high; Yes: Active on low"
+                    },
+                    {
+                        "label": "SamplingTime",
+                        "type": "select",
+                        "configurable": true,
+                        "options": [
+                            2,
+                            5
+                        ],
+                        "description": "Time in seconds for power base interval (Default:5)"
+                    }
+                ],
+                "actions": [
+                    {
+                        "method": "setpower",
+                        "label": "Set Power",
+                        "parameters": [
+                            {
+                                "label": "Power",
+                                "type": "number",
+                                "configurable": true,
+                                "description": "Power Setting [0-100]",
+                                "default_value": null
+                            }
+                        ]
+                    }
+                ]
+            },
+            "GPIOPWMActor": {
+                "name": "GPIOPWMActor",
+                "properties": [
+                    {
+                        "label": "GPIO",
+                        "type": "select",
+                        "configurable": true,
+                        "options": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15,
+                            16,
+                            17,
+                            18,
+                            19,
+                            20,
+                            21,
+                            22,
+                            23,
+                            24,
+                            25,
+                            26,
+                            27
+                        ],
+                        "description": ""
+                    },
+                    {
+                        "label": "Frequency",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Inverted",
+                        "type": "select",
+                        "configurable": true,
+                        "options": [
+                            "Yes",
+                            "No"
+                        ],
+                        "description": "Inverts PWM load if set to yes (e.g. 90% = 10%). Default: No"
+                    }
+                ],
+                "actions": [
+                    {
+                        "method": "setpower",
+                        "label": "Set Power",
+                        "parameters": [
+                            {
+                                "label": "Power",
+                                "type": "number",
+                                "configurable": true,
+                                "description": "Power Setting [0-100]",
+                                "default_value": null
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "fermenter": {
+        "data": [],
+        "types": {
+            "Fermenter Spunding Hysteresis": {
+                "name": "Fermenter Spunding Hysteresis",
+                "properties": [
+                    {
+                        "label": "HeaterOffsetOn",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Offset as decimal number when the heater is switched on. Should be greater then 'HeaterOffsetOff'. For example a value of 2 switches on the heater if the current temperature is 2 degrees below the target temperature",
+                        "default_value": null
+                    },
+                    {
+                        "label": "HeaterOffsetOff",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Offset as decimal number when the heater is switched off. Should be smaller then 'HeaterOffsetOn'. For example a value of 1 switches off the heater if the current temperature is 1 degree below the target temperature",
+                        "default_value": null
+                    },
+                    {
+                        "label": "CoolerOffsetOn",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Offset as decimal number when the cooler is switched on. Should be greater then 'CoolerOffsetOff'. For example a value of 2 switches on the cooler if the current temperature is 2 degrees below the target temperature",
+                        "default_value": null
+                    },
+                    {
+                        "label": "CoolerOffsetOff",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Offset as decimal number when the cooler is switched off. Should be smaller then 'CoolerOffsetOn'. For example a value of 1 switches off the cooler if the current temperature is 1 degree below the target temperature",
+                        "default_value": null
+                    },
+                    {
+                        "label": "SpundingOffsetOpen",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Offset above target pressure as decimal number when the valve is opened",
+                        "default_value": null
+                    },
+                    {
+                        "label": "ValveRelease",
+                        "type": "select",
+                        "configurable": true,
+                        "options": [
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                        ],
+                        "description": "Valve Release time in seconds"
+                    },
+                    {
+                        "label": "Pause",
+                        "type": "select",
+                        "configurable": true,
+                        "options": [
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                        ],
+                        "description": "Pause time in seconds between valve release"
+                    },
+                    {
+                        "label": "AutoStart",
+                        "type": "select",
+                        "configurable": true,
+                        "options": [
+                            "Yes",
+                            "No"
+                        ],
+                        "description": "Autostart Fermenter on cbpi start"
+                    },
+                    {
+                        "label": "sensor2",
+                        "type": "sensor",
+                        "configurable": true,
+                        "description": "Optional Sensor for LCDisplay(e.g. iSpindle)"
+                    }
+                ],
+                "actions": []
+            },
+            "Fermenter Hysteresis": {
+                "name": "Fermenter Hysteresis",
+                "properties": [
+                    {
+                        "label": "HeaterOffsetOn",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Offset as decimal number when the heater is switched on. Should be greater then 'HeaterOffsetOff'. For example a value of 2 switches on the heater if the current temperature is 2 degrees below the target temperature",
+                        "default_value": null
+                    },
+                    {
+                        "label": "HeaterOffsetOff",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Offset as decimal number when the heater is switched off. Should be smaller then 'HeaterOffsetOn'. For example a value of 1 switches off the heater if the current temperature is 1 degree below the target temperature",
+                        "default_value": null
+                    },
+                    {
+                        "label": "CoolerOffsetOn",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Offset as decimal number when the cooler is switched on. Should be greater then 'CoolerOffsetOff'. For example a value of 2 switches on the cooler if the current temperature is 2 degrees above the target temperature",
+                        "default_value": null
+                    },
+                    {
+                        "label": "CoolerOffsetOff",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Offset as decimal number when the cooler is switched off. Should be smaller then 'CoolerOffsetOn'. For example a value of 1 switches off the cooler if the current temperature is 1 degree above the target temperature",
+                        "default_value": null
+                    },
+                    {
+                        "label": "HeaterMaxPower",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Max Power [%] for Heater (default: 100)",
+                        "default_value": null
+                    },
+                    {
+                        "label": "CoolerMaxPower",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Max Power [%] for Cooler (default: 100)",
+                        "default_value": null
+                    },
+                    {
+                        "label": "AutoStart",
+                        "type": "select",
+                        "configurable": true,
+                        "options": [
+                            "Yes",
+                            "No"
+                        ],
+                        "description": "Autostart Fermenter on cbpi start"
+                    },
+                    {
+                        "label": "sensor2",
+                        "type": "sensor",
+                        "configurable": true,
+                        "description": "Optional Sensor for LCDisplay(e.g. iSpindle)"
+                    }
+                ],
+                "actions": []
+            }
+        },
+        "steptypes": {
+            "FermenterNotificationStep": {
+                "name": "FermenterNotificationStep",
+                "properties": [
+                    {
+                        "label": "Notification",
+                        "type": "text",
+                        "configurable": true,
+                        "default_value": "",
+                        "description": "Text for notification"
+                    },
+                    {
+                        "label": "AutoNext",
+                        "type": "select",
+                        "configurable": true,
+                        "options": [
+                            "Yes",
+                            "No"
+                        ],
+                        "description": "Automatically move to next step (Yes) or pause after Notification (No)"
+                    }
+                ],
+                "actions": []
+            },
+            "FermenterTargetTempStep": {
+                "name": "FermenterTargetTempStep",
+                "properties": [
+                    {
+                        "label": "Temp",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Sensor",
+                        "type": "sensor",
+                        "configurable": true,
+                        "description": ""
+                    },
+                    {
+                        "label": "Notification",
+                        "type": "text",
+                        "configurable": true,
+                        "default_value": "",
+                        "description": "Text for notification when Temp is reached"
+                    },
+                    {
+                        "label": "AutoMode",
+                        "type": "select",
+                        "configurable": true,
+                        "options": [
+                            "Yes",
+                            "No"
+                        ],
+                        "description": "Switch Fermenterlogic automatically on and off -> Yes"
+                    }
+                ],
+                "actions": []
+            },
+            "FermenterRampTempStep": {
+                "name": "FermenterRampTempStep",
+                "properties": [
+                    {
+                        "label": "Temp",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Ramp to this temp",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Pressure",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Step Pressure",
+                        "default_value": null
+                    },
+                    {
+                        "label": "RampRate",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Ramp x \u00b0C/F per  day. Default: 1",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Sensor",
+                        "type": "sensor",
+                        "configurable": true,
+                        "description": "Temperature Sensor"
+                    },
+                    {
+                        "label": "Notification",
+                        "type": "text",
+                        "configurable": true,
+                        "default_value": "",
+                        "description": "Text for notification when Temp is reached"
+                    },
+                    {
+                        "label": "AutoMode",
+                        "type": "select",
+                        "configurable": true,
+                        "options": [
+                            "Yes",
+                            "No"
+                        ],
+                        "description": "Switch Fermenterlogic automatically on and off -> Yes"
+                    }
+                ],
+                "actions": []
+            },
+            "FermenterStep": {
+                "name": "FermenterStep",
+                "properties": [
+                    {
+                        "label": "TimerD",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Timer Days",
+                        "default_value": null
+                    },
+                    {
+                        "label": "TimerH",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Timer Hours",
+                        "default_value": null
+                    },
+                    {
+                        "label": "TimerM",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Timer Minutes",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Temp",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Step Temperature",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Pressure",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Step Pressure",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Sensor",
+                        "type": "sensor",
+                        "configurable": true,
+                        "description": "Temperature Sensor"
+                    },
+                    {
+                        "label": "AutoMode",
+                        "type": "select",
+                        "configurable": true,
+                        "options": [
+                            "Yes",
+                            "No"
+                        ],
+                        "description": "Switch Fermenterlogic automatically on and off -> Yes"
+                    }
+                ],
+                "actions": [
+                    {
+                        "method": "start_timer",
+                        "label": "Start Timer",
+                        "parameters": []
+                    }
+                ]
+            }
+        }
+    },
+    "sensor": {
+        "data": [
+            {
+                "id": "Z6s7S3dXvHRze7R7hNUuQc",
+                "name": "Mash Temp",
+                "type": "CustomSensor",
+                "props": {},
+                "state": false
+            },
+            {
+                "id": "LcJJTpRPdZMonejFUraxvS",
+                "name": "Boil Temp",
+                "type": "CustomSensor",
+                "props": {},
+                "state": false
+            }
+        ],
+        "types": {
+            "CustomSensor": {
+                "name": "CustomSensor",
+                "properties": [],
+                "actions": []
+            },
+            "DummyPressure": {
+                "name": "DummyPressure",
+                "properties": [
+                    {
+                        "label": "Pressure",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Start Pressure",
+                        "default_value": null
+                    },
+                    {
+                        "label": "PressureIncrease",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Pressure increase per hour",
+                        "default_value": null
+                    },
+                    {
+                        "label": "PressureDecrease",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Pressure decrease per second on openm valve",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Fermenter",
+                        "type": "fermenter",
+                        "configurable": true,
+                        "description": "Fermenter"
+                    }
+                ],
+                "actions": []
+            },
+            "HTTPSensor": {
+                "name": "HTTPSensor",
+                "properties": [
+                    {
+                        "label": "Key",
+                        "type": "text",
+                        "configurable": true,
+                        "default_value": "",
+                        "description": "Http Key"
+                    },
+                    {
+                        "label": "Timeout",
+                        "type": "number",
+                        "configurable": "True",
+                        "description": "Timeout in seconds to send notification (default:60 | deactivated: 0)",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Kettle",
+                        "type": "kettle",
+                        "configurable": true,
+                        "description": "Reduced logging if Kettle is inactive / range warning in dashboard (only Kettle or Fermenter to be selected)"
+                    },
+                    {
+                        "label": "Fermenter",
+                        "type": "fermenter",
+                        "configurable": true,
+                        "description": "Reduced logging in seconds if Fermenter is inactive / range warning in dashboard (only Kettle or Fermenter to be selected)"
+                    },
+                    {
+                        "label": "ReducedLogging",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Reduced logging frequency in seconds if selected Kettle or Fermenter is inactive (default: 60 sec | disabled: 0)",
+                        "default_value": null
+                    },
+                    {
+                        "label": "TempRange",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Temp range in degree between reading and target temp of fermenter/kettle. Larger difference shows different color in dashboard (default:0 | deactivated: 0)",
+                        "default_value": null
+                    }
+                ],
+                "actions": []
+            },
+            "AlarmTimer": {
+                "name": "AlarmTimer",
+                "properties": [],
+                "actions": [
+                    {
+                        "method": "set",
+                        "label": "Set Timer",
+                        "parameters": [
+                            {
+                                "label": "time",
+                                "type": "number",
+                                "configurable": true,
+                                "description": "Time in Minutes",
+                                "default_value": null
+                            }
+                        ]
+                    },
+                    {
+                        "method": "start",
+                        "label": "Start Timer",
+                        "parameters": []
+                    },
+                    {
+                        "method": "stop",
+                        "label": "Stop Timer",
+                        "parameters": []
+                    },
+                    {
+                        "method": "Reset",
+                        "label": "Reset Timer",
+                        "parameters": []
+                    }
+                ]
+            }
+        }
+    },
+    "kettle": {
+        "data": [
+            {
+                "id": "V8MU3HqeXYnzyW2ztMv2rS",
+                "name": "Mash Tun",
+                "state": false,
+                "target_temp": 0,
+                "heater": "KdAVErA9Dh3fNgisNsSQit",
+                "agitator": null,
+                "sensor": "Z6s7S3dXvHRze7R7hNUuQc",
+                "type": "Hysteresis",
+                "props": {
+                    "Sensor": "Z6s7S3dXvHRze7R7hNUuQc",
+                    "Actor": "KdAVErA9Dh3fNgisNsSQit",
+                    "Offset": "0"
+                }
+            }
+        ],
+        "types": {
+            "Hysteresis": {
+                "name": "Hysteresis",
+                "properties": [
+                    {
+                        "label": "OffsetOn",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Offset below target temp when heater should switched on",
+                        "default_value": null
+                    },
+                    {
+                        "label": "OffsetOff",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Offset below target temp when heater should switched off",
+                        "default_value": null
+                    }
+                ],
+                "actions": []
+            }
+        }
+    },
+    "step": {
+        "basic": {
+            "name": ""
+        },
+        "steps": [],
+        "types": {
+            "MashInStep": {
+                "name": "MashInStep",
+                "properties": [
+                    {
+                        "label": "Temp",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Sensor",
+                        "type": "sensor",
+                        "configurable": true,
+                        "description": ""
+                    },
+                    {
+                        "label": "Kettle",
+                        "type": "kettle",
+                        "configurable": true,
+                        "description": ""
+                    },
+                    {
+                        "label": "Notification",
+                        "type": "text",
+                        "configurable": true,
+                        "default_value": "",
+                        "description": "Text for notification when Temp is reached"
+                    },
+                    {
+                        "label": "AutoMode",
+                        "type": "select",
+                        "configurable": true,
+                        "options": [
+                            "Yes",
+                            "No"
+                        ],
+                        "description": "Switch Kettlelogic automatically on and off -> Yes"
+                    }
+                ],
+                "actions": []
+            },
+            "MashStep": {
+                "name": "MashStep",
+                "properties": [
+                    {
+                        "label": "Timer",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Time in Minutes",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Temp",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Sensor",
+                        "type": "sensor",
+                        "configurable": true,
+                        "description": ""
+                    },
+                    {
+                        "label": "Kettle",
+                        "type": "kettle",
+                        "configurable": true,
+                        "description": ""
+                    },
+                    {
+                        "label": "AutoMode",
+                        "type": "select",
+                        "configurable": true,
+                        "options": [
+                            "Yes",
+                            "No"
+                        ],
+                        "description": "Switch Kettlelogic automatically on and off -> Yes"
+                    }
+                ],
+                "actions": [
+                    {
+                        "method": "start_timer",
+                        "label": "Start Timer",
+                        "parameters": []
+                    },
+                    {
+                        "method": "add_timer",
+                        "label": "Add 5 Minutes to Timer",
+                        "parameters": []
+                    }
+                ]
+            },
+            "BoilStep": {
+                "name": "BoilStep",
+                "properties": [
+                    {
+                        "label": "Timer",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Time in Minutes",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Temp",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Boil temperature",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Sensor",
+                        "type": "sensor",
+                        "configurable": true,
+                        "description": ""
+                    },
+                    {
+                        "label": "Kettle",
+                        "type": "kettle",
+                        "configurable": true,
+                        "description": ""
+                    },
+                    {
+                        "label": "LidAlert",
+                        "type": "select",
+                        "configurable": true,
+                        "options": [
+                            "Yes",
+                            "No"
+                        ],
+                        "description": "Trigger Alert to remove lid if temp is close to boil"
+                    },
+                    {
+                        "label": "AutoMode",
+                        "type": "select",
+                        "configurable": true,
+                        "options": [
+                            "Yes",
+                            "No"
+                        ],
+                        "description": "Switch Kettlelogic automatically on and off -> Yes"
+                    },
+                    {
+                        "label": "First_Wort",
+                        "type": "select",
+                        "configurable": true,
+                        "options": [
+                            "Yes",
+                            "No"
+                        ],
+                        "description": "First Wort Hop alert if set to Yes"
+                    },
+                    {
+                        "label": "First_Wort_text",
+                        "type": "text",
+                        "configurable": true,
+                        "default_value": "",
+                        "description": "First Wort Hop alert text"
+                    },
+                    {
+                        "label": "Hop_1",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "First Hop alert (minutes before finish)",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Hop_1_text",
+                        "type": "text",
+                        "configurable": true,
+                        "default_value": "",
+                        "description": "First Hop alert text"
+                    },
+                    {
+                        "label": "Hop_2",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Second Hop alert (minutes before finish)",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Hop_2_text",
+                        "type": "text",
+                        "configurable": true,
+                        "default_value": "",
+                        "description": "Second Hop alert text"
+                    },
+                    {
+                        "label": "Hop_3",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Third Hop alert (minutes before finish)",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Hop_3_text",
+                        "type": "text",
+                        "configurable": true,
+                        "default_value": "",
+                        "description": "Third Hop alert text"
+                    },
+                    {
+                        "label": "Hop_4",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Fourth Hop alert (minutes before finish)",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Hop_4_text",
+                        "type": "text",
+                        "configurable": true,
+                        "default_value": "",
+                        "description": "Fourth Hop alert text"
+                    },
+                    {
+                        "label": "Hop_5",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Fifth Hop alert (minutes before finish)",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Hop_5_text",
+                        "type": "text",
+                        "configurable": true,
+                        "default_value": "",
+                        "description": "Fifth Hop alert text"
+                    },
+                    {
+                        "label": "Hop_6",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Sixth Hop alert (minutes before finish)",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Hop_6_text",
+                        "type": "text",
+                        "configurable": true,
+                        "default_value": "",
+                        "description": "Sixth Hop alert text"
+                    }
+                ],
+                "actions": [
+                    {
+                        "method": "start_timer",
+                        "label": "Start Timer",
+                        "parameters": []
+                    },
+                    {
+                        "method": "add_timer",
+                        "label": "Add 5 Minutes to Timer",
+                        "parameters": []
+                    }
+                ]
+            },
+            "CooldownStep": {
+                "name": "CooldownStep",
+                "properties": [
+                    {
+                        "label": "Temp",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Target temperature for cooldown. Notification will be send when temp is reached and Actor can be triggered",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Sensor",
+                        "type": "sensor",
+                        "configurable": true,
+                        "description": "Sensor that is used during cooldown"
+                    },
+                    {
+                        "label": "Actor",
+                        "type": "actor",
+                        "configurable": true,
+                        "description": "Actor can trigger a valve for the cooldwon to target temperature"
+                    },
+                    {
+                        "label": "Kettle",
+                        "type": "kettle",
+                        "configurable": true,
+                        "description": ""
+                    }
+                ],
+                "actions": []
+            },
+            "WaitStep": {
+                "name": "WaitStep",
+                "properties": [
+                    {
+                        "label": "Timer",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Time in Minutes",
+                        "default_value": null
+                    }
+                ],
+                "actions": []
+            },
+            "ToggleStep": {
+                "name": "ToggleStep",
+                "properties": [
+                    {
+                        "label": "toggle_type",
+                        "type": "select",
+                        "configurable": true,
+                        "options": [
+                            "On",
+                            "Off"
+                        ],
+                        "description": "Choose if Actor should be switched on or off in this step"
+                    },
+                    {
+                        "label": "Actor",
+                        "type": "actor",
+                        "configurable": true,
+                        "description": "Actor that should be toggled during this step"
+                    }
+                ],
+                "actions": []
+            },
+            "ActorStep": {
+                "name": "ActorStep",
+                "properties": [
+                    {
+                        "label": "Timer",
+                        "type": "number",
+                        "configurable": true,
+                        "description": "Time in Minutes",
+                        "default_value": null
+                    },
+                    {
+                        "label": "Actor",
+                        "type": "actor",
+                        "configurable": true,
+                        "description": ""
+                    }
+                ],
+                "actions": []
+            },
+            "NotificationStep": {
+                "name": "NotificationStep",
+                "properties": [
+                    {
+                        "label": "Notification",
+                        "type": "text",
+                        "configurable": true,
+                        "default_value": "",
+                        "description": "Text for notification"
+                    },
+                    {
+                        "label": "AutoNext",
+                        "type": "select",
+                        "configurable": true,
+                        "options": [
+                            "Yes",
+                            "No"
+                        ],
+                        "description": "Automatically move to next step (Yes) or pause after Notification (No)"
+                    }
+                ],
+                "actions": []
+            }
+        }
+    },
+    "fermentersteps": [],
+    "config": {
+        "AUTHOR": {
+            "name": "AUTHOR",
+            "value": "John Doe",
+            "type": "string",
+            "description": "Author",
+            "source": "craftbeerpi",
+            "options": null
+        },
+        "BREWERY_NAME": {
+            "name": "BREWERY_NAME",
+            "value": "CraftBeerPi Brewery",
+            "type": "string",
+            "description": "Brewery Name",
+            "source": "craftbeerpi",
+            "options": null
+        },
+        "TEMP_UNIT": {
+            "name": "TEMP_UNIT",
+            "value": "C",
+            "type": "select",
+            "description": "Temperature Unit",
+            "source": "craftbeerpi",
+            "options": [
+                {
+                    "label": "C",
+                    "value": "C"
+                },
+                {
+                    "label": "F",
+                    "value": "F"
+                }
+            ]
+        },
+        "steps_boil_temp": {
+            "name": "steps_boil_temp",
+            "value": 99,
+            "type": "number",
+            "description": "Default Boil Temperature for Recipe Creation",
+            "source": "steps",
+            "options": null
+        },
+        "steps_cooldown_sensor": {
+            "name": "steps_cooldown_sensor",
+            "value": "",
+            "type": "sensor",
+            "description": "Alternative Sensor to monitor temperature durring cooldown (if not selected, Kettle Sensor will be used)",
+            "source": "steps",
+            "options": null
+        },
+        "steps_cooldown_actor": {
+            "name": "steps_cooldown_actor",
+            "value": "",
+            "type": "actor",
+            "description": "Actor to trigger cooldown water on and off (default: None)",
+            "source": "steps",
+            "options": null
+        },
+        "steps_boil_actor": {
+            "name": "steps_boil_actor",
+            "value": "",
+            "type": "actor",
+            "description": "Actor that can be toggled with lid alert to activate exhaust or steam condensor (default: None)",
+            "source": "steps",
+            "options": null
+        },
+        "steps_cooldown_temp": {
+            "name": "steps_cooldown_temp",
+            "value": 20,
+            "type": "number",
+            "description": "Cooldown temp will send notification when this temeprature is reached",
+            "source": "steps",
+            "options": null
+        },
+        "steps_cooldown": {
+            "name": "steps_cooldown",
+            "value": "",
+            "type": "step",
+            "description": "Cooldown step type",
+            "source": "steps",
+            "options": null
+        },
+        "steps_mashin": {
+            "name": "steps_mashin",
+            "value": "",
+            "type": "step",
+            "description": "MashIn step type",
+            "source": "steps",
+            "options": null
+        },
+        "steps_mash": {
+            "name": "steps_mash",
+            "value": "",
+            "type": "step",
+            "description": "Mash step type",
+            "source": "steps",
+            "options": null
+        },
+        "steps_mashout": {
+            "name": "steps_mashout",
+            "value": "",
+            "type": "step",
+            "description": "MashOut step type",
+            "source": "steps",
+            "options": null
+        },
+        "steps_boil": {
+            "name": "steps_boil",
+            "value": "",
+            "type": "step",
+            "description": "Boil step type",
+            "source": "steps",
+            "options": null
+        },
+        "max_dashboard_number": {
+            "name": "max_dashboard_number",
+            "value": 4,
+            "type": "select",
+            "description": "Max Number of Dashboards",
+            "source": "craftbeerpi",
+            "options": [
+                {
+                    "label": "1",
+                    "value": 1
+                },
+                {
+                    "label": "2",
+                    "value": 2
+                },
+                {
+                    "label": "3",
+                    "value": 3
+                },
+                {
+                    "label": "4",
+                    "value": 4
+                },
+                {
+                    "label": "5",
+                    "value": 5
+                },
+                {
+                    "label": "6",
+                    "value": 6
+                },
+                {
+                    "label": "7",
+                    "value": 7
+                },
+                {
+                    "label": "8",
+                    "value": 8
+                },
+                {
+                    "label": "9",
+                    "value": 9
+                },
+                {
+                    "label": "10",
+                    "value": 10
+                }
+            ]
+        },
+        "current_dashboard_number": {
+            "name": "current_dashboard_number",
+            "value": 1,
+            "type": "number",
+            "description": "Number of current Dashboard",
+            "source": "hidden",
+            "options": null
+        },
+        "AutoMode": {
+            "name": "AutoMode",
+            "value": "Yes",
+            "type": "select",
+            "description": "Use AutoMode in steps",
+            "source": "steps",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ]
+        },
+        "AddMashInStep": {
+            "name": "AddMashInStep",
+            "value": "Yes",
+            "type": "select",
+            "description": "Add MashIn Step automatically if not defined in recipe",
+            "source": "steps",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ]
+        },
+        "brewfather_user_id": {
+            "name": "brewfather_user_id",
+            "value": "",
+            "type": "string",
+            "description": "Brewfather User ID",
+            "source": "craftbeerpi",
+            "options": null
+        },
+        "brewfather_api_key": {
+            "name": "brewfather_api_key",
+            "value": "",
+            "type": "string",
+            "description": "Brewfather API Key",
+            "source": "craftbeerpi",
+            "options": null
+        },
+        "brewfather_list_length": {
+            "name": "brewfather_list_length",
+            "value": 50,
+            "type": "select",
+            "description": "Brewfather Recipe List length",
+            "source": "craftbeerpi",
+            "options": [
+                {
+                    "label": "5",
+                    "value": 5
+                },
+                {
+                    "label": "10",
+                    "value": 10
+                },
+                {
+                    "label": "25",
+                    "value": 25
+                },
+                {
+                    "label": "50",
+                    "value": 50
+                },
+                {
+                    "label": "100",
+                    "value": 100
+                }
+            ]
+        },
+        "RECIPE_CREATION_PATH": {
+            "name": "RECIPE_CREATION_PATH",
+            "value": "upload",
+            "type": "string",
+            "description": "API path to creation plugin. Default: upload . CHANGE ONLY IF USING A RECIPE CREATION PLUGIN",
+            "source": "craftbeerpi",
+            "options": null
+        },
+        "BoilKettle": {
+            "name": "BoilKettle",
+            "value": "",
+            "type": "kettle",
+            "description": "Define Kettle that is used for Boil, Whirlpool and Cooldown. If not selected, MASH_TUN will be used",
+            "source": "steps",
+            "options": null
+        },
+        "MASH_TUN": {
+            "name": "MASH_TUN",
+            "value": "",
+            "type": "kettle",
+            "description": "Default Mash Tun",
+            "source": "steps",
+            "options": null
+        },
+        "CSVLOGFILES": {
+            "name": "CSVLOGFILES",
+            "value": "Yes",
+            "type": "select",
+            "description": "Write sensor data to csv logfiles (enabling requires restart)",
+            "source": "craftbeerpi",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ]
+        },
+        "INFLUXDB": {
+            "name": "INFLUXDB",
+            "value": "No",
+            "type": "select",
+            "description": "Write sensor data to influxdb (enabling requires restart)",
+            "source": "craftbeerpi",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ]
+        },
+        "INFLUXDBADDR": {
+            "name": "INFLUXDBADDR",
+            "value": "http://localhost:8086",
+            "type": "string",
+            "description": "URL Address of your influxdb server incl. http:// and port, e.g. http://localhost:8086 (If INFLUXDBCLOUD set to Yes use URL Address of your influxdb cloud server)",
+            "source": "craftbeerpi",
+            "options": null
+        },
+        "INFLUXDBNAME": {
+            "name": "INFLUXDBNAME",
+            "value": "cbpi4",
+            "type": "string",
+            "description": "Name of your influxdb database name (If INFLUXDBCLOUD set to Yes use bucket of your influxdb cloud database)",
+            "source": "craftbeerpi",
+            "options": null
+        },
+        "INFLUXDBUSER": {
+            "name": "INFLUXDBUSER",
+            "value": " ",
+            "type": "string",
+            "description": "User name for your influxdb database (only if required)(If INFLUXDBCLOUD set to Yes use organisation of your influxdb cloud database)",
+            "source": "craftbeerpi",
+            "options": null
+        },
+        "INFLUXDBPWD": {
+            "name": "INFLUXDBPWD",
+            "value": " ",
+            "type": "string",
+            "description": "Password for your influxdb database (only if required)(If INFLUXDBCLOUD set to Yes use token of your influxdb cloud database)",
+            "source": "craftbeerpi",
+            "options": null
+        },
+        "INFLUXDBCLOUD": {
+            "name": "INFLUXDBCLOUD",
+            "value": "No",
+            "type": "select",
+            "description": "Write sensor data to influxdb cloud (INFLUXDB must set to Yes)",
+            "source": "craftbeerpi",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ]
+        },
+        "INFLUXDBMEASUREMENT": {
+            "name": "INFLUXDBMEASUREMENT",
+            "value": "measurement",
+            "type": "string",
+            "description": "Name of the measurement in your INFLUXDB database (default: measurement)",
+            "source": "craftbeerpi",
+            "options": null
+        },
+        "MQTTUpdate": {
+            "name": "MQTTUpdate",
+            "value": 0,
+            "type": "select",
+            "description": "Forced MQTT Update frequency in s for Kettle and Fermenter (no changes in payload required). Restart required after change",
+            "source": "craftbeerpi",
+            "options": [
+                {
+                    "label": "30",
+                    "value": 30
+                },
+                {
+                    "label": "60",
+                    "value": 60
+                },
+                {
+                    "label": "120",
+                    "value": 120
+                },
+                {
+                    "label": "300",
+                    "value": 300
+                },
+                {
+                    "label": "Never",
+                    "value": 0
+                }
+            ]
+        },
+        "PRESSURE_UNIT": {
+            "name": "PRESSURE_UNIT",
+            "value": "kPa",
+            "type": "select",
+            "description": "Set unit for pressure",
+            "source": "craftbeerpi",
+            "options": [
+                {
+                    "label": "kPa",
+                    "value": "kPa"
+                },
+                {
+                    "label": "PSI",
+                    "value": "PSI"
+                }
+            ]
+        },
+        "SENSOR_LOG_BACKUP_COUNT": {
+            "name": "SENSOR_LOG_BACKUP_COUNT",
+            "value": 3,
+            "type": "number",
+            "description": "Max. number of backup logs",
+            "source": "craftbeerpi",
+            "options": null
+        },
+        "SENSOR_LOG_MAX_BYTES": {
+            "name": "SENSOR_LOG_MAX_BYTES",
+            "value": 100000,
+            "type": "number",
+            "description": "Max. number of bytes in sensor logs",
+            "source": "craftbeerpi",
+            "options": null
+        },
+        "slow_pipe_animation": {
+            "name": "slow_pipe_animation",
+            "value": "Yes",
+            "type": "select",
+            "description": "Slow down dashboard pipe animation taking up close to 100% of the CPU's capacity",
+            "source": "craftbeerpi",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ]
+        },
+        "NOTIFY_ON_ERROR": {
+            "name": "NOTIFY_ON_ERROR",
+            "value": "No",
+            "type": "select",
+            "description": "Send Notification on Logging Error",
+            "source": "craftbeerpi",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ]
+        },
+        "PLAY_BUZZER": {
+            "name": "PLAY_BUZZER",
+            "value": "No",
+            "type": "select",
+            "description": "Play buzzer sound in Web interface on Notifications",
+            "source": "craftbeerpi",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ]
+        },
+        "BoilAutoTimer": {
+            "name": "BoilAutoTimer",
+            "value": "No",
+            "type": "select",
+            "description": "Start Boil timer automatically if Temp does not change for 5 Minutes and is above 95C/203F",
+            "source": "steps",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ]
+        },
+        "current_grid": {
+            "name": "current_grid",
+            "value": 10,
+            "type": "number",
+            "description": "Dashboard Grid Width",
+            "source": "hidden",
+            "options": null
+        },
+        "CONFIG_STATUS": {
+            "name": "CONFIG_STATUS",
+            "value": "4.7.4",
+            "type": "string",
+            "description": "Status of the config file. Internal use for maintenance",
+            "source": "hidden",
+            "options": null
+        },
+        "MIN_MEMORY": {
+            "name": "MIN_MEMORY",
+            "value": 200,
+            "type": "number",
+            "description": "Minimum required memory in MB for CraftBeerPi to run properly",
+            "source": "craftbeerpi",
+            "options": null
+        }
+    },
+    "notifications": [],
+    "bf_recipes": [
+        [],
+        [
+            {
+                "value": 0,
+                "label": 0
+            }
+        ],
+        50
+    ],
+    "version": "4.7.4",
+    "spindledata": false,
+    "guiversion": "0.5.0",
+    "codename": "Winter Bock",
+    "system": {
+        "totalmem": 8192.0,
+        "availablemem": 1104.4,
+        "percentmem": 86.5
+    }
+}
