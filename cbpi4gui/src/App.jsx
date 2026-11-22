@@ -28,6 +28,7 @@ import MainMenu from "./components/MainMenu";
 import { Spindledata } from "./components/spindledata";
 import SpindleCalForm from "./components/spindledata/SpindleCalForm";
 import CurrentSpindleData from "./components/spindledata/CurrentSpindleData";
+import BrewWakeLock from "./components/util/BrewWakeLock";
 
 
 const PREFIX = 'CraftBeerPiApp';
@@ -207,6 +208,7 @@ const CraftBeerPiApp = () => {
   return (
     <div className={classes.root}>
       <CssBaseline />
+      <BrewWakeLock />
       <GlobalStyles
           styles={{
             body: { backgroundColor: "#444444" },
